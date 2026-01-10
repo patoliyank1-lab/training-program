@@ -4,139 +4,126 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-
-      h2,
-      p {
-        margin: 10px;
-      }
-
-      nav ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #333333;
-      }
-
-      nav ul li {
-        float: left;
-      }
-
-      nav ul li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-      }
-    </style>
+    <link rel="preload" href="assets/image.avif" as="image">
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <nav>
-      <div>
-        <ul>
-          <li><a href="./index.html#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="./contact.html">Contact</a></li>
-        </ul>
-      </div>
-    </nav>
+<table width="100%" cellpadding="10" cellspacing="0" border="0">
+  <tr>
+    <!-- Logo cell aligned left -->
+    <td align="left" valign="middle">
+      <img
+  src="assets/image.avif"
+  srcset="assets/image.avif 20w, assets/image.avif 30w"
+  sizes="(max-width: 768px) 20px, 30px"
+  alt="Logo">
+
+    </td>
+
+    <!-- Menu cell aligned right -->
+    <td align="right" valign="middle">
+      <!-- Use non-breaking spaces (&nbsp;) to add space between links -->
+      <a href="./index.html#home">Home</a>&nbsp;&nbsp;&nbsp;
+      <a href="./about.html">About</a>&nbsp;&nbsp;&nbsp;
+      <a href="./contact.html">Contact</a>&nbsp;&nbsp;&nbsp;
+      <a href="./blog.html">Blog</a>
+    </td>
+  </tr>
+</table>
     <section id="about">
       <center>
         <h1>About Page</h1>
       </center>
     </section>
-    <section style="padding: 20px;">
-    <h3>PROJECTS</h3>
-    <hr size="2" color="black" noshade />
+    <section style="padding: 20px">
+      <h3>PROJECTS</h3>
+      <hr size="2" color="black" noshade />
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%">
-      <thead>
-        <tr>
-          <th align="left">Project</th>
-          <th align="left">Description</th>
-          <th align="left">Links</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <b>Auction Hub</b><br />
-            <i>Real-Time Auction Platform</i>
-          </td>
-          <td>
-            <ul>
-              <li>
-                Built full-stack application using React.js and Node.js with
-                Express.js.
-              </li>
-              <li>
-                Managed user authentication, bidding logic, and auction
-                management.
-              </li>
-              <li>
-                Integrated MongoDB and implemented real-time bid updates with
-                countdown timers.
-              </li>
-            </ul>
-          </td>
-          <td>
-            <a
-              href="https://github.com/GecStudent/Auction-Hub---Real-Time-Platform"
-              target="_blank"
-              >GitHub</a
-            >
-            <br />
-            <a href="https://auctionhub.nikheelkumbhani.com/" target="_blank"
-              >Live</a
-            >
-          </td>
-        </tr>
+      <table border="1" cellpadding="10" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th align="left">Project</th>
+            <th align="left">Description</th>
+            <th align="left">Links</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <b>Auction Hub</b><br />
+              <i>Real-Time Auction Platform</i>
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Built full-stack application using React.js and Node.js with
+                  Express.js.
+                </li>
+                <li>
+                  Managed user authentication, bidding logic, and auction
+                  management.
+                </li>
+                <li>
+                  Integrated MongoDB and implemented real-time bid updates with
+                  countdown timers.
+                </li>
+              </ul>
+            </td>
+            <td>
+              <a
+                href="https://github.com/GecStudent/Auction-Hub---Real-Time-Platform"
+                target="_blank"
+                >GitHub</a
+              >
+              <br />
+              <a href="https://auctionhub.nikheelkumbhani.com/" target="_blank"
+                >Live</a
+              >
+            </td>
+          </tr>
 
-        <tr>
-          <td>
-            <b>CloudMetrics</b><br />
-            <i>Cloud-Native SaaS Monitoring Platform</i>
-          </td>
-          <td>
-            <p>
-              <i>
-                Technologies: React, TypeScript, Tailwind CSS, Shadcn,
-                GitHub
-              </i>
-            </p>
-            <ul>
-              <li>
-                Developed React frontend with interactive dashboards and
-                real-time visualizations.
-              </li>
-              <li>
-                Automated frontend deployment using GitHub Actions CI/CD
-                pipelines.
-              </li>
-              <li>
-                Optimized performance and UX for responsive monitoring
-                interfaces.
-              </li>
-            </ul>
-          </td>
-          <td>
-            <a
-              href="https://github.com/GecStudent/CloudMetrics--landing-page"
-              target="_blank"
-              >GitHub</a>
-            <br />
-            <a href="https://cloudmetrics.nikheelkumbhani.com/" target="_blank"
-              >Live</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <tr>
+            <td>
+              <b>CloudMetrics</b><br />
+              <i>Cloud-Native SaaS Monitoring Platform</i>
+            </td>
+            <td>
+              <p>
+                <i>
+                  Technologies: React, TypeScript, Tailwind CSS, Shadcn, GitHub
+                </i>
+              </p>
+              <ul>
+                <li>
+                  Developed React frontend with interactive dashboards and
+                  real-time visualizations.
+                </li>
+                <li>
+                  Automated frontend deployment using GitHub Actions CI/CD
+                  pipelines.
+                </li>
+                <li>
+                  Optimized performance and UX for responsive monitoring
+                  interfaces.
+                </li>
+              </ul>
+            </td>
+            <td>
+              <a
+                href="https://github.com/GecStudent/CloudMetrics--landing-page"
+                target="_blank"
+                >GitHub</a
+              >
+              <br />
+              <a
+                href="https://cloudmetrics.nikheelkumbhani.com/"
+                target="_blank"
+                >Live</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </section>
   </body>
 </html>
