@@ -1,0 +1,37 @@
+/* 
+
+.bd-placeholder-img {
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1Ldm3aRzNnYToI6FM-phQzi3_lrjfxBGpow&s");
+} */
+
+.carousel-image {
+  height: 80vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://pd.w.org/2022/02/248620d3c0599f031.95641147.jpg");
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
+  background-size: cover;
+}
+
+
+
+@media (min-width : 768px ) {
+ nav img {
+    height: 40px;
+    width: auto;
+ }
+ 
+ nav a span{
+    font-size: 2em;
+ }
+}
+
+
+.Services-bg-img{
+    height: 30vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://duesburysgippsland.com.au/wp-content/uploads/2016/02/Services-background-1.jpg");
+  /* background-origin: border-box; */
+  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
+  background-size: cover;
+}
