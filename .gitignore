@@ -128,3 +128,7 @@ out
 
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node,HTML,CSS,JS
+
+
+#SSH keys
+.ssh/
