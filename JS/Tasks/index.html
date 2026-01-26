@@ -1,174 +1,126 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body>
-    <div class="w-full bg-blue-100 flex flex-col p-5 gap-4">
-      <div class="">
-        <button
-          id="add-user"
-          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-        >
-          Add New User
-        </button>
 
-        <button
-          id="highlight-adults"
-          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-        >
-          Highlight Adults
-        </button>
-      </div>
-      <div
-        class=" mx-auto bg-white shadow-md rounded-lg overflow-hidden"
-      >
-        <table class="min-w-full border border-gray-200">
-          <thead class="bg-gray-800 text-white">
-            <tr>
-              <th class="px-4 py-3 text-left">ID</th>
-              <th class="px-4 py-3 text-left">Name</th>
-              <th class="px-4 py-3 text-left">Age</th>
-              <th class="px-4 py-3 text-left">Email</th>
-              <th class="px-4 py-3 text-left">City</th>
-              <th class="px-4 py-3 text-left">State</th>
-              <th class="px-4 py-3 text-left">Country</th>
-              <th class="px-4 py-3 text-center">Action</th>
-              <th class="px-4 py-3 text-center">Source</th>
-            </tr>
-          </thead>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-          <tbody class="text-gray-700"></tbody>
-        </table>
-      </div>
+<body>
+  <div class="w-full h-lvh bg-blue-100 flex flex-col p-5 gap-4">
+    <div class="">
+      <button id="add-user" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+        Add New User
+      </button>
+
+      <button id="highlight-adults" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+        Highlight Adults
+      </button>
+      <button id="refresh" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+        Refresh
+      </button>
     </div>
+    <div class=" mx-auto w-full h-[80vh] overflow-scroll bg-white shadow-md rounded-lg overflow-hidden">
+      <table class="min-w-full border border-gray-200">
+        <thead class="bg-gray-800 text-white">
+          <tr>
+            <th class="px-4 py-3 text-left">ID</th>
+            <th class="px-4 py-3 text-left">Name</th>
+            <th class="px-4 py-3 text-left">Age</th>
+            <th class="px-4 py-3 text-left">Email</th>
+            <th class="px-4 py-3 text-left">City</th>
+            <th id="test" class="px-4 py-3 text-left">State</th>
+            <th class="px-4 py-3 text-left">Country</th>
+            <th class="px-4 py-3 text-center">Action</th>
+            <th class="px-4 py-3 text-center">Source</th>
+          </tr>
+        </thead>
 
-    <div id="form" class="fixed top-0 left-0 w-full h-lvh z-10 bg-black/10 collapse">
-      <form action="" id="myForm">
-        <div class="max-w-md mx-auto mt-20 bg-white p-6 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold mb-4">Add New User</h2>
-          <div class="mb-4">
-            <label for="name" class="block text-gray-700 font-semibold mb-2"
-              >Name</label
-            >
-            <input
-              type="text"
-              id="name"
-              name="name"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div class="mb-4">
-            <label for="age" class="block text-gray-700 font-semibold mb-2"
-              >Age</label
-            >
-            <input
-              type="number"
-              id="age"
-              min="1"
-              max="100"
-              name="age"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-            />
-          </div>
-          <div class="mb-4">
-            <label for="email" class="block text-gray-700 font-semibold mb-2"
-              >Email</label
-            >
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-            />
-          </div>
-          <div class="mb-4">
-            <label for="country" class="block text-gray-700 font-semibold mb-2"
-              >Country</label
-            >
+        <tbody class="text-gray-700"></tbody>
+      </table>
+    </div>
+  </div>
 
-            <select
-              id="country"
-              name="country"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-            >
-              <option value="" disabled selected>Select your country</option>
-              <option value="USA">United States</option>
-              <option value="CAN">Canada</option>
-              <option value="UK">United Kingdom</option>
-              <option value="AUS">Australia</option>
-              <option value="IND">India</option>
-            </select>
-          </div>
-            
-          <div class="mb-4">
-            <label for="state" class="block text-gray-700 font-semibold mb-2"
-              >State</label
-            >
-            <select
-              id="state"
-              name="state"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-            >
-              <option value="" disabled selected>Select your state</option>
-              <option value="State1">State 1</option>
-              <option value="State2">State 2</option>
-              <option value="State3">State 3</option> 
-              <option value="State4">State 4</option>
-            </select>  
-          </div>
-          <div class="mb-4">
-            <label for="city" class="block text-gray-700 font-semibold mb-2"
-              >City</label
-            >
-            <select
-              id="city"
-              name="city"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-            >
-              <option value="" disabled selected>Select your city</option>
-              <option value="City1">City 1</option>
-              <option value="City2">City 2</option>
-              <option value="City3">City 3</option>
-              <option value="City4">City 4</option>
-            </select>
-          </div>
-
-          <div class="flex justify-end gap-4">
-            <button
-            id="Cancel"
-              type="button"
-              class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
-            >
-              Cancel
-            </button>
-            <button
-            type="button"
-            id="Submit"
-              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-            >
-              Submit
-            </button>
-          </div>
-          <div
-              id="errorDiv"
-              class=" hidden mt-4 p-3 rounded-md bg-red-100 text-red-700"
-            >
-              Please fill the above data.
-            </div>
+  <div id="form" class="fixed top-0 left-0 w-full h-lvh z-10 bg-black/10 collapse">
+    <form action="" id="myForm">
+      <div class="max-w-md mx-auto mt-20 bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-4">Add New User</h2>
+        <div class="mb-4">
+          <label for="name" class="block text-gray-700 font-semibold mb-2">Name</label>
+          <input type="text" id="name" name="name"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required />
         </div>
-    </form>
-    </div>
+        <div class="mb-4">
+          <label for="age" class="block text-gray-700 font-semibold mb-2">Age</label>
+          <input type="number" id="age" min="1" max="100" name="age"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required />
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
+          <input type="email" id="email" name="email"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required />
+        </div>
+        <div class="mb-4">
+          <label for="country" class="block text-gray-700 font-semibold mb-2">Country</label>
 
-    <script src="./UserProfileGenerator.js"></script>
-  </body>
+          <select id="country" name="country"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required>
+            <option value="" disabled selected>Select your country</option>
+            <option value="USA">United States</option>
+            <option value="CAN">Canada</option>
+            <option value="UK">United Kingdom</option>
+            <option value="AUS">Australia</option>
+            <option value="IND">India</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="state" class="block text-gray-700 font-semibold mb-2">State</label>
+          <select id="state" name="state"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required>
+            <option value="" disabled selected>Select your state</option>
+            <option value="State1">State 1</option>
+            <option value="State2">State 2</option>
+            <option value="State3">State 3</option>
+            <option value="State4">State 4</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="city" class="block text-gray-700 font-semibold mb-2">City</label>
+          <select id="city" name="city"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required>
+            <option value="" disabled selected>Select your city</option>
+            <option value="City1">City 1</option>
+            <option value="City2">City 2</option>
+            <option value="City3">City 3</option>
+            <option value="City4">City 4</option>
+          </select>
+        </div>
+
+        <div class="flex justify-end gap-4">
+          <button id="Cancel" type="button" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md">
+            Cancel
+          </button>
+          <button type="button" id="Submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+            Submit
+          </button>
+        </div>
+        <div id="errorDiv" class=" hidden mt-4 p-3 rounded-md bg-red-100 text-red-700">
+          Please fill the above data.
+        </div>
+      </div>
+    </form>
+  </div>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
 </html>
