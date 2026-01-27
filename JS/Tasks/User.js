@@ -1,5 +1,5 @@
 import { JSONData } from "./JSONData.js";
-import './prototype.js'
+import "./prototype.js";
 
 //address Class for nested Object
 class address {
@@ -25,8 +25,8 @@ export class User {
   isAdult;
   IsAPIdata;
   EmailDomain;
-  constructor(name, age, email, city, state, country, IsAPIdata) {
-    this.id = this.IdGen(10);
+  constructor(id, name, age, email, city, state, country, IsAPIdata) {
+    this.id = ((IsAPIdata && id < 999999999) || isNaN(id) ) ? this.IdGen(10) : id;
     this.firstName = name.toUpperCase(); // Convert name to uppercase
     this.age = age;
     this.email = email;
@@ -34,7 +34,7 @@ export class User {
     this.address = new address(city, state, country);
     this.isAdult = this.isAdultFun();
     this.IsAPIdata = IsAPIdata;
-    this.EmailDomain = this.getEmailDomain()
+    this.EmailDomain = this.getEmailDomain();
   }
 
   // Generate User ID
@@ -51,15 +51,14 @@ export class User {
     return userId;
   }
 
-  
   //isAdult() function
-  isAdultFun(){
-    return this.age > 18 ?  true : false;
+  isAdultFun() {
+    return this.age > 18 ? true : false;
   }
 
   //getEmailDomain() function
-  getEmailDomain(){
-    return this.email.split('@')[1];
+  getEmailDomain() {
+    return this.email.split("@")[1];
   }
 
   // Print User Details
@@ -68,5 +67,46 @@ export class User {
   }
 }
 
+
+
+//Convert all users in User class type
+function changeInUser(Data) {
+
+  let updatedData = [];
+  Data.forEach((user) => {
+    const newUser = updatedData.addUser(user);
+  });
+  return updatedData;
+}
+
+export async function getUserData() {
+  try {
+    let allUserData = [];
+
+    const ltData = JSON.parse(localStorage.getItem("allUserData"));
+
+    if (ltData.length === 0  || ltData === null) {
+      const ltNewUser = JSON.parse(localStorage.getItem("newUserList"));
+
+      const Data = await fetch("https://dummyjson.com/users");
+      let data = await Data.json();
+
+      if (ltNewUser.length === 0 || ltNewUser === null) {
+        allUserData = changeInUser([...JSONData, ...data.users]);
+        localStorage.setItem("allUserData", JSON.stringify(allUserData));
+        return allUserData;
+      }
+
+      allUserData = changeInUser([...JSONData, ...data.users, ...ltNewUser]);
+      localStorage.setItem("allUserData", JSON.stringify(allUserData))
+    } else {
+      allUserData = ltData;
+    }
+
+    return allUserData;
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 
