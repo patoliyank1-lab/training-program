@@ -22,9 +22,20 @@ if (!CartList) {
 
 let UserDetails = getLT("UserDetails");
 if (!UserDetails) {
-  storeLT("UserDetails", { isLogin: true });
-  UserDetails = {};
+  storeLT("UserDetails", { isLogin: false, username : "user123", password: "user123" });
+  UserDetails = { isLogin: false, username : "user123", password: "user123" };
 }
+// Login Button and User Profile
+const Login = document.getElementById("Login");
+const Profile = document.getElementById("Profile");
+if (UserDetails.isLogin) {
+  Login.classList.add("hidden");
+  Profile.classList.remove("hidden");
+} else {
+  Login.classList.remove("hidden");
+  Profile.classList.add("hidden");
+}
+
 // Products Page
 
 async function safeFetch(url) {
@@ -53,30 +64,30 @@ async function ProductFunction(ProductLink) {
     productData = productData.products;
     storeLT("ProductsData", productData);
   }
-
   return productData;
 }
 
 //ListOuts Products
-async () => {
-  if (ProductsData.length === 0) {
-    ProductsData = await ProductFunction(ProductLink);
-  }
-};
-
 async function renderProducts(productList = []) {
+    let isLoaded=false;
   const productSection = document.getElementById("product-div");
   const noProduct = document.getElementById("no-product");
+
   if (productList.length === 0) {
     productList = await ProductFunction(ProductLink);
+    isLoaded=true;
+
     noProduct.classList.remove("hidden");
     productSection.classList.add("hidden");
-    return null;
   }
 
   noProduct.classList.add("hidden");
   productSection.classList.remove("hidden");
   productSection.innerHTML = "";
+
+    if(isLoaded){
+    document.getElementById('loader').classList.add('hidden')
+  }
 
   productList.forEach((product) => {
     const ProductCartTeg = document.createElement("div");
@@ -112,23 +123,14 @@ addCartButton.forEach((button) => {
   });
 });
 
+// Product Cart in cart.
 function addToCart(id) {
   let getProduct;
-  const okButton = document.getElementById("ok-button")
-         okButton.classList.add("bg-green-600");
-        okButton.classList.add("hover:bg-green-700");
-        okButton.classList.remove("bg-red-500");
-        okButton.classList.remove("hover:bg-red-700");
-
-
-        const checkoutMessage = document.getElementById("checkout-message");
-        checkoutMessage.innerHTML = "Product Checkout successfully..";
-
-
   ProductsData = ProductsData.map((product) => {
     if (product.id == id) {
       product.stock -= 1;
       getProduct = JSON.parse(JSON.stringify(product));
+
       return product;
     }
 
@@ -157,11 +159,8 @@ function addToCart(id) {
 }
 
 //Cart section Render Function
-
 function cartRender(CartList = []) {
-  if (CartList.length == 0) {
-    CartList = getLT("CartList");
-  }
+
   if (CartList.length == 0) {
     const emptyCart = document.getElementById("empty-Cart");
     const itemCart = document.getElementById("item-cart");
@@ -173,7 +172,6 @@ function cartRender(CartList = []) {
     itemCart.classList.remove("hidden");
     emptyCart.classList.add("hidden");
   }
-  console.log(CartList);
 
   const CartBox = document.getElementById("item-cart");
   const subtotal = document.getElementById("subtotal");
@@ -224,8 +222,6 @@ function cartRender(CartList = []) {
   onCheckout(CartList);
 }
 
-// cartRender(CartList);
-
 function totalPayment(CartList) {
   let subtotal = 0;
   let tax = 0;
@@ -253,6 +249,7 @@ function onQuantityChange() {
       });
       storeLT("CartList", CartList);
       cartRender(CartList);
+      
     });
   });
 }
@@ -263,21 +260,27 @@ function CartEmpty() {
   itemCart.classList.add("hidden");
   emptyCart.classList.remove("hidden");
   storeLT("CartList", []);
+  CartList = [];
 }
-
-// CartEmpty()
 
 function deleteItem() {
   const DeleteButtons = document.querySelectorAll("[data-delete-id]");
-  // console.log(DeleteButtons);
 
   DeleteButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      CartList = CartList.filter((item) => {
-        return item.id != button.dataset.deleteId;
-      });
-      console.log(CartList);
+    button.addEventListener("click", async () => {
+      console.log("delete");
+
+      if (CartList.length == 1) {
+        CartList = [];
+      }
+      else{ 
+        CartList = CartList.filter((item) => {
+          return item.id != button.dataset.deleteId;
+        });
+      }
+  
       cartRender(CartList);
+      
     });
   });
 
@@ -285,46 +288,61 @@ function deleteItem() {
 }
 
 function onCheckout(CartList) {
+  const checkoutButton = document.getElementById("checkout-button");
+  const checkout = document.getElementById("Checkout");
+
   if (UserDetails.isLogin) {
-    const checkoutButton = document.getElementById("checkout-button");
-    const checkout = document.getElementById("Checkout");
-    const okButton = document.getElementById("ok-button");
-
     checkoutButton.addEventListener("click", () => {
-
-
       checkout.classList.remove("hidden");
 
-           const checkoutMessage = document.getElementById("checkout-message");
-           if(CartList.length == 0){
-
-               checkoutMessage.innerHTML = "Your cart is empty.";
-               okButton.classList.remove("bg-green-600");
-               okButton.classList.remove("hover:bg-green-700");
-               okButton.classList.add("bg-red-500");
-               okButton.classList.add("hover:bg-red-700");
-            }
-               
-      CartEmpty();
+      if (CartList.length == 0) {
+        console.log(CartList);
+        isEmpty(true)
+      } else {
+        CartEmpty();
+        console.log(CartList);
+        isEmpty(false)
+      }
+    });
+  } else {
+    checkoutButton.addEventListener("click", () => {
+      window.location.replace("./login.html");
     });
   }
   okButtonFunction();
 }
 
 function okButtonFunction() {
-  console.log("click");
-  const okButton = document.getElementById("ok-button")
-  
-        if (CartList.length === 0) {
-        const checkoutMessage = document.getElementById("checkout-message");
-        checkoutMessage.innerHTML = "Your cart is empty.";
-        okButton.classList.remove("bg-green-600");
-        okButton.classList.remove("hover:bg-green-700");
-        okButton.classList.add("bg-red-500");
-        okButton.classList.add("hover:bg-red-700");
-      };
+  const okButton = document.getElementById("ok-button");
+
+  if (CartList.length === 0) {
+    console.log("empty");
+  } else {
+    console.log("not Empty");
+  }
   okButton.addEventListener("click", () => {
     const checkout = document.getElementById("Checkout");
     checkout.classList.add("hidden");
   });
+}
+
+function isEmpty(isEmpty) {
+  const okButton = document.getElementById("ok-button");
+  const checkoutMessage = document.getElementById("checkout-message");
+
+  if (isEmpty) {
+    okButton.classList.remove("bg-green-600");
+    okButton.classList.remove("hover:bg-green-700");
+    okButton.classList.add("bg-red-500");
+    okButton.classList.add("hover:bg-red-700");
+
+    checkoutMessage.innerHTML = "Your cart is empty.";
+  } else {
+    okButton.classList.add("bg-green-600");
+    okButton.classList.add("hover:bg-green-700");
+    okButton.classList.remove("bg-red-500");
+    okButton.classList.remove("hover:bg-red-700");
+
+    checkoutMessage.innerHTML = "Product Checkout successfully..";
+  }
 }

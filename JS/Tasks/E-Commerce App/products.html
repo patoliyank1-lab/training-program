@@ -51,12 +51,12 @@
             </div>
             <div id="Users" class="flex">
               <div id="Login" class="hidden">
-                <button class="bg-blue-500 hover:bg-blue-700 text-gary-900 font-bold py-2 px-4 rounded">
+                <a href="./login.html" class="bg-blue-500 hover:bg-blue-700 text-gary-900 font-bold py-2 px-4 rounded">
                   Login
-                </button>
-                <button class="bg-green-500 hover:bg-green-700 text-gary-900 font-bold py-2 px-4 rounded ml-2">
+                </a>
+                <a  href="./login.html" class="bg-green-500 hover:bg-green-700 text-gary-900 font-bold py-2 px-4 rounded ml-2">
                   Sign Up
-                </button>
+                </a>
               </div>
               <div id="Profile" class="text-gary-900 font-bold py-2 px-4 rounded ml-2">
                 <i class="fa-solid fa-user" style="font-size: 20px"></i>
@@ -115,9 +115,12 @@
       <div class="max-w-[1500px]  mx-auto">
         <div class="max-w-7xl mx-auto py-8 px-4">
           <h2 class="text-3xl font-bold mb-6">Products</h2>
-          <div id="product-div" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div id="product-div" class="grid min-h-[40vh] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <!-- Product Card Example -->
-
+        <div id="loader" class="absolute top-1/2 left-[50%] mt-16 h-14 w-14 m-auto">
+          <div class="border-8 h-full w-full border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <p class="w-[100px] pt-2 ">Loading...</p>
+        </div>
             <!-- Repeat Product Cards as needed -->
           </div>
 

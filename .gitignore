@@ -132,3 +132,10 @@ out
 
 #SSH keys
 .ssh/
+
+
+package-lock.json
+package.json
+tsconfig.json
+
+dist/
