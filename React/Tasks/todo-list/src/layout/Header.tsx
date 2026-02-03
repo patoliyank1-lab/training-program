@@ -1,11 +1,11 @@
 const Header = () => {
   return (
-  <>
-  <div className="bg-white shadow w-full sticky p-5">
-    <h1 className="text-blue-600 font-bold text-2xl">TODO APP</h1>
-  </div>
-  </>
-);
+    <>
+      <div className="bg-white shadow-sm w-full sticky top-0 z-40 px-5 py-4 border-b border-gray-200">
+        <h1 className="text-gray-800 font-semibold text-xl">Todo App</h1>
+      </div>
+    </>
+  );
 };
 
 export default Header;

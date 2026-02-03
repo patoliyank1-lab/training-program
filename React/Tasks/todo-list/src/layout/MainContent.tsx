@@ -1,25 +1,49 @@
+import { useState, useEffect } from "react";
 import { getDataByCategory } from "../utils/TodoFilters";
 import Todo from "./Todo";
 
-const MainContent = () => {
-  const workTodos = getDataByCategory("work");
-  const personalTodos = getDataByCategory("personal");
-  const shoppingTodos = getDataByCategory("shopping");
-  const healthTodos = getDataByCategory("health");
-  const otherTodos = getDataByCategory("other");
+const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
+  onRefresh?: () => void;
+  selectedPriority?: string;
+  selectedStatus?: string;
+}) => {
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [workTodos, setWorkTodos] = useState<any[]>([]);
+  const [personalTodos, setPersonalTodos] = useState<any[]>([]);
+  const [shoppingTodos, setShoppingTodos] = useState<any[]>([]);
+  const [healthTodos, setHealthTodos] = useState<any[]>([]);
+  const [otherTodos, setOtherTodos] = useState<any[]>([]);
+
+  // Fetch data whenever refreshTrigger, selectedPriority, or selectedStatus changes
+  useEffect(() => {
+    setWorkTodos(getDataByCategory("work", selectedPriority, selectedStatus));
+    setPersonalTodos(getDataByCategory("personal", selectedPriority, selectedStatus));
+    setShoppingTodos(getDataByCategory("shopping", selectedPriority, selectedStatus));
+    setHealthTodos(getDataByCategory("health", selectedPriority, selectedStatus));
+    setOtherTodos(getDataByCategory("other", selectedPriority, selectedStatus));
+  }, [refreshTrigger, selectedPriority, selectedStatus]);
+
+  // Expose refresh function to parent
+  useEffect(() => {
+    if (onRefresh) {
+      // This allows parent to trigger refresh
+      (window as any).refreshTodoList = () => setRefreshTrigger(prev => prev + 1);
+    }
+  }, [onRefresh]);
 
   return (
-    <div className="bg-gray-100 p-5 flex-1 overflow-x-scroll">
+    <div className="bg-gray-100 p-5 flex-1 overflow-y-auto">
       <div className="flex justify-between">
         <h2 className="text-2xl font-bold text-gray-800">Tasks</h2>
         <div>
           <h2>Date: {new Date().toLocaleDateString()}</h2>
         </div>
       </div>
-      <div className="grid grid-cols-3 md:grid-cols-5 gap-4 mt-5 justify-items-center h-full">
-        <div className=" flex-1 flex flex-col justify-center  text-center bg-gray-50 w-70 shadow rounded-md p-3 h-full">
-          <h1 className="text-2xl font-medium mb-3">Work</h1>
-          <div className="flex-1">
+      <div className="flex flex-col gap-4 mt-5">
+        {/* Work Category */}
+        <div className="w-full bg-white shadow rounded-lg p-4">
+          <h1 className="text-xl font-semibold mb-3 text-gray-700">Work</h1>
+          <div className={`flex flex-wrap gap-3 ${workTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
             {workTodos.length !== 0 && workTodos.map((todo, index) => (
               <Todo
                 key={index}
@@ -32,15 +56,15 @@ const MainContent = () => {
               />
             ))}
             {workTodos.length === 0 && (
-                <div className="flex-1 h-full flex items-center justify-center rounded-md">
-                    <p>No tasks found</p>
-                </div>
-                )}
+              <p className="text-gray-400">No tasks found</p>
+            )}
           </div>
         </div>
-        <div className=" flex-1 flex flex-col justify-center  text-center h-full bg-gray-50 w-70 shadow rounded-md p-3">
-          <h1 className="text-2xl font-medium mb-3">Personal</h1>
-          <div className="flex-1">
+
+        {/* Personal Category */}
+        <div className="w-full bg-white shadow rounded-lg p-4">
+          <h1 className="text-xl font-semibold mb-3 text-gray-700">Personal</h1>
+          <div className={`flex flex-wrap gap-3 ${personalTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
             {personalTodos.length !== 0 && personalTodos.map((todo, index) => (
               <Todo
                 key={index}
@@ -53,38 +77,37 @@ const MainContent = () => {
               />
             ))}
             {personalTodos.length === 0 && (
-                <div className="flex-1 h-full flex items-center justify-center rounded-md">
-                    <p>No tasks found</p>
-                </div>
-                )}
+              <p className="text-gray-400">No tasks found</p>
+            )}
           </div>
         </div>
-        <div className=" flex-1 flex flex-col h-full bg-gray-50 w-70 shadow p-3 justify-center rounded-md text-center">
-          <h1 className="text-2xl font-medium mb-3">Shopping</h1>
-          <div className="flex-1">
-            {shoppingTodos &&
-              shoppingTodos.map((todo, index) => (
-                <Todo
-                  key={index}
-                  title={todo.title}
-                  description={todo.description}
-                  priority={todo.priority}
-                  category={todo.category}
-                  dueDate={todo.dueDate}
-                  isCompleted={todo.isCompleted}
-                />
-              ))}
+
+        {/* Shopping Category */}
+        <div className="w-full bg-white shadow rounded-lg p-4">
+          <h1 className="text-xl font-semibold mb-3 text-gray-700">Shopping</h1>
+          <div className={`flex flex-wrap gap-3 ${shoppingTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
+            {shoppingTodos.length !== 0 && shoppingTodos.map((todo, index) => (
+              <Todo
+                key={index}
+                title={todo.title}
+                description={todo.description}
+                priority={todo.priority}
+                category={todo.category}
+                dueDate={todo.dueDate}
+                isCompleted={todo.isCompleted}
+              />
+            ))}
             {shoppingTodos.length === 0 && (
-                <div className="flex-1 h-full flex items-center justify-center rounded-md">
-                    <p>No tasks found</p>
-                </div>
-                )}
+              <p className="text-gray-400">No tasks found</p>
+            )}
           </div>
         </div>
-        <div className=" flex-1 flex flex-col h-full bg-gray-50 w-70 shadow p-3 justify-center rounded-md text-center">
-          <h1 className="text-2xl font-medium mb-3">Health</h1>
-          <div className="flex-1">
-            {healthTodos.map((todo, index) => (
+
+        {/* Health Category */}
+        <div className="w-full bg-white shadow rounded-lg p-4">
+          <h1 className="text-xl font-semibold mb-3 text-gray-700">Health</h1>
+          <div className={`flex flex-wrap gap-3 ${healthTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
+            {healthTodos.length !== 0 && healthTodos.map((todo, index) => (
               <Todo
                 key={index}
                 title={todo.title}
@@ -96,16 +119,16 @@ const MainContent = () => {
               />
             ))}
             {healthTodos.length === 0 && (
-                <div className="flex-1 h-full flex items-center justify-center rounded-md">
-                    <p>No tasks found</p>
-                </div>
-                )}
+              <p className="text-gray-400">No tasks found</p>
+            )}
           </div>
         </div>
-        <div className=" flex-1 flex flex-col h-full bg-gray-50 w-70 shadow p-3 justify-center rounded-md text-center">
-          <h1 className="text-2xl font-medium mb-3">Other</h1>
-          <div className="flex-1">
-            {otherTodos.map((todo, index) => (
+
+        {/* Other Category */}
+        <div className="w-full bg-white shadow rounded-lg p-4">
+          <h1 className="text-xl font-semibold mb-3 text-gray-700">Other</h1>
+          <div className={`flex flex-wrap gap-3 ${otherTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
+            {otherTodos.length !== 0 && otherTodos.map((todo, index) => (
               <Todo
                 key={index}
                 title={todo.title}
@@ -117,10 +140,8 @@ const MainContent = () => {
               />
             ))}
             {otherTodos.length === 0 && (
-                <div className="flex-1 h-full flex items-center justify-center rounded-md">
-                    <p>No tasks found</p>
-                </div>
-                )}
+              <p className="text-gray-400">No tasks found</p>
+            )}
           </div>
         </div>
       </div>
