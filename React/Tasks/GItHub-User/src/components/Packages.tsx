@@ -1,13 +1,19 @@
 import { Box } from "lucide-react";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 export default function Packages(){
+
+    const {theme} = useContext(ThemeContext);
+
     return (
         <>
-                    <div className="border flex flex-col items-center justify-center p-10 border-gray-400 rounded-md mx-5 md:mx-10 my-4">
-                <Box className='text-gray-400 md:size-10' />
-                <h1 className='text-white text-1xl mt-2 md:text-2xl '>There aren't any Packages yet</h1>
+        <div className="w-full flex justify-center items-center">
+                    <div className="border flex flex-col max-w-150 w-full mx-auto items-center justify-center p-10 border-gray-400 rounded-md  md:mx-10 my-4">
+                <Box className={`${theme === 'dark' ? 'text-gray-400':'text-gray-600' } md:size-10`} />
+                <h1 className={`${theme === 'dark' ? 'text-white' :'text-black'} text-1xl mt-2 md:text-2xl`}>There aren't any Packages yet</h1>
             </div>
-
+    </div>
         </>
     )
 }

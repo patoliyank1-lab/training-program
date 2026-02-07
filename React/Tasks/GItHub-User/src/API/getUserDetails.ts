@@ -1,6 +1,6 @@
 import axios from "axios";
 import { gitHubUserAPI, usersSearchAPI } from "./API";
-import type { rep2Type, repType } from '../Utils/Types'
+import type { getUserType, rep2Type, repType } from '../Utils/Types'
 
 
 
@@ -42,7 +42,7 @@ const getDataFromAPI = async (url:string) => {
 
 const getUsersList = async (keyword:string) => {
   const URL: string = usersSearchAPI + keyword;
-  let DATA:{success : boolean, data?:unknown , error?:string} = { success: false, data: undefined, error: 'Error' };
+  let DATA:getUserType = { success: false, data: undefined, error: 'Error' };
   
   DATA = await axios.get(URL)
   .then((response) => {

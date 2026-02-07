@@ -138,3 +138,16 @@ export interface rep2Type {
 }
 
 
+export interface searchUserType{
+    login: string;
+    id:string;
+    user_view_type:string;
+    avatar_url:string
+}
+
+
+export interface getUserType {
+    success : boolean, 
+    data?:{items : searchUserType[]}, 
+    error?:string
+}
