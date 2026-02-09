@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import Login  from './pages/Login'
-import SingUp from "./pages/SignUp";
+import Login from './pages/Login'
+import SignUp from "./pages/SignUp";
 
 interface typeError {
   value: string;
@@ -33,11 +33,11 @@ function App() {
 
   return (
     <>
-      <div className="h-screen w-full flex justify-center items-center bg-gray-100 overflow-hidden">
+      <div className="min-h-screen w-full flex justify-center items-center bg-gray-100 overflow-auto p-4">
         {isShowLogin ? (
-          <SingUp isShowLogin={isShowLogin} onChangeISLogin={onChangeISLogin}/>
+          <SignUp isShowLogin={isShowLogin} onChangeISLogin={onChangeISLogin} />
         ) : (
-          <Login isShowLogin={isShowLogin} onChangeISLogin={onChangeISLogin}/>
+          <Login isShowLogin={isShowLogin} onChangeISLogin={onChangeISLogin} />
         )}
       </div>
     </>

@@ -47,12 +47,14 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
             {workTodos.length !== 0 && workTodos.map((todo, index) => (
               <Todo
                 key={index}
+                id={todo.id}
                 title={todo.title}
                 description={todo.description}
                 priority={todo.priority}
                 category={todo.category}
                 dueDate={todo.dueDate}
                 isCompleted={todo.isCompleted}
+                onUpdate={() => setRefreshTrigger(prev => prev + 1)}
               />
             ))}
             {workTodos.length === 0 && (
@@ -68,12 +70,14 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
             {personalTodos.length !== 0 && personalTodos.map((todo, index) => (
               <Todo
                 key={index}
+                id={todo.id}
                 title={todo.title}
                 description={todo.description}
                 priority={todo.priority}
                 category={todo.category}
                 dueDate={todo.dueDate}
                 isCompleted={todo.isCompleted}
+                onUpdate={() => setRefreshTrigger(prev => prev + 1)}
               />
             ))}
             {personalTodos.length === 0 && (
@@ -89,12 +93,14 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
             {shoppingTodos.length !== 0 && shoppingTodos.map((todo, index) => (
               <Todo
                 key={index}
+                id={todo.id}
                 title={todo.title}
                 description={todo.description}
                 priority={todo.priority}
                 category={todo.category}
                 dueDate={todo.dueDate}
                 isCompleted={todo.isCompleted}
+                onUpdate={() => setRefreshTrigger(prev => prev + 1)}
               />
             ))}
             {shoppingTodos.length === 0 && (
@@ -110,12 +116,14 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
             {healthTodos.length !== 0 && healthTodos.map((todo, index) => (
               <Todo
                 key={index}
+                id={todo.id}
                 title={todo.title}
                 description={todo.description}
                 priority={todo.priority}
                 category={todo.category}
                 dueDate={todo.dueDate}
                 isCompleted={todo.isCompleted}
+                onUpdate={() => setRefreshTrigger(prev => prev + 1)}
               />
             ))}
             {healthTodos.length === 0 && (
@@ -131,12 +139,14 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
             {otherTodos.length !== 0 && otherTodos.map((todo, index) => (
               <Todo
                 key={index}
+                id={todo.id}
                 title={todo.title}
                 description={todo.description}
                 priority={todo.priority}
                 category={todo.category}
                 dueDate={todo.dueDate}
                 isCompleted={todo.isCompleted}
+                onUpdate={() => setRefreshTrigger(prev => prev + 1)}
               />
             ))}
             {otherTodos.length === 0 && (
