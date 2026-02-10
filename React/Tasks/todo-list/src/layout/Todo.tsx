@@ -27,7 +27,7 @@ export default function Todo({
   };
 
   return (
-    <div className={`bg-gray-50 border border-gray-200 rounded-lg p-4 w-64 flex-shrink-0 transition-all ${isCompleted ? 'opacity-75' : ''}`}>
+    <div className={`bg-gray-50 border border-gray-200 rounded-lg p-4 w-64  transition-all ${isCompleted ? 'opacity-75' : ''}`}>
       <div className="flex items-start gap-3 mb-2">
         <input
           type="checkbox"
@@ -36,14 +36,14 @@ export default function Todo({
           className="mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer"
         />
         <div className="flex-1">
-          <h2 className={`text-base font-medium text-gray-800 ${isCompleted ? 'line-through text-gray-500' : ''}`}>
+          <h2 className={`text-base font-medium text-gray-800 `}>
             {title}
           </h2>
         </div>
       </div>
 
       {description && (
-        <p className={`text-sm text-gray-600 mb-3 ml-7 ${isCompleted ? 'line-through text-gray-400' : ''}`}>
+        <p className={`text-sm text-gray-600 mb-3 ml-7`}>
           {description}
         </p>
       )}

@@ -34,6 +34,12 @@ function App() {
               </ThemeProvider>
             </>
           } />
+
+      <Route path={`/*`} element={
+        <>
+        <h1>Page not Found</h1>
+        </>
+      } />
       </Routes>
     </BrowserRouter>
     </div>

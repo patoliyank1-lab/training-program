@@ -26,7 +26,7 @@ function App() {
     setUsername({ ...username, isError: false, value: '', isInteract: false })
     setPassword({ ...password, isError: false, value: '', isInteract: false })
     setConfirmPassword({ ...confirmPassword, isError: false, value: '', isInteract: false })
-    console.log(fullName);
+
 
     setIsShowLogin((prev) => !prev)
   }, [fullName, number, email, username, password, confirmPassword]);
@@ -35,7 +35,7 @@ function App() {
     <>
       <div className="min-h-screen w-full flex justify-center items-center bg-gray-100 overflow-auto p-4">
         {isShowLogin ? (
-          <SignUp isShowLogin={isShowLogin} onChangeISLogin={onChangeISLogin} />
+            <SignUp isShowLogin={isShowLogin} onChangeISLogin={onChangeISLogin} />
         ) : (
           <Login isShowLogin={isShowLogin} onChangeISLogin={onChangeISLogin} />
         )}
@@ -45,3 +45,5 @@ function App() {
 }
 
 export default App;
+
+

@@ -1,4 +1,4 @@
-import { getDataFromAPI } from '../API/getUserDetails';
+import { getRepoDataFromAPI } from '../API/getUserDetails';
 import type { rep2Type, repoDataType } from '../Utils/Types';
 import { useContext, useEffect, useState } from 'react';
 import  Repo  from './Repo'
@@ -13,7 +13,7 @@ export default function Overview({ url = 'https://api.github.com/users/facebook/
 
     useEffect(() => {
         (async () => {
-            const data: rep2Type = await getDataFromAPI(url);
+            const data: rep2Type = await getRepoDataFromAPI(url);
             if (data.success && data.data !== undefined) {
                 const newData = data.data.slice(0, 6)
                 setNewRepo(newData);

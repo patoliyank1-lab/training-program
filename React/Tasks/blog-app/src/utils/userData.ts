@@ -1,13 +1,4 @@
-interface User {
-    id: string;
-    fullName: string;
-    email: string;
-    number: string;
-    username: string;
-    password: string;
-    createdAt: string;
-}
-
+import type { User } from "../Type";
 
 function getData(): User[] {
 
@@ -39,8 +30,11 @@ function storeData(fullName: string, email: string, number: string, username: st
     const isHaveEmail = findUserByEmail(email)
     const isHaveUsername = findUserByUsername(username)
     if(!isHaveEmail && !isHaveUsername){   
+
+
         userList.push(newUser);
         localStorage.setItem('userList', JSON.stringify(userList));
+        setCurrentUser(newUser)
     }
 
 
@@ -80,4 +74,24 @@ function getUserByUsername(username:string){
 }
 
 
-export {storeData, getData, findUserByEmail, findUserByUsername, getUserByUsername}
+function getCurrentUser() {
+
+    const data = localStorage.getItem('currentUser');
+
+    if(data) {
+        return JSON.parse(data);
+    }
+
+    return undefined;
+}
+
+function removeCurrentUser(){
+    localStorage.removeItem('currentUser')
+}
+
+function setCurrentUser (user:User) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        return user;
+}
+
+export {storeData, getData, findUserByEmail, findUserByUsername, getUserByUsername, getCurrentUser, removeCurrentUser, setCurrentUser}

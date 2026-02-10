@@ -2,7 +2,7 @@ import { Overview, Packages, Project, Stars, Repositories } from '../components'
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getUserDetails } from "../API/getUserDetails";
-import type { userDataType, repType } from '../Utils/Types';
+import type { userDataType, resType } from '../Utils/Types';
 
 import {
     Link,
@@ -26,7 +26,7 @@ export default function UserPage() {
 
     const { username } = useParams();
     const [userData, setUserData] = useState<userDataType>();
-    const [isLoaded, setIsLoaded] = useState(true)
+    const [isLoaded, setIsLoaded] = useState(false)
     const [userNotFound, setUserNotFound] = useState(false)
 
     const [overview, setOverview] = useState<boolean>(true);
@@ -38,7 +38,7 @@ export default function UserPage() {
     useEffect(() => {
         if (username) {
             (async () => {
-                const data: repType = await getUserDetails(username);
+                const data: resType = await getUserDetails(username);
                 if (data.success && data.data !== undefined) {
                     setUserData(data.data);
                     setIsLoaded(true)
@@ -52,6 +52,7 @@ export default function UserPage() {
         }
     }, [username]);
 
+ 
 
     const onRepoClick = useCallback(() => {
         setOverview(false)
@@ -106,6 +107,10 @@ export default function UserPage() {
                     </div>
                 </div>
             )}
+
+            {!isLoaded && (<div>
+                Loading...
+                </div>)}
 
             {/* Existing User Page */}
             {isLoaded && userData && <div className={` h-screen w-full flex justify-center overflow-auto ${theme === 'dark' ? 'bg-body' : 'bg-gray-100'}`}>

@@ -14,7 +14,7 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
   const [healthTodos, setHealthTodos] = useState<any[]>([]);
   const [otherTodos, setOtherTodos] = useState<any[]>([]);
 
-  // Fetch data whenever refreshTrigger, selectedPriority, or selectedStatus changes
+
   useEffect(() => {
     setWorkTodos(getDataByCategory("work", selectedPriority, selectedStatus));
     setPersonalTodos(getDataByCategory("personal", selectedPriority, selectedStatus));
@@ -43,7 +43,7 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
         {/* Work Category */}
         <div className="w-full bg-white shadow rounded-lg p-4">
           <h1 className="text-xl font-semibold mb-3 text-gray-700">Work</h1>
-          <div className={`flex flex-wrap gap-3 ${workTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
+          <div className={`flex flex-wrap gap-3 ${workTodos.length === 0 ? 'min-h-25 items-center justify-center' : ''}`}>
             {workTodos.length !== 0 && workTodos.map((todo, index) => (
               <Todo
                 key={index}
@@ -66,7 +66,7 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
         {/* Personal Category */}
         <div className="w-full bg-white shadow rounded-lg p-4">
           <h1 className="text-xl font-semibold mb-3 text-gray-700">Personal</h1>
-          <div className={`flex flex-wrap gap-3 ${personalTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
+          <div className={`flex flex-wrap gap-3 ${personalTodos.length === 0 ? 'min-h-25 items-center justify-center' : ''}`}>
             {personalTodos.length !== 0 && personalTodos.map((todo, index) => (
               <Todo
                 key={index}
@@ -89,7 +89,7 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
         {/* Shopping Category */}
         <div className="w-full bg-white shadow rounded-lg p-4">
           <h1 className="text-xl font-semibold mb-3 text-gray-700">Shopping</h1>
-          <div className={`flex flex-wrap gap-3 ${shoppingTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
+          <div className={`flex flex-wrap gap-3 ${shoppingTodos.length === 0 ? 'min-h-25 items-center justify-center' : ''}`}>
             {shoppingTodos.length !== 0 && shoppingTodos.map((todo, index) => (
               <Todo
                 key={index}
@@ -112,7 +112,7 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
         {/* Health Category */}
         <div className="w-full bg-white shadow rounded-lg p-4">
           <h1 className="text-xl font-semibold mb-3 text-gray-700">Health</h1>
-          <div className={`flex flex-wrap gap-3 ${healthTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
+          <div className={`flex flex-wrap gap-3 ${healthTodos.length === 0 ? 'min-h-25 items-center justify-center' : ''}`}>
             {healthTodos.length !== 0 && healthTodos.map((todo, index) => (
               <Todo
                 key={index}
@@ -135,7 +135,7 @@ const MainContent = ({ onRefresh, selectedPriority, selectedStatus }: {
         {/* Other Category */}
         <div className="w-full bg-white shadow rounded-lg p-4">
           <h1 className="text-xl font-semibold mb-3 text-gray-700">Other</h1>
-          <div className={`flex flex-wrap gap-3 ${otherTodos.length === 0 ? 'min-h-[100px] items-center justify-center' : ''}`}>
+          <div className={`flex flex-wrap gap-3 ${otherTodos.length === 0 ? 'min-h-25 items-center justify-center' : ''}`}>
             {otherTodos.length !== 0 && otherTodos.map((todo, index) => (
               <Todo
                 key={index}

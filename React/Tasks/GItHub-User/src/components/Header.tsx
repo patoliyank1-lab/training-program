@@ -2,13 +2,14 @@ import { Menu, Search, Inbox, X } from "lucide-react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { RxGithubLogo } from "react-icons/rx";
 import { getSearchHistory, rmFromHistory, storeSearchHistory } from "../Utils/StoreHistory";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
-import { FaMoon, FaSun } from "react-icons/fa";
+import {  FaSun, FaMoon } from "react-icons/fa";
 
 export default function Header() {
 
     const {theme , setTheme} = useContext(ThemeContext);
+
 
     const [search, setSearch] = useState(false);
     const [searchText, setSearchText] = useState<string>('');
@@ -69,14 +70,13 @@ export default function Header() {
             {search && (
                 <>
                     <div className="fixed z-9 -top-20 left-0 w-full h-screen backdrop-blur-[2px] flex items-center justify-center"
-                    onClick={() => {setSearchText('') ;return setSearch && setSearch((prev) => !prev)}}
+                    onClick={() => {setSearchText(''); return setSearch && setSearch((prev) => !prev)}}
                     ></div>
                 <div className=" absolute top-0 left-0 w-full h-lvh flex justify-center" >
                     <div
                         className={"w-full max-w-300   z-10 rounded-2xl fixed p-2 flex justify-center shadow-xl border border-gray-500 overflow-hidden"+ ` ${theme === 'dark' ? 'bg-body':'bg-gray-100'}`}
                         onClick={(event) => event.stopPropagation()}
                     >
-
                         <div className="relative w-full  flex flex-col justify-center items-center h-min ">
                             <div className="relative  w-full flex items-center">
                                 <Search className="size-5 ml-2 absolute left-0 text-gray-500" />
@@ -113,7 +113,9 @@ export default function Header() {
                 <div className=" flex justify-between w-full max-w-350">
                     <div className="flex gap-3">
                         <div className="border border-gray-800 rounded-md p-2 md:hidden"><Menu className="text-gray-500" /></div>
+                        <Link to='/' >
                         <div className="rounded-full flex items-center"><RxGithubLogo className={`${theme === 'dark' ? 'text-gray-200':'text-gray-800'} size-9`} /></div>
+                        </Link>
                     </div>
                     <div className="md:flex hidden  items-center  flex-1 px-5">
                         <div
