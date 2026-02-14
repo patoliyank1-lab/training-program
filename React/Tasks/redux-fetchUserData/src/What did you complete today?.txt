@@ -1,0 +1,24 @@
+What did you complete today?
+
+Advanced Redux Patterns (Day - 11)
+    Slice-based state management  - 1 h        - Done
+    Thunks API calls              - 2 h        - Done
+        -- createAsyncThunk, extraReducers
+    Normalizing state             - 1 h        - Done
+        -- useSelectors, useDispatch
+    
+Task - Get User Data and Print (Redux)-  4 h   -- Done
+    -- create API call using createAsyncThunk
+    -- create userSlice and add extraReducers for API call
+    -- create component and useSelector to get data from store
+    -- useDispatch to dispatch API call action and print data in component
+    -- create infinite scroll to load more data on scroll and  Button click
+
+What do you plan for tomorrow?
+ Middleware, DevTools & Performance
+
+Any impediments in your way?
+- multiple time rerendering of component due to state change, solved by using conditional rendering techniques.
+- get Proxy-Array in response, solved by using JSON.parse() and JSON.stringify() to convert it to array.
+Did you successfully complete your planned task?
+- yes

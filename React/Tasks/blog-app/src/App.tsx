@@ -52,26 +52,20 @@ function App() {
           } />
         <Route path={`register`}
           element={
-          !isLogin ?
-           ( <>
+           <>
               <ThemeProvider>
                 <SignUp />
               </ThemeProvider>
-            </>) : (<>
-            <Navigate replace to={'/user'} />
-            </>)
+            </>
           } />
 
           <Route path={`user`}
           element={
-          isLogin ?
-           ( <>
+           <>
               <ThemeProvider>
                 <User />
               </ThemeProvider>
-            </>) : (<>
-            <Navigate replace to={'/login'} />
-            </>)
+            </>
           } />
 
       <Route path={`/*`} element={

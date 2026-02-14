@@ -1,4 +1,4 @@
-import type { User } from "../Type";
+import type { User } from "../types/user";
 
 function getData(): User[] {
 
@@ -12,13 +12,13 @@ function getData(): User[] {
     return DATA;
 }
 
-function storeData(fullName: string, email: string, number: string, username: string, password: string): void {
+function storeData(fullName: string, email: string, number: string, username: string, password: string, id?:string) {
 
 
 
     const userList = getData();
     const newUser = {
-        id: idGen(10),
+        id: id? id : Date.now().toString(),
         fullName: fullName,
         email: email,
         number: number,
@@ -30,25 +30,9 @@ function storeData(fullName: string, email: string, number: string, username: st
     const isHaveEmail = findUserByEmail(email)
     const isHaveUsername = findUserByUsername(username)
     if(!isHaveEmail && !isHaveUsername){   
-
-
         userList.push(newUser);
         localStorage.setItem('userList', JSON.stringify(userList));
-        setCurrentUser(newUser)
-    }
-
-
-    function idGen(length: number) {
-        const min = Math.pow(10, length - 1);
-        const max = Math.pow(10, length) - 1;
-
-        let id: number;
-
-        do {
-            id = Math.floor(Math.random() * (max - min) + min);
-        } while (userList.find((user: User) => Number(user.id) === id));
-
-        return id.toString();
+        return newUser;
     }
 }
 

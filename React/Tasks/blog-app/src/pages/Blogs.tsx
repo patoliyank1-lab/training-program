@@ -17,9 +17,7 @@ const blogHead = {
 
 };
 
-// const blurAnimetion = {
 
-// }
 
 function Blogs() {
     const { theme, isLogin } = useContext(ContextValue)
@@ -27,11 +25,15 @@ function Blogs() {
 
     const [blogList, setBlogList] = useState<Blog[]>([])
 
+
     useEffect(()=>{
         const blogs = getBlogs();
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setBlogList(blogs)
-    },[])
+    },[showBlog])
+
+
+
 
 
     return (
@@ -66,7 +68,7 @@ function Blogs() {
                     <div>Their is no Blog.</div>
                 )}
                 {blogList.map((blog)=>(
-                    <SignalBlog key={blog.id} title={blog.title} description={blog.description} img={blog.img}  />
+                    <SignalBlog key={blog.id} blog={blog}  />
                 ))}
 
 
