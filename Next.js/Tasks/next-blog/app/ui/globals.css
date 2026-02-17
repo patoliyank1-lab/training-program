@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+:root {
+  /* ── BASE ── */
+  --background:        #ffffff;
+  --background-soft:   #fafafa;
+  --background-muted:  #f4f4f6;
+  --foreground:        #09090b;
+  --foreground-soft:   #3f3f46;
+  --foreground-muted:  #71717a;
+
+  /* ── PURPLE SHADES ── */
+  --purple-50:         #faf5ff;
+  --purple-100:        #f3e8ff;
+  --purple-200:        #e9d5ff;
+  --purple-300:        #d8b4fe;
+  --purple-400:        #c084fc;
+  --purple-500:        #a855f7;
+  --purple-600:        #9333ea;
+  --purple-700:        #7c3aed;
+  --purple-800:        #6d28d9;
+  --purple-900:        #4c1d95;
+  --purple-950:        #2e1065;
+
+  /* ── SEMANTIC (what you use in components) ── */
+  --primary:           #9333ea;   /* purple-600 */
+  --primary-hover:     #7c3aed;   /* purple-700 */
+  --primary-light:     #f3e8ff;   /* purple-100 */
+  --primary-text:      #ffffff;   /* text on primary bg */
+
+  /* ── BORDERS ── */
+  --border:            #e4e4e7;
+  --border-strong:     #d4d4d8;
+  --border-purple:     #d8b4fe;   /* purple-300 */
+
+  /* ── TEXT ── */
+  --text-heading:      #09090b;
+  --text-body:         #3f3f46;
+  --text-muted:        #71717a;
+  --text-disabled:     #a1a1aa;
+  --text-on-purple:    #ffffff;
+  --text-purple:       #7c3aed;   /* purple text on white */
+
+  /* ── SURFACE / CARDS ── */
+  --surface:           #ffffff;
+  --surface-raised:    #fafafa;
+  --surface-overlay:   #f4f4f6;
+  --surface-purple:    #faf5ff;   /* purple-50 */
+
+  /* ── STATUS COLORS ── */
+  --success:           #16a34a;
+  --success-bg:        #f0fdf4;
+  --error:             #dc2626;
+  --error-bg:          #fef2f2;
+  --warning:           #d97706;
+  --warning-bg:        #fffbeb;
+  --info:              #9333ea;   /* use purple as info */
+  --info-bg:           #faf5ff;
+
+  /* ── SHADOWS ── */
+  --shadow-sm:         0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md:         0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg:         0 8px 24px rgba(0,0,0,0.10);
+  --shadow-purple:     0 4px 20px rgba(147,51,234,0.20);
+}
+
+
+
+[data-theme="dark"] {
+  /* ── BASE ── */
+  --background:        #09090b;
+  --background-soft:   #111116;
+  --background-muted:  #18181b;
+  --foreground:        #fafafa;
+  --foreground-soft:   #e4e4e7;
+  --foreground-muted:  #a1a1aa;
+
+  /* ── PURPLE SHADES (same, no change needed) ── */
+  --purple-50:         #faf5ff;
+  --purple-100:        #f3e8ff;
+  --purple-200:        #e9d5ff;
+  --purple-300:        #d8b4fe;
+  --purple-400:        #c084fc;
+  --purple-500:        #a855f7;
+  --purple-600:        #9333ea;
+  --purple-700:        #7c3aed;
+  --purple-800:        #6d28d9;
+  --purple-900:        #4c1d95;
+  --purple-950:        #2e1065;
+
+  /* ── SEMANTIC ── */
+  --primary:           #a855f7;   /* purple-500 (brighter for dark bg) */
+  --primary-hover:     #c084fc;   /* purple-400 */
+  --primary-light:     #2e1065;   /* purple-950 (dark tint) */
+  --primary-text:      #ffffff;
+
+  /* ── BORDERS ── */
+  --border:            #27272a;
+  --border-strong:     #3f3f46;
+  --border-purple:     #4c1d95;   /* purple-900 */
+
+  /* ── TEXT ── */
+  --text-heading:      #fafafa;
+  --text-body:         #e4e4e7;
+  --text-muted:        #a1a1aa;
+  --text-disabled:     #52525b;
+  --text-on-purple:    #ffffff;
+  --text-purple:       #c084fc;   /* purple-400 on dark */
+
+  /* ── SURFACE / CARDS ── */
+  --surface:           #111116;
+  --surface-raised:    #18181b;
+  --surface-overlay:   #27272a;
+  --surface-purple:    #1a0a2e;   /* deep dark purple */
+
+  /* ── STATUS COLORS ── */
+  --success:           #4ade80;
+  --success-bg:        #052e16;
+  --error:             #f87171;
+  --error-bg:          #450a0a;
+  --warning:           #fbbf24;
+  --warning-bg:        #422006;
+  --info:              #c084fc;
+  --info-bg:           #1a0a2e;
+
+  /* ── SHADOWS ── */
+  --shadow-sm:         0 1px 3px rgba(0,0,0,0.30);
+  --shadow-md:         0 4px 12px rgba(0,0,0,0.40);
+  --shadow-lg:         0 8px 24px rgba(0,0,0,0.50);
+  --shadow-purple:     0 4px 20px rgba(168,85,247,0.25);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
