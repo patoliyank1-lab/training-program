@@ -2,8 +2,10 @@ import "./ui/globals.css";
 import { geistMono, geistSans } from "./ui/font";
 import type { Metadata } from "next";
 import Wrapper from './Wrapper';
-// import Header from "./ui/Header";
-// import Footer from "./ui/Footer";
+// import Header from "./components/Header";
+// import Footer from "./components/Footer";
+import Header from "./ui/Header";
+import Footer from "./ui/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,12 +21,12 @@ export default function RootLayout({
 
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen overflow-x-auto`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-auto`}
       >
         <Wrapper >
-          {/* <Header /> */}
+          <Header />
           {children}
-          {/* <Footer /> */}
+          <Footer />
         </Wrapper>
       </body>
     </html>

@@ -1,5 +1,5 @@
 import { User } from '@/app/Types/User';
-import { storeUser } from './storeUser';
+import { storeUser } from '../../../utils/auth/storeUser';
 
 
 export async function POST(request: Request) {
@@ -8,7 +8,9 @@ export async function POST(request: Request) {
 
     storeUser(body)
 
-    return new Response('Data successfully store.', {
+    const {age, gender, password, createdAt, ...otherData} = body
+
+    return new Response(JSON.stringify(otherData), {
       status: 201,
       headers: { 'Content-Type': 'application/json' }
     });

@@ -8,12 +8,12 @@ import { getItem, setItem } from '../hooks/useLocalStorage';
 
 
 const defaultValue: {
-    theme: 'dark' | 'light';
+    mode: 'dark' | 'light';
     setDarkTheme: () => void;
     setLightTheme: () => void;
 
 } = {
-    theme: 'light',
+    mode: 'light',
     setDarkTheme: () => {},
     setLightTheme: () => {},
 }
@@ -27,7 +27,7 @@ export default function ThemeProvider({children}:{children:React.ReactNode}) {
     const dispatch = useDispatch();
 
     const uiStore = useSelector((state: AppStore) => state.ui)
-    const theme = uiStore.theme;
+    const mode = uiStore.theme;
 
 
     const setDarkTheme = useCallback(() => {        
@@ -57,7 +57,7 @@ export default function ThemeProvider({children}:{children:React.ReactNode}) {
     },[renderFunction])
 
     return(
-        <ThemeContext.Provider value={{theme, setDarkTheme, setLightTheme}} >
+        <ThemeContext.Provider value={{mode, setDarkTheme, setLightTheme}} >
             {children}
         </ThemeContext.Provider>
     )

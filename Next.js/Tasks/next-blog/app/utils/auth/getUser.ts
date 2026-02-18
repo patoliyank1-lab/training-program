@@ -9,7 +9,6 @@ import data from '@/Data/usersData.json'
 
 export async function getUser(): Promise<User[]> {
     try {
-        console.log(data);
         
         const user: User[] | null = !data ? null : data as User[];
         if (user) {

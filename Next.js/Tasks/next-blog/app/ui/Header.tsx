@@ -2,16 +2,18 @@
 import { Stack } from "@mui/material"
 import Button from '@mui/material/Button';
 import Link from "next/link";
-import generateId from "../utils/helpers/generateId";
-// import getUser from "../utils/data/getUser";
+import { useAuth } from "../hooks/useAuth";
 
 function Header() {
 
+  const { logout } = useAuth()
 
+  const fun = () => {
 
-  const fun = async () => {
-    console.log(generateId())
+    logout();
+
   }
+
 
 
 
@@ -23,7 +25,10 @@ function Header() {
                 <Button>HOME</Button>
              </Link>
               <Link href={'/about'}>
-                <Button onClick={fun}>ABOUT</Button>
+                <Button>ABOUT</Button>
+             </Link>
+             <Link href={'/about'}>
+                <Button onClick={fun}>Logout</Button>
              </Link>
              </Stack>
         </div>

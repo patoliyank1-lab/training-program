@@ -10,6 +10,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useAuth } from '../hooks/useAuth';
 
 
 const validationSchema = Yup.object({
@@ -27,6 +28,9 @@ const validationSchema = Yup.object({
 });
 
 export default function SignIn() {
+
+    const { login } =  useAuth();
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -34,18 +38,18 @@ export default function SignIn() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+            login(values)
         },
     });
 
-    const handleSubmit = formik.handleSubmit;
+        const handleSubmit = formik.handleSubmit;
 
     return (
         <>
             <div className=' h-full flex items-center'>
                 <div className='flex flex-col items-center justify-center w-full max-w-md p-5 gap-2 m-auto'>
                     <Typography
-                        component="h1"
+                        component="div"
                         variant="h4"
                         sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
                     >
@@ -123,6 +127,12 @@ export default function SignIn() {
                             Forgot your password?
                         </Link>
                     </Box>
+                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                        Create new account?{' '}
+                        <Link href="/register" variant="body2">
+                            Click hear
+                        </Link>
+                    </Typography>
                 </div>
             </div>
         </>
