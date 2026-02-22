@@ -5,7 +5,6 @@ import type { Todo } from "../types/Todos";
 
 
 export const setTodos = (title :string, description :string, priority :string, category :string, dueDate:string) => {
-    console.log(title, description, priority, category, dueDate);
     
     
     const Todos =  getData("todoList");

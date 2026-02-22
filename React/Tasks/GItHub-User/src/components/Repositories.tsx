@@ -1,4 +1,4 @@
-import { getDataFromAPI } from '../API/getUserDetails';
+import { getRepoDataFromAPI } from '../API/getUserDetails';
 import type { rep2Type, repoDataType } from '../Utils/Types';
 import { useContext, useEffect, useState } from 'react';
 import Repo from './Repo'
@@ -14,7 +14,7 @@ export default function Repositories({ url }: { url?: string }) {
 
     useEffect(() => {
         (async () => {
-            const data: rep2Type = await getDataFromAPI(url as string);
+            const data: rep2Type = await getRepoDataFromAPI(url as string);
             if (data.success && data.data !== undefined) {
                 const newData = data.data
                 setNewRepo(newData);

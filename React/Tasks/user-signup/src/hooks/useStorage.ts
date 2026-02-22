@@ -22,7 +22,7 @@ function getData(): User[] {
 }
 
 function storeData(fullName: string, email: string, number: string, username: string, password: string): void {
-      console.log('click');
+
 
 
     const userList = getData();

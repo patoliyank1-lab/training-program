@@ -1,0 +1,24 @@
+[
+    {
+        "id": "4c6d8aa0-0c8f-11f1-838d-87ffffee95ab",
+        "name": "Admin",
+        "age": 30,
+        "gender": "male",
+        "email": "admin@blog.com",
+        "password": "Admin@123",
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+        "role": "admin",
+        "createdAt": "2026-02-18T06:01:42.731Z"
+    },
+    {
+        "id": "ebd7f820-0ca6-11f1-a959-911d8c87eb25",
+        "name": "test",
+        "age": 43,
+        "gender": "male",
+        "email": "test@blog.com",
+        "password": "Test@123",
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+        "role": "user",
+        "createdAt": "2026-02-18T08:50:48.610Z"
+    }
+]

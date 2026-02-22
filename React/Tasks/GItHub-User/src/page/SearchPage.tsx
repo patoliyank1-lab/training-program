@@ -12,7 +12,7 @@ export default function Search() {
     const { keyword } = useParams();
     const [userDetails, setUserDetails] = useState<searchUserType[]>([]);
     const [list, number, setNumber, setUserList] = useUserList(1)
-
+    
 
     useEffect(() => {
         setNumber(1);
@@ -96,7 +96,6 @@ function User({ user }: { user: searchUserType }) {
 
     const onClick = (element: HTMLElement) => {
         const keyword: string = element.innerText;
-        console.log(keyword);
         navigate(`/users/${keyword}`)
     }
 

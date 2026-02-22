@@ -121,7 +121,7 @@ export interface repoDataType {
 
 
 
-export interface repType {
+export interface resType {
     success: boolean;
     data?: userDataType;
     error?: string;

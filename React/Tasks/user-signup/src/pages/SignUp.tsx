@@ -107,7 +107,6 @@ export default function SignUp({ isShowLogin, onChangeISLogin }: { isShowLogin: 
     }
 
 
-    console.log(!fullName.isError, !number.isError, !email.isError, !username.isError, !password.isError, !confirmPassword.isError, isShowLogin);
     if (!fullName.isError && !number.isError && !email.isError && !username.isError && !password.isError && !confirmPassword.isError && isShowLogin) {
 
 
@@ -169,8 +168,10 @@ export default function SignUp({ isShowLogin, onChangeISLogin }: { isShowLogin: 
             <label htmlFor="number" className="mb-2 font-medium">
               Phone Number:
             </label>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full ">
               <select
+              id="countryCode"
+              name="countryCode"
                 value={countryCode}
                 onChange={(e) => setCountryCode && setCountryCode(e.target.value)}
                 className={`ring-1 ring-gray-300 bg-gray-50 rounded-md py-2.5 px-2 transition-all duration-200
@@ -191,7 +192,7 @@ export default function SignUp({ isShowLogin, onChangeISLogin }: { isShowLogin: 
                 onClick={() => setNumber && setNumber({ ...number, isInteract: true })}
                 onChange={(e) => setNumber && setNumber({ ...number, value: e.target.value })}
                 placeholder="1234567890"
-                className={`flex-1 ring-1 ring-gray-300 bg-gray-50 rounded-md py-2.5 px-3 transition-all duration-200
+                className={`flex-1 ring-1 w-full ring-gray-300 bg-gray-50 rounded-md py-2.5 px-3 transition-all duration-200 
                   ${((number.isError && number.isInteract)) ? "ring-2 ring-red-500 focus:ring-red-500" : "focus:ring-2 focus:ring-blue-500 focus:outline-none"} `}
               />
             </div>
@@ -204,14 +205,15 @@ export default function SignUp({ isShowLogin, onChangeISLogin }: { isShowLogin: 
           </div>
 
           <div className="relative flex flex-col text-gray-800 mx-3 mb-7">
-            <label htmlFor="email" className="mb-2 font-medium">
+            <label htmlFor="userEmail" className="mb-2 font-medium">
               Email:
             </label>
             <input
               type="text"
-              id="email"
-              name="email"
+              id="userEmail"
+              name="userEmail"
               placeholder="your@email.com"
+              
               maxLength={20}
               value={email.value}
               onClick={() => setEmail && setEmail({ ...email, isInteract: true })}
@@ -242,6 +244,7 @@ export default function SignUp({ isShowLogin, onChangeISLogin }: { isShowLogin: 
             onChange={(e) => setUsername && setUsername({ ...username, value: e.target.value })}
             className={`ring-1 ring-gray-300 bg-gray-50 rounded-md py-2.5 px-3 transition-all duration-200
                   ${(username.isError && username.isInteract) ? "ring-2 ring-red-500 focus:ring-red-500" : "focus:ring-2 focus:ring-blue-500 focus:outline-none"} `}
+            autoComplete='true'
           />
           {(username.isError && username.isInteract) && (
             <span className="absolute text-sm text-red-500 pl-1 -bottom-6">
@@ -267,14 +270,14 @@ export default function SignUp({ isShowLogin, onChangeISLogin }: { isShowLogin: 
             />
             {showPassword ? (
               <div
-                className="absolute right-5 top-[42px] cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
+                className="absolute right-5 top-10.5 cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 <Eye size={20} />
               </div>
             ) : (
               <div
-                className="absolute right-5 top-[42px] cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
+                className="absolute right-5 top-10.5 cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
                 onClick={() => setShowPassword((prev) => !prev)}
 
               >
@@ -304,7 +307,7 @@ export default function SignUp({ isShowLogin, onChangeISLogin }: { isShowLogin: 
             />
             {showPassword ? (
               <div
-                className="absolute right-5 top-[42px] cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
+                className="absolute right-5 top-10.5 cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
                 onClick={() => setShowPassword((prev) => !prev)}
 
               >
@@ -312,7 +315,7 @@ export default function SignUp({ isShowLogin, onChangeISLogin }: { isShowLogin: 
               </div>
             ) : (
               <div
-                className="absolute right-5 top-[42px] cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
+                className="absolute right-5 top-10.5 cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 <EyeClosed size={20} />

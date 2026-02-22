@@ -57,6 +57,7 @@ const validationSchema = Yup.object({
 export default function Register() {
     const [avatarPreview, setAvatarPreview] = useState<string>('');
 
+<<<<<<< HEAD
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -73,12 +74,23 @@ export default function Register() {
             alert(JSON.stringify(submitValues, null, 2));
         },
     });
+=======
+  const onChangeISLogin = useCallback(() => {
+    setFullName({ ...fullName, isError: false, value: '', isInteract: false })
+    setNumber({ ...number, isError: false, value: '', isInteract: false })
+    setEmail({ ...email, isError: false, value: '', isInteract: false })
+    setUsername({ ...username, isError: false, value: '', isInteract: false })
+    setPassword({ ...password, isError: false, value: '', isInteract: false })
+    setConfirmPassword({ ...confirmPassword, isError: false, value: '', isInteract: false })
+
+>>>>>>> 1a44fa5d81c1bee0cd7918eeeddd4a0cf76c7610
 
     const handleAvatarSelect = (url: string) => {
         formik.setFieldValue('avatar', url);
         setAvatarPreview(url);
     };
 
+<<<<<<< HEAD
     return (
         <div className="h-full flex items-center">
             <div className="flex flex-col items-center justify-center w-full max-w-lg p-5 gap-2 m-auto">
@@ -280,3 +292,21 @@ export default function Register() {
         </div>
     );
 }
+=======
+  return (
+    <>
+      <div className="min-h-screen w-full flex justify-center items-center bg-gray-100 overflow-auto p-4">
+        {isShowLogin ? (
+            <SignUp isShowLogin={isShowLogin} onChangeISLogin={onChangeISLogin} />
+        ) : (
+          <Login isShowLogin={isShowLogin} onChangeISLogin={onChangeISLogin} />
+        )}
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+
+>>>>>>> 1a44fa5d81c1bee0cd7918eeeddd4a0cf76c7610
