@@ -58,7 +58,7 @@ export default function CreatePostPage() {
                 tags: values.tags.split(',').map(t => t.trim()),
                 thumbnail: data.secure_url,
                 likes: 0,
-                likesUser: { userId: '', email: '' },
+                likesUser: [],
                 comments: 0,
                 views: 0,
                 userId: user?.id || '',
@@ -75,8 +75,8 @@ export default function CreatePostPage() {
     const errorClass = "text-xs text-[var(--error)] mt-1";
 
     return (
-        <div className="max-w-[600px] min-h-[80vh] mx-auto px-6 py-10">
-            <h1 className="text-3xl font-bold text-[var(--text-heading)] mb-8">Create Post</h1>
+        <div className="max-w-150 min-h-[80vh] mx-auto px-6 py-10">
+            <h1 className="text-3xl font-bold text-(--text-heading) mb-8">Create Post</h1>
 
             <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
                 <div className="flex flex-col">
@@ -102,7 +102,7 @@ export default function CreatePostPage() {
                         type="file"
                         accept="image/*"
                         onChange={handleFileChange}
-                        className="w-full text-sm text-[var(--text-body)] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[var(--primary)] file:text-[var(--primary-text)] file:cursor-pointer hover:file:bg-[var(--primary-hover)]"
+                        className="w-full text-sm text-(--text-body) file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-(--primary) file:text-(--primary-text) file:cursor-pointer hover:file:bg-(--primary-hover)"
                     />
                     {preview && (
                         <img src={preview} alt="Preview" className="mt-2 rounded-lg max-h-40 object-cover" />
@@ -158,7 +158,7 @@ export default function CreatePostPage() {
                 <button
                     type="submit"
                     disabled={uploading}
-                    className="w-full py-2.5 rounded-lg bg-[var(--primary)] text-[var(--primary-text)] font-medium cursor-pointer hover:bg-[var(--primary-hover)] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-2.5 rounded-lg bg-(--primary) text-(--primary-text) font-medium cursor-pointer hover:bg-(--primary-hover) transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {uploading ? 'Uploading...' : 'Publish Post'}
                 </button>

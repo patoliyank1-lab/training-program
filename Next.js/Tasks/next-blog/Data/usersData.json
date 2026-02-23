@@ -6,7 +6,7 @@
         "gender": "male",
         "email": "admin@blog.com",
         "password": "Admin@123",
-        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+        "avatar": "https://res.cloudinary.com/dvqs1k61h/image/upload/v1771835909/blog-thumbnails/thfbe1hmxcrbmcte6y0r.jpg",
         "role": "admin",
         "createdAt": "2026-02-18T06:01:42.731Z"
     },
@@ -17,8 +17,19 @@
         "gender": "male",
         "email": "test@blog.com",
         "password": "Test@123",
-        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+        "avatar": "https://res.cloudinary.com/dvqs1k61h/image/upload/v1771835909/blog-thumbnails/thfbe1hmxcrbmcte6y0r.jpg",
         "role": "user",
         "createdAt": "2026-02-18T08:50:48.610Z"
+    },
+    {
+        "id": "d7de2cc0-1086-11f1-99c3-0303d00f0d5e",
+        "name": "Test",
+        "age": 20,
+        "gender": "male",
+        "email": "test@gmail.com",
+        "password": "Test@1122",
+        "avatar": "https://res.cloudinary.com/dvqs1k61h/image/upload/v1771835909/blog-thumbnails/thfbe1hmxcrbmcte6y0r.jpg",
+        "role": "user",
+        "createdAt": "2026-02-23T07:11:15.852Z"
     }
 ]

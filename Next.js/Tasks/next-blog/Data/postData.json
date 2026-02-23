@@ -8,14 +8,48 @@
             "test-tegs"
         ],
         "thumbnail": "https://res.cloudinary.com/dvqs1k61h/image/upload/v1771782738/blog-thumbnails/erbqmuzj8z7cuk4csnfk.jpg",
-        "likes": 0,
-        "likesUser": {
-            "userId": "",
-            "email": ""
-        },
+        "likes": 1,
+        "likesUser": [
+            "ebd7f820-0ca6-11f1-a959-911d8c87eb25"
+        ],
         "comments": 0,
-        "views": 0,
+        "views": 27,
         "userId": "4c6d8aa0-0c8f-11f1-838d-87ffffee95ab",
         "createdAt": "2026-02-22T17:52:19.196Z"
+    },
+    {
+        "id": "ad4a9730-1079-11f1-968f-b72a124492c9",
+        "title": "Meet the 2026 Finalists for NYPL’s Bernstein Award for Excellence in J",
+        "body": "The New York Public Library has announced the five finalists for its 39th annual Helen Bernstein Book Award for Excellence in Journalism. The Bernstein Award recognizes nonfiction, English-language books authored by working journalists that raise awareness about current events or issues of global or national significance. This year's finalists are covering urgent and important topics that affect society worldwide, including the long shadow private equity casts over communities, the AI arms race, the struggles of working people to remain housed, pregnancy care in America, and modern food systems’ degradation of the planet.",
+        "Category": "Library",
+        "tags": [
+            "Books",
+            "Library Attendant"
+        ],
+        "thumbnail": "https://res.cloudinary.com/dvqs1k61h/image/upload/v1771835909/blog-thumbnails/thfbe1hmxcrbmcte6y0r.jpg",
+        "likes": 1,
+        "likesUser": [
+            "ebd7f820-0ca6-11f1-a959-911d8c87eb25"
+        ],
+        "comments": 4,
+        "views": 45,
+        "userId": "ebd7f820-0ca6-11f1-a959-911d8c87eb25",
+        "createdAt": "2026-02-23T08:38:30.284Z"
+    },
+    {
+        "id": "5c6617a0-1087-11f1-99c3-0303d00f0d5e",
+        "title": "sdfsdfsdf",
+        "body": "sdfsdffddfsddddsddffddffdssdf",
+        "Category": "sfdfsdf",
+        "tags": [
+            "dsffdsfdsffdsfsdf"
+        ],
+        "thumbnail": "https://res.cloudinary.com/dvqs1k61h/image/upload/v1771830897/blog-thumbnails/klbqukhriubmkududixg.jpg",
+        "likes": 0,
+        "likesUser": [],
+        "comments": 0,
+        "views": 2,
+        "userId": "d7de2cc0-1086-11f1-99c3-0303d00f0d5e",
+        "createdAt": "2026-02-23T07:14:58.203Z"
     }
 ]

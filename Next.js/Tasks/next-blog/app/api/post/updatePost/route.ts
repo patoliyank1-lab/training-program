@@ -5,13 +5,14 @@ import { NextResponse } from 'next/server';
 
 export async function PUT(request: Request) {
   const post:Post = await request.json();
+  
   if (!post) {
     return NextResponse.json({ error: 'no post found' }, { status: 400 });
   }
   const posts : Post[] = await getPosts();
-    const index = posts.findIndex((ele) => ele.id === post.id );
-    posts[index] = post;
+  const index = posts.findIndex((ele) => String(ele.id) === String(post.id));
+  posts[index] = post;
+  console.log(post.id);
     replacePostData(posts)
-    console.log('post updated:', post.id);
     return NextResponse.json(posts,{ status: 203 })
 }

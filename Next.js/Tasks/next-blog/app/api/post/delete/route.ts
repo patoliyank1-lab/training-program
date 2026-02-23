@@ -13,7 +13,8 @@ export async function DELETE(request: Request) {
 
   const posts = await getPosts();
 
-    const updatedPost =  posts.filter((post)=> Number(post.id) !== Number(id));
+    const updatedPost =  posts.filter((post)=> String(post.id) !== String(id));
+    
     replacePostData(updatedPost)
     console.log('Deleting post with ID:', id);
     return NextResponse.json(updatedPost,{ status: 201 })

@@ -92,9 +92,9 @@ const deletePost = createAsyncThunk('Post/deletePost', async ({ id }: { id: stri
     }
 })
 
-const likePost = createAsyncThunk('Post/likePost', async ({ id, userId, email }: { id: string, userId: string, email: string }, thunkAPI) => {
+const likePost = createAsyncThunk('Post/likePost', async ({ id, userId }: { id: string, userId: string}, thunkAPI) => {
     try {
-        const deletedPost = await postService.likePost({ id, userId, email });
+        const deletedPost = await postService.likePost({ id, userId });
         return deletedPost;
 
     } catch (error) {

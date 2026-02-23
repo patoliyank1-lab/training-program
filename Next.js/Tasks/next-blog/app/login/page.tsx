@@ -121,7 +121,7 @@ export default function SignIn() {
                 </Box>
                 <Typography variant="body2" sx={{ textAlign: 'center' }}>
                     Create new account?{' '}
-                    <Link href="/register" className="text-[var(--primary)] no-underline hover:underline">
+                    <Link href="/register" className="text-(--primary) no-underline hover:underline">
                         Click here
                     </Link>
                 </Typography>

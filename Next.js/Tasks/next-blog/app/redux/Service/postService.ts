@@ -27,8 +27,8 @@ async function deletePost(id: string) {
     return response.data;
 }
 
-async function likePost({ id, userId, email }:{id:string, userId:string, email:string}) {
-    const response = await axios.post(`/api/post/like`, {id, userId, email} );
+async function likePost({ id, userId }:{id:string, userId:string}) {
+    const response = await axios.post(`/api/post/like`, {id, userId} );
     return response.data;
 }
 

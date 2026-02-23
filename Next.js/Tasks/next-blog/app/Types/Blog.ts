@@ -6,10 +6,7 @@ export interface Post {
   tags: string[],
   Category:string,
   likes: number,
-  likesUser:{
-    userId:string;
-    email:string
-  },
+  likesUser:String[],
   comments:number
   views: number,
   userId: string
