@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+ 
+/** @type {import('next').NextConfig} */
 
-module.exports = {
+const nextConfig: NextConfig = {
  images: {
     remotePatterns: [
       {
@@ -14,6 +16,14 @@ module.exports = {
       },
     ],
   },
+  experimental: {
+    // Ensures dependencies stay in modern ESM format
+    esmExternals: true, 
+  },
 }
-
 export default nextConfig;
+
+
+
+ 
+module.exports = withBundleAnalyzer(nextConfig)

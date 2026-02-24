@@ -4,6 +4,7 @@ import { Post } from "../Types/Blog";
 import { useEffect, useState } from "react";
 import { getComment } from "../redux/Slices/commentsSlice";
 import clsx from "clsx";
+import { Comment } from "../Types/Comment";
 
 function CommentView({ post }: { post: Post }) {
     const dispatch = useDispatch<AppDispatch>();
@@ -30,7 +31,7 @@ function CommentView({ post }: { post: Post }) {
                         " max-h-100 overflow-y-auto no-scrollbar": isBoxOpen,
                         "max-h-30 fade-mask-to-transparent ": !isBoxOpen,
                     })}>
-                        {comments.map((comment) => (
+                        {comments.map((comment:Comment) => (
                             <div key={comment.id} className="p-2">
                                 <p><span className="rounded-lg bg-(--primary) text-(--primary-text) font-bold px-2 py-1.5 mr-1">{comment.user.name[0].toUpperCase()}</span> <span>{comment.user.email}</span></p>
                                 <p className="w-full px-3 py-2 rounded-lg border border-(--border) bg-(--surface) text-(--text-body) mt-1.5">{comment.massage}</p>

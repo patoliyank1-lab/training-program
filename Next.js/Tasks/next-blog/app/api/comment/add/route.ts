@@ -11,17 +11,18 @@ export async function POST(request: Request) {
     const body: Comment = await request.json();
     const response: Comment[] = await storeComment(body)
 
-   const post:Post = await axios.get(`/api/post/singlePost?id=${body.postId}`)
+   const post:Post = await axios.get(`http://localhost:3000/api/post/singlePost?id=${body.postId}`)
 
    post.comments += 1;
 
-   axios.put(`/api/post/updatePost`, post)
+   axios.put(`http://localhost:3000/api/post/updatePost`, post)
 
 
     return NextResponse.json( response , {status: 201})
 
   } catch (error) {
-
+    console.log(error);
+    
     return NextResponse.json( {error: 'post not created'}, {status: 401})
   }
 }

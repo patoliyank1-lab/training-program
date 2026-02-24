@@ -1,6 +1,5 @@
 'use client'
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,6 +11,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { RiQuillPenLine } from 'react-icons/ri';
 
 const validationSchema = Yup.object({
     name: Yup.string()
@@ -56,7 +56,7 @@ export default function Register() {
         initialValues: {
             name: '',
             age: '',
-            gender: '',
+            gender: 'male',
             email: '',
             password: '',
             confirmPassword: '',
@@ -69,9 +69,19 @@ export default function Register() {
         },
     });
 
+
+    const inputClass = "w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-body)] outline-none focus:border-[var(--primary)] transition-colors duration-200";
+    const labelClass = "text-sm font-medium text-[var(--text-heading)] mb-1";
+    const errorClass = "text-xs text-[var(--error)] mt-1";
+
     return (
-        <div className="min-h-[80vh] flex items-center">
-            <div className="flex flex-col items-center justify-center w-full max-w-lg p-5 gap-2 m-auto">
+        <div className="min-h-[80vh] flex justify-center items-center">
+            <div className="rounded-xl min-w-xl mt-5 overflow-hidden bg-(--surface-raised) border border-(--border) p-5">
+                <h1 className="flex items-center justify-center gap-2 text-3xl font-bold text-(--primary) no-underline"
+                >
+                    <RiQuillPenLine size={45} />
+                    <span>BlogApp</span>
+                </h1>
                 <Typography
                     component="h1"
                     variant="h4"
@@ -92,137 +102,125 @@ export default function Register() {
                     }}
                 >
                     <FormControl>
-                        <FormLabel htmlFor="name">Full Name</FormLabel>
-                        <TextField
+                        <label className={labelClass} htmlFor="name">Full Name</label>
+                        <input
                             id="name"
                             name="name"
                             type="text"
                             placeholder="John Doe"
                             autoComplete="name"
                             required
-                            fullWidth
-                            variant="outlined"
+                            className={inputClass}
                             value={formik.values.name}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.name && Boolean(formik.errors.name)}
-                            helperText={formik.touched.name && formik.errors.name}
                         />
+                        {formik.touched.name && formik.errors.name && <p className={errorClass}>{formik.errors.name}</p>}
                     </FormControl>
 
                     <div className="flex gap-4">
                         <FormControl fullWidth>
-                            <FormLabel htmlFor="age">Age</FormLabel>
-                            <TextField
+                            <label className={labelClass} htmlFor="age">Age</label>
+                            <input
                                 id="age"
                                 name="age"
                                 type="number"
                                 placeholder="25"
                                 required
-                                fullWidth
-                                variant="outlined"
+                                className={inputClass}
                                 value={formik.values.age}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                error={formik.touched.age && Boolean(formik.errors.age)}
-                                helperText={formik.touched.age && formik.errors.age}
-                                inputProps={{ min: 1, max: 120 }}
+                                min={10}
+                                max={100}
                             />
+                            {formik.touched.age && formik.errors.age && <p className={errorClass}>{formik.errors.age}</p>}
                         </FormControl>
                         <FormControl fullWidth>
-                            <FormLabel htmlFor="gender">Gender</FormLabel>
-                            <TextField
+                            <label className={labelClass} htmlFor="gender">Gender</label>
+                            <select
                                 id="gender"
                                 name="gender"
-                                select
                                 required
-                                fullWidth
-                                variant="outlined"
+                                className={inputClass}
                                 value={formik.values.gender}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                error={formik.touched.gender && Boolean(formik.errors.gender)}
-                                helperText={formik.touched.gender && formik.errors.gender}
                             >
-                                <MenuItem value="male">Male</MenuItem>
-                                <MenuItem value="female">Female</MenuItem>
-                                <MenuItem value="other">Other</MenuItem>
-                            </TextField>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                            {formik.touched.gender && formik.errors.gender && <p className={errorClass}>{formik.errors.gender}</p>}
                         </FormControl>
                     </div>
 
                     <FormControl>
-                        <FormLabel htmlFor="email">Email</FormLabel>
-                        <TextField
+                        <label className={labelClass} htmlFor="email">Email</label>
+                        <input
                             id="email"
                             name="email"
                             type="email"
                             placeholder="your@email.com"
                             autoComplete="email"
                             required
-                            fullWidth
-                            variant="outlined"
+                            className={inputClass}
+
                             value={formik.values.email}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.email && Boolean(formik.errors.email)}
-                            helperText={formik.touched.email && formik.errors.email}
                         />
+                        {formik.touched.email && formik.errors.email && <p className={errorClass}>{formik.errors.email}</p>}
                     </FormControl>
 
                     <FormControl>
-                        <FormLabel htmlFor="password">Password</FormLabel>
-                        <TextField
+                        <label className={labelClass} htmlFor="password">Password</label>
+                        <input
                             id="password"
                             name="password"
                             type="password"
                             placeholder="••••••••"
                             autoComplete="new-password"
                             required
-                            fullWidth
-                            variant="outlined"
+                            className={inputClass}
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
                         />
+                        {formik.touched.password && formik.errors.password && <p className={errorClass}>{formik.errors.password}</p>}
                     </FormControl>
 
                     <FormControl>
-                        <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
-                        <TextField
+                        <label className={labelClass} htmlFor="confirmPassword">Confirm Password</label>
+                        <input
                             id="confirmPassword"
                             name="confirmPassword"
                             type="password"
                             placeholder="••••••••"
                             autoComplete="new-password"
                             required
-                            fullWidth
-                            variant="outlined"
                             value={formik.values.confirmPassword}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-                            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                        className={inputClass}
+                            
                         />
+                        {formik.touched.confirmPassword && formik.errors.confirmPassword && <p className={errorClass}>{formik.errors.confirmPassword}</p>}
                     </FormControl>
 
-                    <Button
+                    <button
                         type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 1 }}
+                        className="text-sm px-4 py-1.5 rounded-md border border-(--primary) bg-(--primary) text-(--primary-text) no-underline transition-all duration-200 hover:bg-(--primary-hover)"
                     >
                         Create Account
-                    </Button>
+                    </button>
 
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                    <div className='mt-3'>
                         Already have an account?{' '}
-                        <Link href="/login" className="text-[var(--primary)] no-underline hover:underline">
+                        <Link href="/login" className="text-(--primary) no-underline hover:underline">
                             Sign in
                         </Link>
-                    </Typography>
+                    </div>
                 </Box>
             </div>
         </div>

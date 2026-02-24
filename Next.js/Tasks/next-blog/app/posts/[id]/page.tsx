@@ -1,4 +1,5 @@
 'use client';
+import { CldImage } from 'next-cloudinary';
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation';
@@ -16,9 +17,9 @@ export default function PostPage() {
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>();
     const { currentPost: post, loading } = useSelector((state: AppStore) => state.posts);
-    const { user } = useAuth()
+    const { user, isAuthenticated } = useAuth()
     const [isLike, setIsLike] = useState<boolean>(false);
-     
+
 
 
 
@@ -27,17 +28,17 @@ export default function PostPage() {
             dispatch(fetchPostBySlug({ id: id as string }));
         }
     }, [id, dispatch, isLike]);
-    
-    useEffect(()=>{
-        if(user && post){
-            const uId =  user.id;
+
+    useEffect(() => {
+        if (user && post) {
+            const uId = user.id;
             const hasLike = post.likesUser.find((id) => String(id) === String(uId));
-            if(hasLike){
+            if (hasLike) {
                 setIsLike(true);
             } else setIsLike(false)
         }
-        
-    },[post])
+
+    }, [post])
 
     const onDelete = useCallback(() => {
 
@@ -46,10 +47,14 @@ export default function PostPage() {
 
     }, [dispatch])
 
-    const onLike = useCallback(()=>{
-        dispatch(likePost({id:id as string ,userId:user?.id as string }))
+    const onLike = useCallback(() => {
+        if(isAuthenticated){
+        dispatch(likePost({ id: id as string, userId: user?.id as string }))
         setIsLike((prev) => !prev)
-    },[])
+    }else{
+        router.push('/login')
+    }
+    }, [])
 
     if (loading) {
         return (
@@ -95,11 +100,18 @@ export default function PostPage() {
             </div>
 
             {post.thumbnail && (
-                <img
-                    src={post.thumbnail}
-                    alt={post.title}
-                    className="w-full h-72 object-cover rounded-xl mb-6"
-                />
+                <div className="relative w-full h-72 rounded-xl mb-6 overflow-hidden bg-amber-100" >
+
+                    <CldImage
+                        src={post.thumbnail}
+                        alt={post.title}
+                        fill
+                        className="object-cover rounded-xl mb-6"
+                        fetchPriority="high"
+                        priority={true}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                </div>
             )}
 
             <div className="flex items-center gap-3 mb-4">
@@ -108,7 +120,7 @@ export default function PostPage() {
                         {post.Category}
                     </span>
                 )}
-                {post.tags?.map((tag) => (
+                {post.tags?.map((tag:string) => (
                     <span key={tag} className="text-xs px-2 py-0.5 rounded-full border border-(--border) text-(--text-muted)">
                         {tag}
                     </span>
@@ -119,8 +131,8 @@ export default function PostPage() {
 
             <div className="flex items-center gap-5 text-sm text-(--text-disabled) mb-8">
                 <span className="flex items-center gap-1 cursor-pointer" onClick={onLike}>
-                    {isLike ?   <RiHeart3Fill size={14} />: <RiHeart3Line size={14} />} {post.likes}
-                    
+                    {isLike ? <RiHeart3Fill size={14} /> : <RiHeart3Line size={14} />} {post.likes}
+
                 </span>
                 <span className="flex items-center gap-1">
                     <RiEyeLine size={16} /> {post.views}
@@ -133,7 +145,7 @@ export default function PostPage() {
             <div className="text-(--text-body) leading-relaxed whitespace-pre-wrap">
                 {post.body}
             </div>
-            <CommentView post={post}/>
+            <CommentView post={post} />
             <CommentSection post={post} />
         </div>
     );

@@ -124,6 +124,7 @@ export default function CreatePostPage() {
             className="w-full text-sm text-(--text-body) file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-(--primary) file:text-(--primary-text) file:cursor-pointer hover:file:bg-(--primary-hover)"
           />
           {preview && (
+            
             <img src={preview} alt="Preview" className="mt-2 rounded-lg max-h-40 object-cover" />
           )}
           {!thumbnailFile && formik.submitCount > 0 && <p className={errorClass}>Thumbnail is required</p>}

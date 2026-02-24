@@ -10,8 +10,8 @@ import { useDispatch } from 'react-redux';
 import { addComment } from '../redux/Slices/commentsSlice';
 
 const validationSchema = Yup.object({
-    name: Yup.string().required('name is required').min(3, 'Title must be at least 3 characters'),
-    email: Yup.string().required('email is required'),
+    Cname: Yup.string().required('name is required').min(3, 'Title must be at least 3 characters'),
+    Cemail: Yup.string()  .email("Invalid email address").required("Email is required"),
     body: Yup.string().required('comment is required').min(10, 'Body must be at least 10 characters'),
 });
 
@@ -23,12 +23,13 @@ function CommentSection({ post }: { post: Post }) {
 
     const formik = useFormik({
         initialValues: {
-            name: '',
-            email: '',
+            Cname: '',
+            Cemail: '',
             body: '',
         },
         validationSchema,
         onSubmit: async (values) => {
+            console.log(2);
 
             const comment: Comment = {
                 id: generateId(),
@@ -36,14 +37,15 @@ function CommentSection({ post }: { post: Post }) {
                 massage: values.body,
                 user: {
                     userId: user ? user.id : null,
-                    name: values.name,
-                    email: values.email,
+                    name: values.Cname,
+                    email: values.Cemail,
                 },
                 createdAt: new Date().toISOString(),
             };
             values.body = '';
-            values.email = '';
-            values.name = '';
+            values.Cemail = '';
+            values.Cname = '';
+            
             dispatch(addComment({ comment }))
         },
     });
@@ -60,33 +62,33 @@ function CommentSection({ post }: { post: Post }) {
             <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
                 <div className='flex w-full '>
                     <div className="flex flex-1 mr-3 flex-col">
-                        <label htmlFor="name" className={labelClass}>Name</label>
+                        <label htmlFor="Cname" className={labelClass}>Name</label>
                         <input
-                            id="name"
-                            name="name"
+                            id="Cname"
+                            name="Cname"
                             type="text"
                             placeholder="Post title"
                             className={inputClass}
-                            value={formik.values.name}
+                            value={formik.values.Cname}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         />
-                        {formik.touched.name && formik.errors.name && <p className={errorClass}>{formik.errors.name}</p>}
+                        {formik.touched.Cname && formik.errors.Cname && <p className={errorClass}>{formik.errors.Cname}</p>}
                     </div>
 
                     <div className="flex flex-1 flex-col">
-                        <label htmlFor="email" className={labelClass}>Email</label>
+                        <label htmlFor="Cemail" className={labelClass}>Email</label>
                         <input
-                            id="email"
-                            name="email"
+                            id="Cemail"
+                            name="Cemail"
                             type="text"
                             placeholder="e.g. Technology"
                             className={inputClass}
-                            value={formik.values.email}
+                            value={formik.values.Cemail}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         />
-                        {formik.touched.email && formik.errors.email && <p className={errorClass}>{formik.errors.email}</p>}
+                        {formik.touched.Cemail && formik.errors.Cemail && <p className={errorClass}>{formik.errors.Cemail}</p>}
                     </div>
                 </div>
                 <div className="flex flex-col">

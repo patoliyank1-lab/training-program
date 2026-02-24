@@ -27,12 +27,10 @@
             "Library Attendant"
         ],
         "thumbnail": "https://res.cloudinary.com/dvqs1k61h/image/upload/v1771835909/blog-thumbnails/thfbe1hmxcrbmcte6y0r.jpg",
-        "likes": 1,
-        "likesUser": [
-            "ebd7f820-0ca6-11f1-a959-911d8c87eb25"
-        ],
+        "likes": 0,
+        "likesUser": [],
         "comments": 4,
-        "views": 45,
+        "views": 65,
         "userId": "ebd7f820-0ca6-11f1-a959-911d8c87eb25",
         "createdAt": "2026-02-23T08:38:30.284Z"
     },

@@ -7,32 +7,37 @@ import { useAuth } from '../hooks/useAuth';
 import { AppDispatch } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { incrementViews } from '../redux/Slices/postsSlice';
+import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 
 export default function BlogCard({ post }: { post: Post }) {
     const dispatch = useDispatch<AppDispatch>();
     const [isLike, setIsLike] = useState<boolean>(false);
     const { user } = useAuth()
-    useEffect(()=>{
-        if(user){
-            const uId =  user.id;
+    useEffect(() => {
+        if (user) {
+            const uId = user.id;
             const hasLike = post.likesUser.find((id) => String(id) === String(uId));
-            if(hasLike){
+            if (hasLike) {
                 setIsLike(true);
             }
         }
-        
-    },[post])
+
+    }, [post])
 
     return (
         <Link href={`/posts/${post.id}`} className="no-underline">
             <div className="rounded-xl overflow-hidden bg-(--surface-raised) border border-(--border) hover:border-(--border-purple) transition-all duration-200 hover:shadow-(--shadow-md)"
-            onClick={()=>{dispatch(incrementViews({ id: post.id as string }))}}>
+                onClick={() => { dispatch(incrementViews({ id: post.id as string })) }}>
                 {post.thumbnail && (
-                    <img
-                        src={post.thumbnail}
-                        alt={post.title}
-                        className="w-full h-48 object-cover"
-                    />
+                    <div className='relative w-full h-48 overflow-hidden'>
+                        <CldImage
+                            src={post.thumbnail}
+                            alt={post.title}
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
                 )}
                 <div className="p-4">
                     {post.Category && (
@@ -48,7 +53,7 @@ export default function BlogCard({ post }: { post: Post }) {
                     </p>
                     <div className="flex items-center gap-4 text-xs text-(--text-disabled)">
                         <span className="flex items-center gap-1">
-                          {isLike ?   <RiHeart3Fill size={14} />: <RiHeart3Line size={14} />} {post.likes}
+                            {isLike ? <RiHeart3Fill size={14} /> : <RiHeart3Line size={14} />} {post.likes}
                         </span>
                         <span className="flex items-center gap-1">
                             <RiEyeLine size={14} /> {post.views}

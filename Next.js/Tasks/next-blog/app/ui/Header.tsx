@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../hooks/useTheme";
 import { RiQuillPenLine, RiSunLine, RiMoonLine } from "react-icons/ri";
 import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 
 function Header() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -23,7 +24,7 @@ function Header() {
           <span>BlogApp</span>
         </Link>
 
-        <nav className="flex items-center gap-6">
+        <nav aria-label="Main navigation" className="flex items-center gap-6">
           <Link
             href="/"
             className="text-[0.95rem] text-(--text-body) no-underline hover:text-(--primary) transition-colors duration-200"
@@ -60,15 +61,20 @@ function Header() {
             <>
               <Link
                 href="/user"
-                className="text-[0.95rem] text-(--text-body) no-underline hover:text-(--primary) transition-colors duration-200"
+                className="text-[0.95rem] size-10 text-(--text-body) no-underline hover:text-(--primary) transition-colors duration-200"
               >
-                <Image
-                  src={user ? user.avatar : ''}
-                  width={30}
-                  height={30}
-                  className="rounded-full overflow-hidden size-9"
-                  alt="Picture of the author"
-                />
+                <div className="relative size-10 my-auto rounded-full mb-6 overflow-hidden bg-amber-100" >
+
+                  <CldImage
+                    src={user ? user.avatar : ''}
+                    alt={'avatar'}
+                    fill
+                    className="object-cover rounded-xl mb-6"
+                    fetchPriority="high"
+                    priority={true}
+                    sizes="(max-width: 78px) 100vw, 50vw"
+                  />
+                </div>
               </Link>
               <button
                 onClick={logout}

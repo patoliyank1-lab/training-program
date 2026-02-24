@@ -1,4 +1,6 @@
-"use client";
+'use client'
+ 
+import { useSearchParams } from 'next/navigation'
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -9,27 +11,25 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { RiQuillPenLine } from "react-icons/ri";
 
 const validationSchema = Yup.object({
   email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  password: Yup.string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters long")
-    .matches(/[a-z]/, "Password requires at least one lowercase letter")
-    .matches(/[A-Z]/, "Password requires at least one uppercase letter")
-    .matches(/[0-9]/, "Password requires at least one number")
-    .matches(/[^a-zA-Z0-9]/, "Password requires at least one symbol"),
 });
 
 export default function SignIn() {
+    const searchParams = useSearchParams()
+ 
+  const search = searchParams.get('search')
   const { login, isAuthenticated, isLoading } = useAuth();
+  const [text, setText] = useState(search)
+  let a:{name:string} = {name : search as string}; 
+  console.log(a);
+  
   const router = useRouter();
 
   useEffect(() => {
@@ -41,11 +41,11 @@ export default function SignIn() {
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      login(values);
+      console.log(values);
+      setText(values.email)
     },
   });
 
@@ -98,22 +98,6 @@ export default function SignIn() {
             />
             {formik.touched.email && formik.errors.email && <p className={errorClass}>{formik.errors.email}</p>}
           </FormControl>
-          <FormControl>
-            <label htmlFor="password" className={labelClass} >Password</label>
-            <input
-              name="password"
-              placeholder="••••••"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              required
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={inputClass}
-            />
-            {formik.touched.password && formik.touched.password && <p className={errorClass}>{formik.errors.password}</p>}
-          </FormControl>
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -133,6 +117,10 @@ export default function SignIn() {
           >
             Click here
           </Link>
+        </div>
+
+        <div className="flex justify-center items-center p-5 text-3xl text-red-500">
+            {text}
         </div>
       </div>
     </div>
