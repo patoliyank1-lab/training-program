@@ -134,6 +134,9 @@ out
 .ssh/
 
 
+test/
+
+
 dist/
 .eslintrc
 
