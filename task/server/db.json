@@ -1,0 +1,30 @@
+{
+    "job": [
+        {
+            "id": 1,
+            "title": "Software Engineer",
+            "company": "Tech Company",
+            "location": "San Francisco, CA",
+            "description": "Develop and maintain software applications.",
+            "requirements": [
+                "Bachelor's degree in Computer Science or related field",
+                "3+ years of experience in software development",
+                "Proficiency in programming languages such as Java, Python, or C++"
+            ],
+            "salary": "$100,000 - $120,000 per year"
+        },
+        {
+            "id": 2,
+            "title": "Data Analyst",
+            "company": "Data Analytics Firm",
+            "location": "New York, NY",
+            "description": "Analyze and interpret complex data sets to help make informed business decisions.",
+            "requirements": [
+                "Bachelor's degree in Data Science, Statistics, or related field",
+                "2+ years of experience in data analysis",
+                "Proficiency in tools such as SQL, Excel, and data visualization software"
+            ],
+            "salary": "$70,000 - $90,000 per year"
+        }
+    ]
+}
