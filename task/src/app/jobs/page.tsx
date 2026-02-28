@@ -1,8 +1,11 @@
+import HeadSec from "@/components/layouts/Jobs/head-sec";
+import JobSec from "@/components/layouts/Jobs/job-sec";
 
 export default function JobPage() {
     return (
-        <div className="flex items-center justify-center h-lvh">
-            Jobs
+        <div className="h-lvh">
+            {/* <HeadSec /> */}
+            <JobSec />
         </div>
     )
 }

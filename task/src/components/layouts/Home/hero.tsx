@@ -27,10 +27,10 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 export default function Hero() {
   return (
     <div className="">
-      <div className="flex flex-col gap-10 md:flex-row mx-auto max-w-315 h-50 p-5 items-center min-h-[70vh]">
+      <div className="flex flex-col gap-10 md:flex-row mx-auto max-w-315 p-5 items-center min-h-[70vh]">
         <div className="flex flex-col gap-5 flex-1">
           <Item variant='outline' size="sm" asChild className="rounded-full bg-green-200 dark:bg-green-700 w-fit mx-auto shadow">
-            <Link href="/Jobs">
+            <Link href="/jobs">
               <ItemMedia>
                 <BadgeCheckIcon className="size-5" />
               </ItemMedia>
@@ -73,7 +73,7 @@ export default function Hero() {
 function SelectDemo() {
   return (
     <Select>
-      <SelectTrigger className="w-full max-w-48">
+      <SelectTrigger size='sm' className="w-full max-w-48">
         <SelectValue placeholder="Select a fruit" className="h-12" />
       </SelectTrigger>
       <SelectContent>
