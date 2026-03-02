@@ -6,7 +6,7 @@ export interface User {
     email: string;
     password: string;
     avatar: string;
-    role: 'admin' | 'user';
+    applyJOb : string[],
     createdAt: string;
 }
 
@@ -22,12 +22,25 @@ export interface StoreUser {
 
 
   export interface Category {
-  catalogId: string,
+  id: string,
   name: string,
-  isActive: boolean
-  createdAt:string
 }
 
+export interface Location {
+  id:string,
+  name:string
+} 
+
 export interface Jobs {
-   name: string,
+  id: number;
+  title: string;
+  company: string;
+  location:string;
+  type: string;
+  description: string;
+  postedDate: string;
+  requirements: string[],
+  skills: string[],
+  salary: string,
+  status: string
 }

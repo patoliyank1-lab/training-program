@@ -3,7 +3,7 @@ import { createContext, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppStore } from '../redux/store'
 import { CheckLogin, registerUser, removeUser, setUser } from '../redux/Slices/authSlice';
-import { StoreUser, User } from '../Types/User';
+import { StoreUser } from '../Type';
 import { getItem, setItem } from '../hooks/useLocalStorage';
 
 const defaultValue: {
@@ -68,7 +68,15 @@ const renderFunction = useCallback(()=>{
     },[renderFunction])
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated,isAdmin, isLoading,  login, logout, register }}>
+        <AuthContext.Provider value={{ 
+            user, 
+            isAuthenticated,
+            isAdmin, 
+            isLoading,  
+            login, 
+            logout, 
+            register,
+            }}>
             {children}
         </AuthContext.Provider>
     )

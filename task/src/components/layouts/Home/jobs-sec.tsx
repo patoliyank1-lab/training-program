@@ -1,6 +1,7 @@
+import { Jobs } from "@/Type";
 import JobCard from "../job-card";
 
-export default function JobSec() {
+export default function JobSec({jobs}:{jobs:Jobs[]}) {
     return (
         <div className="">
             <div className="flex flex-col mx-auto max-w-315 h-50 p-5 items-center">
@@ -9,12 +10,12 @@ export default function JobSec() {
                     Latest <span className="font-light text-(--color-primary)">Jobs</span>
                 </h2>
                 <div className="flex gap-3 flex-wrap w-full justify-center">
+        {jobs.map((job, index)=>(
+            <JobCard key={index} job={job} />
 
-            <JobCard />
+        ))}
                 </div>
             </div>
         </div>
     );
 }
-
-

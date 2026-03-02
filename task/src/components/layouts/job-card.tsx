@@ -9,30 +9,36 @@ import {
 import clsx from 'clsx';
 import { Building, MapPin } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 import CompanyImage from '@/assets/jobs-portal-logo.png'
 import { Button } from "../ui/button";
+import { Jobs } from "@/Type";
+import { useRouter } from 'next/navigation'
 
 
-// temp 
- 
- const D = '28/02/2026'
 
-function JobCard() {
-    const [jobType ] = useState('Full Time')
+function JobCard({job}:{job:Jobs}) {
+
+  const router = useRouter();
+  const jobType= job.type;
+
+
+  const OnButtonClick = () => {
+      router.push(`/jobs/${job.id}`)
+  }
+
   return (
     <Card className="w-100 gap-2">
   <CardHeader>
    <p className={clsx("text-sm w-fit font-bold py-0.5 px-4 py- rounded-xl", {
-    "text-green-600 bg-green-200 border border-green-600" : jobType === "Full Time",
+    "text-green-600 bg-green-200 border border-green-600" : jobType === "Full-time",
     "text-violet-600 bg-violet-200 border border-violet-600" : jobType === "Freelance",
-    "text-blue-600 bg-blue-200 border border-blue-600" : jobType === "Part Time",
+    "text-blue-600 bg-blue-200 border border-blue-600" : jobType === "Part-time",
    })}>{jobType}</p>
-   <CardTitle className="text-3xl">Job Name</CardTitle> 
+   <CardTitle className="text-3xl">{job.title}</CardTitle> 
   </CardHeader>
   <CardContent>
-    <p className="flex text-gray-700 dark:text-gray-200 text-sm gap-2 m-1"><MapPin className="size-4" />Card Content</p>
-    <p className="flex text-gray-700 dark:text-gray-200 text-sm gap-2 m-1"><Building className="size-4" />Card Content</p>
+    <p className="flex text-gray-700 dark:text-gray-200 text-sm gap-2 m-1"><MapPin className="size-4" />{job.location}</p>
+    <p className="flex text-gray-700 dark:text-gray-200 text-sm gap-2 m-1"><Building className="size-4" />{job.company}</p>
   </CardContent>
   <CardFooter>
     <div className="flex gap-4 w-full">
@@ -41,10 +47,10 @@ function JobCard() {
         </div>
         <div>
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">Posted on:</p>
-            <div className="text-lg font-medium">{D} </div>
+            <div className="text-lg font-medium">{job.postedDate} </div>
         </div>
         <div className="flex-1 flex items-center justify-end">
-            <Button>Apply Now</Button>
+            <Button onClick={OnButtonClick}>Apply Now</Button>
         </div>
     </div>
   </CardFooter>

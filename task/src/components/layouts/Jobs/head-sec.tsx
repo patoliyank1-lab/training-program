@@ -1,5 +1,5 @@
+'use client';
 import { Button } from "@/components/ui/button";
-import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -10,8 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useCat } from "@/hooks/useCat";
+import { Location } from "@/Type";
 
 function HeadSec() {
+
+  const {location, categories} = useCat();
+
   return (
     <div className="w-full bg-violet-50 py-15">
       <div className="flex md:flex-row mx-auto max-w-315 p-5 items-center justify-center">
@@ -33,8 +38,8 @@ function HeadSec() {
           <div className="flex flex-col gap-2 md:flex-row justify-center mx-auto">
             <div><Input id="input-button-group" placeholder="Type to search..." /></div>
             <div className="flex gap-2 justify-center items-center">
-              <SelectDemo items={['Fairbanks','Bessemer','Barrington', 'Durant']} placeholder="Location" />
-              <SelectDemo items={['UI/UX Designers','Project Management','IT Support & Help Desk', 'System Administration','']} placeholder="Category"/>
+              <SelectDemo items={location} placeholder="Location" />
+              <SelectDemo items={categories} placeholder="Category"/>
               <Button>Search</Button>
             </div>
               
@@ -49,7 +54,7 @@ function HeadSec() {
 export default HeadSec;
 
 
-function SelectDemo({items, placeholder}:{items:string[], placeholder:string}) {
+function SelectDemo({items, placeholder}:{items:Location[], placeholder:string}) {
   return (
     <Select>
       <SelectTrigger  className="w-full max-w-48">
@@ -59,7 +64,7 @@ function SelectDemo({items, placeholder}:{items:string[], placeholder:string}) {
         <SelectGroup>
           <SelectLabel>Select Type</SelectLabel>
           {items.map((i, index) => (
-            <SelectItem key={index} value="position">{i}</SelectItem>
+            <SelectItem key={index} value={i.name}>{i.name}</SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>

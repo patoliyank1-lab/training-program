@@ -1,9 +1,10 @@
-import { setItem } from "@/app/hooks/useLocalStorage";
-import { StoreUser, User } from "@/app/Types/User";
-import { IsAdmin } from "@/app/utils/authFunctions";
-import generateId from "@/app/utils/helpers/generateId";
+import { setItem } from "@/hooks/useLocalStorage";
+import { StoreUser, User } from "@/Type";
+import generateId from "@/utils/generateId";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+
+const JSON_URL = 'http://localhost:4000'
 
 interface initialType {
   user: StoreUser | null
@@ -31,8 +32,11 @@ const CheckLogin = createAsyncThunk(
 
     try {
       if (email && password) {
-        const response = await axios.post('/api/auth/login', { email: email, password: password })
-        return response.data;
+        const response = await axios.get(JSON_URL + `/users?email=${email}&password=${password}`)
+        if(response.data.length === 0) throw new Error ('user Not found');
+        console.log(response.data);
+        
+        return response.data[0];
       }
       return null
     } catch (error) {
@@ -46,7 +50,6 @@ const registerUser = createAsyncThunk(
   async(
     {name,age,gender,email,password,avatar}:{name:string,age:string,gender:string,email:string,password:string,avatar:string}
     ,thunkAPI) => {
-
     const user:User = {
     id: generateId(),
     name: name,
@@ -55,13 +58,18 @@ const registerUser = createAsyncThunk(
     email: email,
     password: password,
     avatar: avatar,
-    role: email === 'admin@blog.com' ? 'admin' : 'user',
+    applyJOb:[],
     createdAt: new Date().toISOString(),
     }
-
+    
     try {
+        const haveEmail = await axios.get(JSON_URL+ `/users?email=${email}`)
+
+        if(haveEmail.data.length !== 0 ){
+          throw new Error('user is already register') 
+        }
         if (user) {
-            const response = await axios.post('/api/auth/register', user)  
+            const response = await axios.post(JSON_URL + '/users', user)  
             return response.data;
         }
         return null;
@@ -80,7 +88,6 @@ const authSlice = createSlice({
       const newUser: StoreUser = action.payload;
       state.user = { ...newUser };
       state.isAuthenticated = true;
-      state.isAdmin = IsAdmin({ ...newUser });
     },
 
     removeUser(state) {

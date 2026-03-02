@@ -6,9 +6,10 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
+import { Category } from "@/Type";
 import { BriefcaseBusiness, FileCode } from "lucide-react";
 
-export default function Categories() {
+export default function Categories({categories}:{categories:Category[]}) {
     return (
         <div className="">
             <div className="flex flex-col mx-auto max-w-315 p-5 items-center">
@@ -16,7 +17,7 @@ export default function Categories() {
                 <h2 className="scroll-m-20 text-center text-4xl md:text-5xl font-extrabold text-balance mb-5">
                     Browse Jobs By Categories
                 </h2>
-                <CarouselSize />
+                <CarouselSize categories={categories} />
             </div>
         </div>
     );
@@ -25,7 +26,7 @@ export default function Categories() {
 
 
 
-function CarouselSize() {
+function CarouselSize({categories}:{categories:Category[]}) {
     return (
         <Carousel
             opts={{
@@ -34,9 +35,9 @@ function CarouselSize() {
             className="w-[80%] h-80"
         >
             <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
+                {categories.map((item, index) => (
                      <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
-                    <CategoryCard  />
+                    <CategoryCard item={item} />
                      </CarouselItem>
                 ))}
             </CarouselContent>
@@ -48,7 +49,7 @@ function CarouselSize() {
 
 
 
-function CategoryCard() {
+function CategoryCard({item}:{item:Category}) {
     return (
         <>
            
@@ -58,7 +59,7 @@ function CategoryCard() {
                             <div className="bg-violet-400 text-white rounded-2xl p-5">
                                 <FileCode className="size-10" />
                             </div>
-                            <h3 className="text-xl font-semibold">Admin</h3>
+                            <h3 className="text-xl font-semibold text-center">{item.name}</h3>
                             <div className="flex gap-1 items-center bg-violet-500 rounded-2xl px-2 py-1 text-white font-medium text-sm">
                                 <BriefcaseBusiness className="size-4.5 flex" />
                                 <p className=""><span>{'(23)'}</span>Jobs</p>

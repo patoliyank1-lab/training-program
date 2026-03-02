@@ -1,30 +1,279 @@
 {
-    "job": [
-        {
-            "id": 1,
-            "title": "Software Engineer",
-            "company": "Tech Company",
-            "location": "San Francisco, CA",
-            "description": "Develop and maintain software applications.",
-            "requirements": [
-                "Bachelor's degree in Computer Science or related field",
-                "3+ years of experience in software development",
-                "Proficiency in programming languages such as Java, Python, or C++"
-            ],
-            "salary": "$100,000 - $120,000 per year"
-        },
-        {
-            "id": 2,
-            "title": "Data Analyst",
-            "company": "Data Analytics Firm",
-            "location": "New York, NY",
-            "description": "Analyze and interpret complex data sets to help make informed business decisions.",
-            "requirements": [
-                "Bachelor's degree in Data Science, Statistics, or related field",
-                "2+ years of experience in data analysis",
-                "Proficiency in tools such as SQL, Excel, and data visualization software"
-            ],
-            "salary": "$70,000 - $90,000 per year"
-        }
-    ]
+  "category": [
+    {
+      "id": "1",
+      "name": "UI/UX Designers"
+    },
+    {
+      "id": "2",
+      "name": "Project Management"
+    },
+    {
+      "id": "3",
+      "name": "Marketing & Communications"
+    },
+    {
+      "id": "4",
+      "name": "IT Support & Help Desk"
+    },
+    {
+      "id": "5",
+      "name": "System Administration"
+    }
+  ],
+  "location": [
+    {
+      "id": "1",
+      "name": "San Francisco, CA"
+    },
+    {
+      "id": "2",
+      "name": "New York, NY"
+    },
+    {
+      "id": "3",
+      "name": "Chicago, IL"
+    },
+    {
+      "id": "4",
+      "name": "Austin, TX"
+    },
+    {
+      "id": "5",
+      "name": "Seattle, WA"
+    }
+  ],
+  "job": [
+    {
+      "id": "1",
+      "title": "Software Engineer",
+      "company": "Tech Company",
+      "location": "San Francisco, CA",
+      "type": "Full-time",
+      "description": "Develop and maintain software applications.",
+      "postedDate": "2024-06-01",
+      "requirements": [
+        "Bachelor's degree in Computer Science or related field",
+        "3+ years of experience in software development",
+        "Proficiency in programming languages such as Java, Python, or C++"
+      ],
+      "skills": [
+        "React",
+        "JavaScript",
+        "CSS",
+        "HTML"
+      ],
+      "salary": "$100,000 - $120,000 per year",
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "title": "Product Manager",
+      "company": "Tech Company",
+      "location": "New York, NY",
+      "type": "Full-time",
+      "description": "Lead product development and strategy.",
+      "postedDate": "2024-06-05",
+      "requirements": [
+        "Bachelor's degree in Business or related field",
+        "5+ years of experience in product management",
+        "Strong leadership and communication skills"
+      ],
+      "skills": [
+        "Agile",
+        "Scrum",
+        "JIRA"
+      ],
+      "salary": "$110,000 - $130,000 per year",
+      "status": "active"
+    },
+    {
+      "id": "3",
+      "title": "UX Designer",
+      "company": "Design Studio",
+      "location": "Chicago, IL",
+      "type": "Part-time",
+      "description": "Design user interfaces and experiences.",
+      "postedDate": "2024-06-10",
+      "requirements": [
+        "Bachelor's degree in Design or related field",
+        "2+ years of experience in UX design",
+        "Proficiency in design tools such as Adobe XD, Sketch, or Figma"
+      ],
+      "skills": [
+        "User Research",
+        "Wireframe",
+        "Prototyping"
+      ],
+      "salary": "$80,000 - $100,000 per year",
+      "status": "active"
+    },
+    {
+      "id": "4",
+      "title": "Marketing Specialist",
+      "company": "Marketing Agency",
+      "location": "Austin, TX",
+      "type": "Part-time",
+      "description": "Develop and execute marketing campaigns.",
+      "postedDate": "2024-06-15",
+      "requirements": [
+        "Bachelor's degree in Marketing or related field",
+        "3+ years of experience in marketing",
+        "Strong analytical and communication skills"
+      ],
+      "skills": [
+        "SEO",
+        "Content Marketing",
+        "Social Media"
+      ],
+      "salary": "$50,000 - $70,000 per year",
+      "status": "active"
+    },
+    {
+      "id": "5",
+      "title": "IT Support Specialist",
+      "company": "Tech Company",
+      "location": "Seattle, WA",
+      "type": "Full-time",
+      "description": "Provide technical support to end-users.",
+      "postedDate": "2024-06-20",
+      "requirements": [
+        "Associate's degree in IT or related field",
+        "2+ years of experience in IT support",
+        "Proficiency in troubleshooting hardware and software issues"
+      ],
+      "skills": [
+        "Windows",
+        "Linux",
+        "Networking"
+      ],
+      "salary": "$40,000 - $60,000 per year",
+      "status": "active"
+    },
+    {
+      "id": "6",
+      "title": "Data Analyst",
+      "company": "Analytics Firm",
+      "location": "San Francisco, CA",
+      "type": "Full-time",
+      "description": "Analyze and interpret complex data sets.",
+      "postedDate": "2024-06-25",
+      "requirements": [
+        "Bachelor's degree in Data Science or related field",
+        "3+ years of experience in data analysis",
+        "Proficiency in data analysis tools such as SQL, Python, or R"
+      ],
+      "skills": [
+        "Data Visualization",
+        "Statistical Analysis",
+        "Machine Learning"
+      ],
+      "salary": "$90,000 - $110,000 per year",
+      "status": "active"
+    },
+    {
+      "id": "7",
+      "title": "System Administrator",
+      "company": "Tech Company",
+      "location": "New York, NY",
+      "type": "Full-time",
+      "description": "Manage and maintain IT infrastructure.",
+      "postedDate": "2024-06-30",
+      "requirements": [
+        "Bachelor's degree in Computer Science or related field",
+        "5+ years of experience in system administration",
+        "Proficiency in managing servers, networks, and security"
+      ],
+      "skills": [
+        "Linux",
+        "Windows Server",
+        "Cloud Computing"
+      ],
+      "salary": "$80,000 - $100,000 per year",
+      "status": "active"
+    },
+    {
+      "id": "8",
+      "title": "Graphic Designer",
+      "company": "Design Studio",
+      "location": "Chicago, IL",
+      "type": "Part-time",
+      "description": "Create visual content for various media.",
+      "postedDate": "2024-07-01",
+      "requirements": [
+        "Bachelor's degree in Graphic Design or related field",
+        "2+ years of experience in graphic design",
+        "Proficiency in design software such as Adobe Photoshop, Illustrator, or InDesign"
+      ],
+      "skills": [
+        "Branding",
+        "Typography",
+        "Layout Design"
+      ],
+      "salary": "$70,000 - $90,000 per year",
+      "status": "active"
+    },
+    {
+      "id": "9",
+      "title": "Content Writer",
+      "company": "Marketing Agency",
+      "location": "Austin, TX",
+      "type": "Part-time",
+      "description": "Write and edit content for marketing materials.",
+      "postedDate": "2024-07-05",
+      "requirements": [
+        "Bachelor's degree in English, Journalism, or related field",
+        "3+ years of experience in content writing",
+        "Strong writing and editing skills"
+      ],
+      "skills": [
+        "SEO",
+        "Copywriting",
+        "Blogging"
+      ],
+      "salary": "$40,000 - $60,000 per year",
+      "status": "active"
+    },
+    {
+      "id": "10",
+      "title": "DevOps Engineer",
+      "company": "Tech Company",
+      "location": "Seattle, WA",
+      "type": "Full-time",
+      "description": "Implement and manage CI/CD pipelines.",
+      "postedDate": "2024-07-10",
+      "requirements": [
+        "Bachelor's degree in Computer Science or related field",
+        "3+ years of experience in DevOps",
+        "Proficiency in tools such as Jenkins, Docker, and Kubernetes"
+      ],
+      "skills": [
+        "Cloud Computing",
+        "Automation",
+        "Scripting"
+      ],
+      "salary": "$100,000 - $120,000 per year",
+      "status": "active"
+    }
+  ],
+  "users": [
+    {
+      "id": "929a66c0-1616-11f1-994d-778b3a3980fd",
+      "name": "john",
+      "age": 34,
+      "gender": "male",
+      "email": "test@test.com",
+      "password": "Test@123",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+      "applyJOb" : [],
+      "createdAt": "2026-03-02T09:02:42.988Z"
+    }
+  ],
+  "application": [
+    {
+      "id": "a363",
+      "uId": "929a66c0-1616-11f1-994d-778b3a3980fd",
+      "jId": "1"
+    } 
+  ]
 }

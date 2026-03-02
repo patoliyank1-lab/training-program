@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import imageUrl from "@/assets/hero-image.png";
 import {
@@ -9,8 +10,6 @@ import {
 import { BadgeCheckIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import {
   Select,
@@ -22,9 +21,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Category, Location } from "@/Type";
 
 
-export default function Hero() {
+export default function Hero({location, categories}:{location:Location[], categories:Category[]}) {
+
+
   return (
     <div className="">
       <div className="flex flex-col gap-10 md:flex-row mx-auto max-w-315 p-5 items-center min-h-[70vh]">
@@ -48,13 +50,14 @@ export default function Hero() {
             Explore opportunities that match your skills and passions, and land the job you&apos;ve always wanted with JobsPortal.
           </p>
 
-          <Field>
-            <ButtonGroup>
-              <Input id="input-button-group" placeholder="Type to search..." className="h-12" />
-              <SelectDemo />
-              <Button className="h-12">Search</Button>
-            </ButtonGroup>
-          </Field>
+          <div className="flex flex-col gap-2 md:flex-row justify-center mx-auto">
+            <div><Input id="input-button-group" placeholder="Type to search..." /></div>
+            <div className="flex gap-2 justify-center items-center">
+              <SelectDemo items={location} placeholder="Location" />
+              <SelectDemo items={categories} placeholder="Category"/>
+              <Button>Search</Button>
+            </div>
+          </div>
 
           <TotalJobsCard />
 
@@ -70,17 +73,19 @@ export default function Hero() {
 
 
 
-function SelectDemo() {
+
+function SelectDemo({items, placeholder}:{items:Location[], placeholder:string}) {
   return (
     <Select>
-      <SelectTrigger size='sm' className="w-full max-w-48">
-        <SelectValue placeholder="Select a fruit" className="h-12" />
+      <SelectTrigger  className="w-full max-w-48">
+        <SelectValue placeholder={placeholder} className="h-12" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Select Type</SelectLabel>
-          <SelectItem value="position">position</SelectItem>
-          <SelectItem value="location">location</SelectItem>
+          {items.map((i, index) => (
+            <SelectItem key={index} value={i.name}>{i.name}</SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>
