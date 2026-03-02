@@ -23,7 +23,7 @@ const validationSchema = Yup.object({
 
 export default function SignIn() {
 
-  const { login, isAuthenticated, isLoading } = useAuth();
+  const { login, isAuthenticated, isLoading, error } = useAuth();
   const router = useRouter();
   
 
@@ -92,7 +92,12 @@ export default function SignIn() {
             />
             {formik.touched.password && formik.touched.password && <p className={errorClass}>{formik.errors.password}</p>}
 
-          <Button type="submit" className="w-full">Login</Button>
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </Button>
+          {error && (
+            <p className={`${errorClass} text-center`}>{error}</p>
+          )}
         </form>
         <div className="mt-3">
           Create new account?{" "}

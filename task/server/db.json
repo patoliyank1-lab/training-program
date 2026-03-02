@@ -265,15 +265,8 @@
       "email": "test@test.com",
       "password": "Test@123",
       "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
-      "applyJOb" : [],
+      "applyJOb": [],
       "createdAt": "2026-03-02T09:02:42.988Z"
     }
-  ],
-  "application": [
-    {
-      "id": "a363",
-      "uId": "929a66c0-1616-11f1-994d-778b3a3980fd",
-      "jId": "1"
-    } 
   ]
 }

@@ -4,21 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useRouter, useParams } from 'next/navigation'
 import { useAuth } from "@/hooks/useAuth";
 import { useJob } from "@/hooks/useJobs";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Field, FieldGroup } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Jobs } from "@/Type";
 
 function JobPage() {
   const { id } = useParams();
@@ -26,10 +11,7 @@ function JobPage() {
   const { isAuthenticated } = useAuth();
   const { jobs } = useJob()
 
-
   const currentJob = jobs[Number(id) - 1]
-
-
 
   if (!currentJob) {
     return (
@@ -42,7 +24,10 @@ function JobPage() {
   const onApply = () => {
     if (!isAuthenticated) {
       router.push('/login')
+      return
     }
+
+    router.push(`/jobs/${id}/apply`)
   }
 
   return (
@@ -79,17 +64,9 @@ function JobPage() {
              
 
               <div className="flex gap-3">
-                {!isAuthenticated ? (
-                  <div>
-                    <Button variant={'outline'} onClick={onApply}>Login</Button>
-                  </div>
-                ) : (
-                  <>
-
-                    <ApplyForm job={currentJob} />
-
-                  </>
-                )}
+                <Button variant={'outline'} onClick={onApply}>
+                  {!isAuthenticated ? 'Login to apply' : 'Apply now'}
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -160,95 +137,3 @@ function JobPage() {
 }
 
 export default JobPage
-
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  fullname: Yup.string()
-    .required("Full Name is required")
-    .min(8, "Full Name must be at least 6 ")
-});
-
-function ApplyForm({job}:{job:Jobs}) {
-
-  const {user} = useAuth(); 
-  const {jobApply} = useJob()
-
-  const onApply = () => {
-    if(user && job){
-      jobApply(user?.id, job.id.toString() )
-    }
-  };
-
-
-  const formik = useFormik({
-    initialValues: {
-      fullname: "",
-      email: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-  const errorClass = "text-xs text-red-500 mt-1";
-  return (
-    <>
-      <Dialog>
-        <form onSubmit={formik.handleSubmit} noValidate>
-          <DialogTrigger asChild>
-            <Button variant="outline">Apply</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-sm">
-            <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
-              <DialogDescription>
-                Make changes to your profile here. Click save when you&apos;re
-                done.
-              </DialogDescription>
-            </DialogHeader>
-            <FieldGroup>
-              <Field>
-                <Label htmlFor="fullname">Full Name</Label>
-                <Input 
-                 id="fullname"
-              type="fullname"
-              name="fullname"
-              placeholder="Enter Full Name"
-              autoComplete="fullname"
-              autoFocus
-              required
-              value={formik.values.fullname}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur} />
-               {formik.touched.fullname && formik.errors.fullname && <p className={errorClass}>{formik.errors.fullname}</p>}
-              </Field>
-              <Field>
-                <Label htmlFor="email">Email</Label>
-                <Input 
-              id="email"
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-              autoComplete="email"
-              autoFocus
-              required
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-                />
-                {formik.touched.email && formik.errors.email && <p className={errorClass}>{formik.errors.email}</p>}
-              </Field>
-            </FieldGroup>
-              <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DialogClose>
-              <Button type="submit"
-              onClick={onApply}>Apply</Button>
-          </DialogContent>
-        </form>
-      </Dialog>
-    </>
-  )
-}

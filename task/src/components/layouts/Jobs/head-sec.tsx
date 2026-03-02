@@ -1,6 +1,8 @@
 'use client';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -11,11 +13,36 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useCat } from "@/hooks/useCat";
-import { Location } from "@/Type";
+import { Category, Location } from "@/Type";
 
 function HeadSec() {
 
   const {location, categories} = useCat();
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const [search, setSearch] = useState('')
+  const [selectedLocation, setSelectedLocation] = useState<string>('')
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
+
+  useEffect(() => {
+    setSearch(searchParams.get('q') ?? '')
+    setSelectedLocation(searchParams.get('location') ?? '')
+    setSelectedCategory(searchParams.get('category') ?? '')
+  }, [searchParams])
+
+  const queryString = useMemo(() => {
+    const params = new URLSearchParams()
+    if (search.trim()) params.set('q', search.trim())
+    if (selectedLocation) params.set('location', selectedLocation)
+    if (selectedCategory) params.set('category', selectedCategory)
+    const qs = params.toString()
+    return qs ? `?${qs}` : ''
+  }, [search, selectedLocation, selectedCategory])
+
+  const onSearch = () => {
+    router.push(`/jobs${queryString}`)
+  }
 
   return (
     <div className="w-full bg-violet-50 py-15">
@@ -36,11 +63,31 @@ function HeadSec() {
           </p>
 
           <div className="flex flex-col gap-2 md:flex-row justify-center mx-auto">
-            <div><Input id="input-button-group" placeholder="Type to search..." /></div>
+            <div>
+              <Input
+                id="input-button-group"
+                placeholder="Type to search..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') onSearch()
+                }}
+              />
+            </div>
             <div className="flex gap-2 justify-center items-center">
-              <SelectDemo items={location} placeholder="Location" />
-              <SelectDemo items={categories} placeholder="Category"/>
-              <Button>Search</Button>
+              <SelectDemo
+                items={location}
+                placeholder="Location"
+                value={selectedLocation}
+                onChange={setSelectedLocation}
+              />
+              <SelectDemo
+                items={categories}
+                placeholder="Category"
+                value={selectedCategory}
+                onChange={setSelectedCategory}
+              />
+              <Button onClick={onSearch}>Search</Button>
             </div>
               
           </div>
@@ -54,9 +101,19 @@ function HeadSec() {
 export default HeadSec;
 
 
-function SelectDemo({items, placeholder}:{items:Location[], placeholder:string}) {
+function SelectDemo({
+  items,
+  placeholder,
+  value,
+  onChange,
+}: {
+  items: Array<Location | Category>
+  placeholder: string
+  value: string
+  onChange: (value: string) => void
+}) {
   return (
-    <Select>
+    <Select value={value} onValueChange={onChange}>
       <SelectTrigger  className="w-full max-w-48">
         <SelectValue placeholder={placeholder} className="h-12" />
       </SelectTrigger>

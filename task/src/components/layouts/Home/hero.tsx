@@ -1,6 +1,7 @@
 'use client'
 import Image from "next/image";
 import imageUrl from "@/assets/hero-image.png";
+import { useMemo, useState } from "react";
 import {
   Item,
   ItemContent,
@@ -11,6 +12,7 @@ import { BadgeCheckIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useRouter } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -25,7 +27,24 @@ import { Category, Location } from "@/Type";
 
 
 export default function Hero({location, categories}:{location:Location[], categories:Category[]}) {
+  const router = useRouter()
 
+  const [search, setSearch] = useState('')
+  const [selectedLocation, setSelectedLocation] = useState<string>('')
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
+
+  const queryString = useMemo(() => {
+    const params = new URLSearchParams()
+    if (search.trim()) params.set('q', search.trim())
+    if (selectedLocation) params.set('location', selectedLocation)
+    if (selectedCategory) params.set('category', selectedCategory)
+    const qs = params.toString()
+    return qs ? `?${qs}` : ''
+  }, [search, selectedLocation, selectedCategory])
+
+  const onSearch = () => {
+    router.push(`/jobs${queryString}`)
+  }
 
   return (
     <div className="">
@@ -51,11 +70,31 @@ export default function Hero({location, categories}:{location:Location[], catego
           </p>
 
           <div className="flex flex-col gap-2 md:flex-row justify-center mx-auto">
-            <div><Input id="input-button-group" placeholder="Type to search..." /></div>
+            <div>
+              <Input
+                id="input-button-group"
+                placeholder="Type to search..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') onSearch()
+                }}
+              />
+            </div>
             <div className="flex gap-2 justify-center items-center">
-              <SelectDemo items={location} placeholder="Location" />
-              <SelectDemo items={categories} placeholder="Category"/>
-              <Button>Search</Button>
+              <SelectDemo
+                items={location}
+                placeholder="Location"
+                value={selectedLocation}
+                onChange={setSelectedLocation}
+              />
+              <SelectDemo
+                items={categories}
+                placeholder="Category"
+                value={selectedCategory}
+                onChange={setSelectedCategory}
+              />
+              <Button onClick={onSearch}>Search</Button>
             </div>
           </div>
 
@@ -74,9 +113,19 @@ export default function Hero({location, categories}:{location:Location[], catego
 
 
 
-function SelectDemo({items, placeholder}:{items:Location[], placeholder:string}) {
+function SelectDemo({
+  items,
+  placeholder,
+  value,
+  onChange,
+}: {
+  items: Array<{ name: string }>
+  placeholder: string
+  value: string
+  onChange: (value: string) => void
+}) {
   return (
-    <Select>
+    <Select value={value} onValueChange={onChange}>
       <SelectTrigger  className="w-full max-w-48">
         <SelectValue placeholder={placeholder} className="h-12" />
       </SelectTrigger>

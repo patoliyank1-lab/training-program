@@ -11,6 +11,7 @@ const defaultValue: {
     isAuthenticated: boolean;
     isAdmin: boolean;
     isLoading:boolean;
+    error: string | null;
     login: ({email, password} : {email:string, password:string}) => void;
     logout: () => void;
     register: ({name, age, gender, email, password, avatar}:{name: string; age: string; gender: string; email: string; password: string; avatar: string}) => void;
@@ -20,6 +21,7 @@ const defaultValue: {
     isAuthenticated: false,
     isAdmin: false,
     isLoading:false,
+    error: null,
     login: () => { },
     logout: () => { },
     register: () => { },
@@ -37,6 +39,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     const isAuthenticated = AuthStore.isAuthenticated;
     const isAdmin = AuthStore.isAdmin;
     const isLoading = AuthStore.loading;
+    const error = AuthStore.error;
 
 
     const login = useCallback(({email, password} : {email:string, password:string}) => {
@@ -72,7 +75,8 @@ const renderFunction = useCallback(()=>{
             user, 
             isAuthenticated,
             isAdmin, 
-            isLoading,  
+            isLoading,
+            error,
             login, 
             logout, 
             register,

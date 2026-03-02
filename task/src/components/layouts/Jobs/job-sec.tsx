@@ -56,7 +56,7 @@ function JobCard2({job}:{job:Jobs}) {
                     <h1 className="font-medium line-clamp-1">{job.title}</h1>
                     <div className="flex justify-start gap-5 my-2">
                         <p className="flex gap-2 text-sm"><BriefcaseBusiness className="size-5" />{job.company}</p>
-                        <p className="flex gap-2 text-sm"><MapPin className="size-5" />{job.company}</p>
+                        <p className="flex gap-2 text-sm"><MapPin className="size-5" />{job.location}</p>
                         <p className="text-sm"> {job.salary}</p>
                     </div>
                     <p className="line-clamp-2 text-sm dark:text-gray-200 text-gray-700">{job.description}</p>

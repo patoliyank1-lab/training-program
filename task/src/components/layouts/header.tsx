@@ -45,14 +45,16 @@ function Header() {
           </div>
         }
         {isAuthenticated && <div className="flex gap-4">
-          <Avatar>
-            <AvatarImage
-              src="https://github.com/shadcn.png"
-              alt="@shadcn"
-              className="grayscale"
-            />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <Link href="/user/dashboard">
+            <Avatar className="cursor-pointer">
+              <AvatarImage
+                src="https://github.com/shadcn.png"
+                alt="@shadcn"
+                className="grayscale"
+              />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </Link>
           <Button variant={'outline'} onClick={() => { logout() }}>Logout</Button>
             <ModeToggle />
 

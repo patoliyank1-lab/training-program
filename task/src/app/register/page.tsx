@@ -37,7 +37,7 @@ const validationSchema = Yup.object({
 });
 
 export default function Register() {
-    const { register, isAuthenticated, isLoading } = useAuth();
+    const { register, isAuthenticated, isLoading, error } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
@@ -58,8 +58,7 @@ export default function Register() {
         },
         validationSchema,
         onSubmit: (values) => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { confirmPassword, ...submitValues } = values;
+            const { confirmPassword: _confirmPassword, ...submitValues } = values;
             
             register(submitValues)
         },
@@ -149,7 +148,12 @@ export default function Register() {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         />
-                        {formik.touched.email && formik.errors.email && <p className={errorClass}>{formik.errors.email}</p>}
+                        {formik.touched.email && formik.errors.email && (
+                            <p className={errorClass}>{formik.errors.email}</p>
+                        )}
+                        {!formik.errors.email && error && (
+                            <p className={errorClass}>{error}</p>
+                        )}
                
 
                  
@@ -186,8 +190,8 @@ export default function Register() {
                         {formik.touched.confirmPassword && formik.errors.confirmPassword && <p className={errorClass}>{formik.errors.confirmPassword}</p>}
                    
 
-                    <Button type="submit" className="w-full">
-                        Create Account
+                    <Button type="submit" className="w-full" disabled={isLoading}>
+                        {isLoading ? 'Creating account...' : 'Create Account'}
                     </Button>
 
                     <div className='mt-3'>

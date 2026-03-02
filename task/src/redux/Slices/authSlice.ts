@@ -33,14 +33,15 @@ const CheckLogin = createAsyncThunk(
     try {
       if (email && password) {
         const response = await axios.get(JSON_URL + `/users?email=${email}&password=${password}`)
-        if(response.data.length === 0) throw new Error ('user Not found');
-        console.log(response.data);
-        
+        if (response.data.length === 0) {
+          return thunkAPI.rejectWithValue('Invalid email or password');
+        }
+
         return response.data[0];
       }
-      return null
+      return thunkAPI.rejectWithValue('Email and password are required');
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('Invalid email or password');
     }
   })
 
@@ -66,7 +67,7 @@ const registerUser = createAsyncThunk(
         const haveEmail = await axios.get(JSON_URL+ `/users?email=${email}`)
 
         if(haveEmail.data.length !== 0 ){
-          throw new Error('user is already register') 
+          return thunkAPI.rejectWithValue('User is already registered with this email'); 
         }
         if (user) {
             const response = await axios.post(JSON_URL + '/users', user)  

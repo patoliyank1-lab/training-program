@@ -1,16 +1,14 @@
 'use client'
+
 import axios from 'axios'
 
-export const ApplyToJob = async (U_id: string, J_id: string) => {
+export const WithdrawFromJob = async (U_id: string, J_id: string) => {
   try {
     const userResponse = await axios.get(`http://localhost:4000/users/${U_id}`)
-
     const user = userResponse.data
-    const existingApplied: string[] = user.applyJOb ?? []
 
-    const updatedApplied = existingApplied.includes(J_id)
-      ? existingApplied
-      : [...existingApplied, J_id]
+    const existingApplied: string[] = user.applyJOb ?? []
+    const updatedApplied = existingApplied.filter((id) => id !== J_id)
 
     const updatedUser = {
       ...user,
@@ -26,8 +24,9 @@ export const ApplyToJob = async (U_id: string, J_id: string) => {
       return response.data
     }
 
-    throw new Error('Failed to update applied jobs')
+    throw new Error('Failed to withdraw job')
   } catch (error) {
     return error
   }
 }
+
