@@ -1,0 +1,14 @@
+{
+  "name": "day_1-",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --run start -- --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
