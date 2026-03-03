@@ -1,7 +1,7 @@
 'use client';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
@@ -25,11 +25,17 @@ function HeadSec() {
   const [selectedLocation, setSelectedLocation] = useState<string>('')
   const [selectedCategory, setSelectedCategory] = useState<string>('')
 
-  useEffect(() => {
+  const setSearchParams = useCallback(() => {
     setSearch(searchParams.get('q') ?? '')
     setSelectedLocation(searchParams.get('location') ?? '')
     setSelectedCategory(searchParams.get('category') ?? '')
+    
   }, [searchParams])
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSearchParams();
+  }, [setSearchParams])
 
   const queryString = useMemo(() => {
     const params = new URLSearchParams()
@@ -45,7 +51,7 @@ function HeadSec() {
   }
 
   return (
-    <div className="w-full bg-violet-50 py-15">
+    <div className="w-full bg-violet-50 dark:bg-violet-950/15 py-15">
       <div className="flex md:flex-row mx-auto max-w-315 p-5 items-center justify-center">
         <div className="w-full flex flex-col gap-2.5">
           <div className="rounded-full mx-auto w-fit text-xs px-2 py-1 text-blue-800  bg-blue-300 shadow">

@@ -12,7 +12,6 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    // Ensures dependencies stay in modern ESM format
     esmExternals: true, 
   },
 }

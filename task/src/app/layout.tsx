@@ -7,7 +7,7 @@ import CategoryProvider from "@/context/CategoryContext";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import JobProvider from "@/context/JobContext";
-// import Footer from "@/components/layouts/footer";
+import Footer from "@/components/layouts/footer";
 import AuthProvider from "@/context/AuthContext";
 
 const geistSans = Geist({
@@ -27,6 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <title>JOB finder</title>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -42,7 +45,7 @@ export default function RootLayout({
               >
                 <Header />
                 {children}
-                {/* <Footer /> */}
+                <Footer />
               </ThemeProvider>
             </JobProvider>
             </AuthProvider>

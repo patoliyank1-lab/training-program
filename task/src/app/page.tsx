@@ -11,7 +11,7 @@ export default function Home() {
 
   
   return (
-  <div className="h-lvh overflow-y-auto no-scrollbar ">
+  <div className="overflow-y-auto no-scrollbar ">
     <Hero location={location} categories={categories}/>
     <Categories categories={categories}  />
     <JobSec jobs={recentJobs}/>

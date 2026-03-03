@@ -12,7 +12,7 @@ import { BriefcaseBusiness, FileCode } from "lucide-react";
 export default function Categories({categories}:{categories:Category[]}) {
     return (
         <div className="">
-            <div className="flex flex-col mx-auto max-w-315 p-5 items-center">
+            <div className="flex flex-col mx-auto max-w-315 p-5 items-center -z-2">
                 <p className="text-green-500 text-xl md:text-2xl">Find Your Path</p>
                 <h2 className="scroll-m-20 text-center text-4xl md:text-5xl font-extrabold text-balance mb-5">
                     Browse Jobs By Categories
@@ -54,7 +54,7 @@ function CategoryCard({item}:{item:Category}) {
         <>
            
                 <div>
-                    <Card className="z-0 py-0">
+                    <Card className=" py-0">
                         <CardContent className="flex flex-col gap-3 aspect-square items-center justify-center">
                             <div className="bg-violet-400 text-white rounded-2xl p-5">
                                 <FileCode className="size-10" />

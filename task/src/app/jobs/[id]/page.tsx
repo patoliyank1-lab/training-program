@@ -13,23 +13,16 @@ function JobPage() {
 
   const currentJob = jobs[Number(id) - 1]
 
-  if (!currentJob) {
-    return (
-      <>
-        JOb not found
-      </>
-    )
-  }
-
+  
   const onApply = () => {
     if (!isAuthenticated) {
       router.push('/login')
       return
     }
-
+    
     router.push(`/jobs/${id}/apply`)
   }
-
+  
   return (
     <div className="min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-6 space-y-4">

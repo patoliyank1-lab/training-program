@@ -265,8 +265,23 @@
       "email": "test@test.com",
       "password": "Test@123",
       "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
-      "applyJOb": [],
+      "applyJOb": [
+        "1"
+      ],
       "createdAt": "2026-03-02T09:02:42.988Z"
+    },
+    {
+      "id": "b6a490d0-16c6-11f1-8b34-33988678f777",
+      "name": "Test",
+      "age": 24,
+      "gender": "male",
+      "email": "test@gmail.com",
+      "password": "Test@123",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+      "applyJOb": [
+        "1"
+      ],
+      "createdAt": "2026-03-03T06:03:34.877Z"
     }
   ]
 }

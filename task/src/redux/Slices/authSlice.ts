@@ -41,6 +41,7 @@ const CheckLogin = createAsyncThunk(
       }
       return thunkAPI.rejectWithValue('Email and password are required');
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue('Invalid email or password');
     }
   })
@@ -48,32 +49,32 @@ const CheckLogin = createAsyncThunk(
 
 const registerUser = createAsyncThunk(
   'Auth/register',
-  async(
-    {name,age,gender,email,password,avatar}:{name:string,age:string,gender:string,email:string,password:string,avatar:string}
-    ,thunkAPI) => {
-    const user:User = {
-    id: generateId(),
-    name: name,
-    age: Number(age),
-    gender: gender,
-    email: email,
-    password: password,
-    avatar: avatar,
-    applyJOb:[],
-    createdAt: new Date().toISOString(),
+  async (
+    { name, age, gender, email, password, avatar }: { name: string, age: string, gender: string, email: string, password: string, avatar: string }
+    , thunkAPI) => {
+    const user: User = {
+      id: generateId(),
+      name: name,
+      age: Number(age),
+      gender: gender,
+      email: email,
+      password: password,
+      avatar: avatar,
+      applyJOb: [],
+      createdAt: new Date().toISOString(),
     }
-    
-    try {
-        const haveEmail = await axios.get(JSON_URL+ `/users?email=${email}`)
 
-        if(haveEmail.data.length !== 0 ){
-          return thunkAPI.rejectWithValue('User is already registered with this email'); 
-        }
-        if (user) {
-            const response = await axios.post(JSON_URL + '/users', user)  
-            return response.data;
-        }
-        return null;
+    try {
+      const haveEmail = await axios.get(JSON_URL + `/users?email=${email}`)
+
+      if (haveEmail.data.length !== 0) {
+        return thunkAPI.rejectWithValue('User is already registered with this email');
+      }
+      if (user) {
+        const response = await axios.post(JSON_URL + '/users', user)
+        return response.data;
+      }
+      return null;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -97,42 +98,42 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
     },
   },
-  extraReducers : (builder) =>{
+  extraReducers: (builder) => {
     builder
-    .addCase(CheckLogin.pending,(state) => {
-      state.loading = true;
-    })
-    .addCase(CheckLogin.fulfilled, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = true;
-      state.user = action.payload;
-      state.isAdmin = state.user && state.user.role === 'admin' ? true : false;
-      setItem('UserDetails', action.payload);
-    })
-    .addCase(CheckLogin.rejected, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = false;
-      state.isAdmin = false;
-      state.user = null;
-      state.error = action.payload as string;
-    })
-    .addCase(registerUser.pending,(state) => {
-      state.loading = true;
-    })
-    .addCase(registerUser.fulfilled, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = true;
-      state.user = action.payload;
-      state.isAdmin = state.user && state.user.role === 'admin' ? true : false;
-      setItem('UserDetails', action.payload);
-    })
-    .addCase(registerUser.rejected, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = false;
-      state.isAdmin = false;
-      state.user = null;
-      state.error = action.payload as string;
-    })
+      .addCase(CheckLogin.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(CheckLogin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+        state.isAdmin = state.user && state.user.role === 'admin' ? true : false;
+        setItem('UserDetails', action.payload);
+      })
+      .addCase(CheckLogin.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.isAdmin = false;
+        state.user = null;
+        state.error = action.payload as string;
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+        state.isAdmin = state.user && state.user.role === 'admin' ? true : false;
+        setItem('UserDetails', action.payload);
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.isAdmin = false;
+        state.user = null;
+        state.error = action.payload as string;
+      })
   }
 })
 

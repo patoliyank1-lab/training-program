@@ -2,7 +2,7 @@ import { Category, Location } from "@/Type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const jsonURL:string = process.env.JSON_SERVER_URL ||  'http://localhost:4000';
+const jsonURL:string = process.env.JSON_SERVER_URL ??  'http://localhost:4000';
 
 interface initialType {
   categories: Category[]

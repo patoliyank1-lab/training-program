@@ -49,7 +49,7 @@ function JobCard2({job}:{job:Jobs}) {
                     "text-blue-600 bg-blue-200 border border-blue-600": jobType === "Part-time",
                 })}>{jobType}</p>
                 <div className="flex">
-                    <div className="bg-violet-100 size-15 m-2 rounded-md">
+                    <div className="bg-violet-100 dark:bg-violet-900/50 size-15 m-2 rounded-md">
 
                     </div>
                     <div className="flex-1">

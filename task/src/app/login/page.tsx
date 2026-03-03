@@ -91,13 +91,13 @@ export default function SignIn() {
               className={inputClass}
             />
             {formik.touched.password && formik.touched.password && <p className={errorClass}>{formik.errors.password}</p>}
+            {error && (
+              <p className={`${errorClass} text-center`}>{error}</p>
+            )}
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Logging in..." : "Login"}
           </Button>
-          {error && (
-            <p className={`${errorClass} text-center`}>{error}</p>
-          )}
         </form>
         <div className="mt-3">
           Create new account?{" "}

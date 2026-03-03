@@ -144,7 +144,7 @@ function SelectDemo({
 
 function TotalJobsCard() {
   return (
-    <Card className="relative m-5 w-70 flex-row">
+    <Card className="relative z-zero m-5 w-70 flex-row">
         <CardTitle className="absolute top-2 left-5 text-sm font-medium">Total Jobs</CardTitle>
       <CardContent>
         <div className="text-2xl font-bold">1,234</div>

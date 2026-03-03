@@ -17,7 +17,7 @@ const NavLink = [
   { name: 'Contact us', link: '/contact' },
 ]
 
-export function SheetDemo({ children }: { children: React.ReactNode }) {
+export function SheetDemo({ children, isAuthenticated }: { children: React.ReactNode, isAuthenticated:boolean }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -37,14 +37,14 @@ export function SheetDemo({ children }: { children: React.ReactNode }) {
             </Link>
           ))}
         </div>
-        <SheetFooter>
+       {!isAuthenticated && <SheetFooter>
           <Link href={'/login'}>
             <Button variant='outline' className="w-full">Sign in</Button>
           </Link>
           <Link href={'/register'}>
             <Button className="w-full">Get Started</Button>
           </Link>
-        </SheetFooter>
+        </SheetFooter>}
       </SheetContent>
     </Sheet>
   )

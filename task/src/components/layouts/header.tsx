@@ -19,7 +19,7 @@ function Header() {
   const { isAuthenticated, logout } = useAuth()
 
   return (
-    <header className="w-full border-b bg-background sticky top-0">
+    <header className="w-full border-b bg-background sticky top-0 z-10">
       <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
         <div className="overflow-hidden">
           <HeaderLogo />
@@ -44,7 +44,7 @@ function Header() {
             <ModeToggle />
           </div>
         }
-        {isAuthenticated && <div className="flex gap-4">
+        {isAuthenticated && <div className="gap-4 hidden md:flex">
           <Link href="/user/dashboard">
             <Avatar className="cursor-pointer">
               <AvatarImage
@@ -57,11 +57,23 @@ function Header() {
           </Link>
           <Button variant={'outline'} onClick={() => { logout() }}>Logout</Button>
             <ModeToggle />
-
         </div>}
         <div className="flex gap-2 md:hidden">
+           {isAuthenticated && <div className="flex gap-4">
+          <Link href="/user/dashboard">
+            <Avatar className="cursor-pointer">
+              <AvatarImage
+                src="https://github.com/shadcn.png"
+                alt="@shadcn"
+                className="grayscale"
+              />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </Link>
+          <Button variant={'outline'} onClick={() => { logout() }}>Logout</Button>
+        </div>}
           <ModeToggle />
-          <SheetDemo>
+          <SheetDemo isAuthenticated={isAuthenticated}>
             <MdMenu className="size-6" />
           </SheetDemo>
           <span className="sr-only">Open Menu</span>

@@ -48,6 +48,7 @@ function JobApplyPage() {
     )
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const formik = useFormik({
     initialValues: {
       fullname: user?.name ?? '',
