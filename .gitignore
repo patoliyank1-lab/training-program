@@ -135,7 +135,8 @@ out
 
 
 test/
-
+.vscode
+package-lock.json
 
 dist/
 .eslintrc
@@ -164,3 +165,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+NodeJS/day-2/data/db.json
+NodeJS/backend/data/db.json
