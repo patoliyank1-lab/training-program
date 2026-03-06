@@ -116,6 +116,7 @@ out
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
+.vscode
 
 # yarn v2
 .yarn/cache
@@ -164,3 +165,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+NodeJS/package-lock.json
+NodeJS/data/db.json
