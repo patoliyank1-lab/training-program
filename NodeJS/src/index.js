@@ -16,16 +16,17 @@ app.use(express.urlencoded({ extended: true }))
 
 //custom middlewares 
 app.use(requestLogger)
-app.use(errorHandler)
 
 // routes
-app.use('/user', userRoute)
-app.use('/post', postRoute)
+app.use('/api/auth', userRoute)
+app.use('/api/post', postRoute)
 
 // root route
 app.get('/', function (req, res) {
     res.send('home page')
 });
+
+app.use(errorHandler)
 
 // listen on port 
 app.listen(port, function (err) {
