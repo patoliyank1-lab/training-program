@@ -3,6 +3,9 @@ import dotenv from 'dotenv'
 import userRoute from './router/userRoute.js'
 import postRoute from './router/postRoute.js'
 import { errorHandler, requestLogger } from './middlewares/errorHandler.js';
+import { callbackRouteForApi, callbackRouteForCallbackHell, callbackRouteForFAkeApi } from './AsyncPatterns/callback.js';
+import { promiseRouteForApi, promiseRouteForFAkeApi } from './AsyncPatterns/promise.js';
+import { asyncRouteForApi, asyncRouteForFAkeApi } from './AsyncPatterns/async.js';
 
 // config ENV variables
 dotenv.config();
@@ -20,6 +23,18 @@ app.use(requestLogger)
 // routes
 app.use('/api/auth', userRoute)
 app.use('/api/post', postRoute)
+
+
+//testing routes for  callback vs Promise vs async/await api calling.
+app.use('/callback/fake-api', callbackRouteForFAkeApi )
+app.use('/callback/real-api', callbackRouteForApi )
+app.use('/callback/callback-hell', callbackRouteForCallbackHell )
+
+app.use('/promise/fake-api', promiseRouteForFAkeApi )
+app.use('/promise/real-api', promiseRouteForApi )
+
+app.use('/async/fake-api', asyncRouteForFAkeApi )
+app.use('/async/real-api', asyncRouteForApi )
 
 // root route
 app.get('/', function (req, res) {
