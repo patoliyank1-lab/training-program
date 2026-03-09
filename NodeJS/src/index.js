@@ -6,6 +6,7 @@ import { errorHandler, requestLogger } from './middlewares/errorHandler.js';
 import { callbackRouteForApi, callbackRouteForCallbackHell, callbackRouteForFAkeApi } from './AsyncPatterns/callback.js';
 import { promiseRouteForApi, promiseRouteForFAkeApi } from './AsyncPatterns/promise.js';
 import { asyncRouteForApi, asyncRouteForFAkeApi } from './AsyncPatterns/async.js';
+import { blockingCode, nonBlockingCode } from './Worker/workerTask.js';
 
 // config ENV variables
 dotenv.config();
@@ -35,6 +36,10 @@ app.use('/promise/real-api', promiseRouteForApi )
 
 app.use('/async/fake-api', asyncRouteForFAkeApi )
 app.use('/async/real-api', asyncRouteForApi )
+
+//testing routes for blocking and non-blocking code.
+app.use('/non-blocking', nonBlockingCode )
+app.use('/blocking', blockingCode )
 
 // root route
 app.get('/', function (req, res) {
