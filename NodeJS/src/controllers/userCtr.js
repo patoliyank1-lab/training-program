@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from '../utils/error.js'
+import { asyncHandler } from '../utils/asyncHandler.js'
 
 const json_url = process.env.JSON_URL ?? 'http://localhost:4000'  // if can't get JSON_URL from .env then give default value. 
 
@@ -9,9 +10,7 @@ const json_url = process.env.JSON_URL ?? 'http://localhost:4000'  // if can't ge
  * @route POST /api/auth/register
  * @access Public
  */
-const registerUser = async (req, res, next) => {
-  try {
-
+const registerUser = asyncHandler(async (req, res, next) => {
     const { name, username, email, password, confirmpassword } = req.body
 
     if (!name || !username || !email || !password || !confirmpassword)
@@ -56,22 +55,15 @@ const registerUser = async (req, res, next) => {
         data: value.data,
       });
     })
-    if (!res.headersSent)
-    throw new BadRequestError('filed to register User try again.')
 
-  } catch (error) {
-    return next(error)
-  }
-}
+})
 
 /**
  * @description Login new user in the system.
  * @route POST /api/auth/login
  * @access Public
  */
-const loginUser = async (req, res, next) => {
-  try {
-
+const loginUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
@@ -82,32 +74,26 @@ const loginUser = async (req, res, next) => {
     // get user by email using json server
     const user = await axios.get(`${json_url}/user?email=${email}&password=${password}`)
       .then((value) => value.data[0])
-      .then((value) => {
-        const { password, ...otherValue } = value
+      .catch(() => { throw new UnauthorizedError('password or email is incorrect.') })
+      
+      if(user){
+        const { password, ...otherValue } = user
         return res.status(200).json({
           success: true,
           status: 200,
           data: otherValue,
         })
-      })
-      .catch(() => { throw new UnauthorizedError('password or email is incorrect.') })
+      }
 
-    if (!res.headersSent)
-      throw new BadRequestError('password or email is incorrect.')
-
-  } catch (error) {
-    return next(error)
-  }
-}
+      throw new UnauthorizedError('password or email is incorrect.') 
+})
 
 /**
  * @description get userprofile by id.
  * @route GET /api/auth/profile?id=
  * @access Public
  */
-const getProfile = async (req, res, next) => {
-  try {
-
+const getProfile = asyncHandler(async (req, res, next) => {
     const { id } = req.query;
 
     if (!id) throw new BadRequestError('Provide user id.')
@@ -123,13 +109,6 @@ const getProfile = async (req, res, next) => {
         })
       })
       .catch(() => { throw new NotFoundError('user profile not found.') })
-
-    if (!res.headersSent)
-      throw new BadRequestError('user profile not found.')
-
-  } catch (error) {
-    return next(error)
-  }
-}
+})
 
 export { registerUser, loginUser, getProfile }
