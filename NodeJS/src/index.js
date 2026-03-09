@@ -1,8 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv'
 import { errorHandler, requestLogger } from './middlewares/errorHandler.js';
-
+import { connectDB } from './config/db.connect.js'
 import  route  from './route.js';
+
 
 // config ENV variables
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(requestLogger)
 app.use('/',route )
 app.use(errorHandler)
 
+connectDB()
 // listen on port 
 app.listen(port, function (err) {
     if (err) console.log(err);
