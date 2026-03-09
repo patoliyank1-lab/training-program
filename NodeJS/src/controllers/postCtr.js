@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from '../utils/error.js'
 
 const json_url = process.env.JSON_URL ?? "http://localhost:4000"; // if can't get JSON_URL from .env then give default value.
 
@@ -7,11 +8,6 @@ const json_url = process.env.JSON_URL ?? "http://localhost:4000"; // if can't ge
  * @route GET /api/post
  * @route GET /api/post?userId=    // for get posts of particular user
  * @access Public
- *
- * @param {object} req - The request object (Express request object).
- * @param {object} res - The response object (Express response object).
- * @param {function} next - The Express next function.
- * @returns {void}
  */
 const getAllPost = async (req, res, next) => {
     try {
@@ -39,50 +35,42 @@ const getAllPost = async (req, res, next) => {
                 status: 200,
                 data: allPost,
             });
-
-        throw next({ message: "Error to getting post.", statusCode: 400 });
+        if (!res.headersSent)
+            throw new BadRequestError("Error to getting post.");
 
     } catch (error) {
         return next(error);
     }
 };
 
-
 /**
  * @description get single post data by id
  * @route GET /api/post/:id
  * @access Public
- *
- * @param {object} req - The request object (Express request object).
- * @param {object} res - The response object (Express response object).
- * @param {function} next - The Express next function.
- * @returns {void}
  */
 const getPostById = async (req, res, next) => {
     try {
         const id = req.params.id;
 
         if (!id || id === "")
-            throw next({ message: "post id is undefined or not given.", statusCode: 400 });
+            throw new BadRequestError("post id is undefined or not given.");
 
         // get post by id using json server
-        const post = await axios
-            .get(`${json_url}/post/${id}`)
+        axios.get(`${json_url}/post/${id}`)
             .then((value) => value.data)
+            .then(value => {
+                return res.status(200).json({
+                    success: true,
+                    status: 200,
+                    data: value,
+                });
+            })
             .catch(() => {
-                throw next({ message: "post not found.", statusCode: 404 })
+                throw new NotFoundError("post not found.")
             });
 
-
-        if (post) return res.status(200).json({
-            success: true,
-            status: 200,
-            data: post,
-        });
-
-
-        // if post not found then send error
-        throw next({ message: "post not found.", statusCode: 404 });
+        if (!res.headersSent)
+            throw new BadRequestError("post not found.")
 
     } catch (error) {
         return next(error)
@@ -93,26 +81,21 @@ const getPostById = async (req, res, next) => {
  * @description create new product.
  * @route POST /api/post/
  * @access Login user
- *
- * @param {object} req - The request object (Express request object).
- * @param {object} res - The response object (Express response object).
- * @param {function} next - The Express next function.
- * @returns {void}
  */
 const createNewPost = async (req, res, next) => {
     try {
         const { title, description, image, userId } = req.body;
 
         if (!title || !description || !image)
-            throw next({ message: 'all filed must required', statusCode: 400 })
+            throw new BadRequestError('all filed must required')
 
-        if (!userId) throw next({ message: 'invalid User.', statusCode: 401 })
+        if (!userId) throw new UnauthorizedError('invalid User.')
 
         const user = await axios
             .get(`${json_url}/user?id=${userId}`)
             .then((value) => value.data);
 
-        if (user.length == 0) throw next({ message: 'invalid User.', statusCode: 401 })
+        if (user.length == 0) throw new UnauthorizedError('invalid User.')
 
         const post = {
             title,
@@ -121,7 +104,7 @@ const createNewPost = async (req, res, next) => {
             userId,
             createdAt: new Date().toISOString(),
         };
-
+        // create post 
         axios.post(`${json_url}/post/`, post).then((value) => {
             return res.status(200).json({
                 success: true,
@@ -129,6 +112,9 @@ const createNewPost = async (req, res, next) => {
                 data: post,
             });
         });
+
+        if (!res.headersSent)
+            throw new BadRequestError("error to create new post try again.")
     } catch (error) {
         return next(error)
     }
@@ -138,19 +124,13 @@ const createNewPost = async (req, res, next) => {
  * @description update post by using post id .
  * @route PUT /api/post/:id
  * @access Login user
- * @async
- *
- * @param {object} req - The request object (Express request object).
- * @param {object} res - The response object (Express response object).
- * @param {function} next - The Express next function.
- * @returns {void}
  */
 const updatePostById = async (req, res, next) => {
     try {
         const updatedPost = req.body;
         const id = req.params.id;
 
-        
+
 
         if (!updatedPost) {
             throw next({ message: 'post not defined', statusCode: 400 })
@@ -169,8 +149,8 @@ const updatePostById = async (req, res, next) => {
             status: 200,
             data: post,
         });
-
-        throw next({ message: 'post not found', statusCode: 404 })
+        if (!res.headersSent)
+            throw next({ message: 'post not found', statusCode: 404 })
     } catch (error) {
         return next(error)
     }
@@ -180,37 +160,33 @@ const updatePostById = async (req, res, next) => {
  * @description delete post by using post id .
  * @route DELETE /api/post/:id
  * @access Login user
- * @async
- *
- * @param {object} req - The request object (Express request object).
- * @param {object} res - The response object (Express response object).
- * @param {function} next - The Express next function.
- * @returns {void}
  */
 const deletePostById = async (req, res, next) => {
     try {
         const id = req.params.id;
 
         if (!id || id === "")
-            throw next({ message: 'post id is undefined or not given.', statusCode: 400 })
+            throw new BadRequestError('post id is undefined or not given.')
 
         // get post by id using json server
-        const post = await axios
-            .delete(`${json_url}/post/${id}`)
+        axios.delete(`${json_url}/post/${id}`)
             .then((value) => value.data)
+            .then(() => {
+                return res.status(200).json({
+                    success: true,
+                    status: 200,
+                    data: 'post deleted.',
+                });
+            })
             .catch(() => {
-                throw next({ message: 'post not found', statusCode: 404 })
+                throw NotFoundError('post not found')
             });
-        if (post) return res.status(200).json({
-            success: true,
-            status: 200,
-            data: 'post deleted.',
-        });
 
-        // if post not found then send error
-        throw next({ message: 'post not found', statusCode: 404 })
+        if (!res.headersSent)
+            throw new NotFoundError("post not found")
+
     } catch (error) {
-       return next(error)
+        return next(error)
     }
 };
 
