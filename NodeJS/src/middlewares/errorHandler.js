@@ -1,8 +1,8 @@
 import { styleText } from 'node:util';
 function errorHandler (err, req, res, next) {
   console.error(styleText(['red', 'bold'] ,err.message));  // highlight error by bold red color
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Something went wrong!';
+  const statusCode = err.statusCode ?? 500;
+  const message = err.message ?? 'Something went wrong!';
 
 
   // send error response
