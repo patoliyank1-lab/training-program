@@ -49,8 +49,6 @@ const getPostById = asyncHandler(async (req, res, next) => {
 
     if (!id || id === "")
         throw new BadRequestError("post id is undefined or not given.");
-    console.log(id);
-
     const data = await axios.get(`${json_url}/post/${id}`)
         .then((value) => value.data)
         .catch((error) => {
