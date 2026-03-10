@@ -4,24 +4,25 @@ const postSchema = new Schema({
     title: {
         type: String,
         required: true,
-        minlength: 1,
-        maxlength: 100,
 
     },
     description: {
         type: String,
         required: true,
-        minlength: 10,
     },
     image: {
         type: String,
         required: true,
     },
-    user: {
+    CreatedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
+    likes:[{
+        type:Schema.Types.ObjectId,
+        ref: 'User',
+    }],
     isPublished: {
         type: Boolean,
         default: false
@@ -29,5 +30,5 @@ const postSchema = new Schema({
 }, {
     timestamps: true
 });
-const user = model('Post', postSchema);
-export default user;
+const Post = model('Post', postSchema);
+export default Post;

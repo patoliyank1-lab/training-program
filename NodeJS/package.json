@@ -2,21 +2,30 @@
   "name": "nodejs",
   "version": "1.0.0",
   "description": "",
-  "license": "ISC",
-  "author": "",
-  "type": "module",
-  "main": "index.js",
-  "scripts": {
-    "start": "node --watch ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "npx json-server ./data/db.json --port 4000"
+  "main": "./dist/server.js",
+  "directories": {
+    "test": "test"
   },
+  "scripts": {
+    "build": "tsc",
+    "start": "build && nodemon --watch 'dist/**/*'  src/server.js",
+    "dev": "bun run --watch src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
   "dependencies": {
-    "axios": "^1.13.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "json-server": "^1.0.0-beta.12",
-    "mongodb": "^7.1.0",
+    "express-validator": "^7.3.1",
     "mongoose": "^9.2.4"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.4.0",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

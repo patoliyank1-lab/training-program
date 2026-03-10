@@ -1,6 +1,7 @@
 import { Worker } from "worker_threads";
+import type { NextFunction, Request, Response } from "express"
 
-export function nonBlockingCode(req, res, next) {
+export function nonBlockingCode(req:Request, res:Response, next:NextFunction) {
   // Task 1
   const startTime = performance.now();
   console.log("start");
@@ -13,7 +14,7 @@ export function nonBlockingCode(req, res, next) {
 }
 
 
-export function blockingCode(req, res, next) {
+export function blockingCode(req:Request, res:Response, next:NextFunction) {
   const worker = new Worker("./src/Worker/worker.js");
   // Task 1
   const startTime = performance.now();

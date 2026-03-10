@@ -16,13 +16,23 @@ const userSchema = new Schema({
     required: true,
     unique: true,  
     trim: true,
-    match: [/.+@.+\..+/, 'Please fill a valid email address']
+    lowercase: true,
   },
   password: {
     type:String,
     required: true,
     minlength:6,
   },
+  role:{
+    type:String,
+    enum: ['admin', 'user'],
+    default: 'user',
+    required: true,
+  },
+  avatar: {
+    type:String,
+    require:true,
+  }
 }, {
   timestamps: true
 });

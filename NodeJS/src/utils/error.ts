@@ -1,4 +1,5 @@
 class BadRequestError extends Error {
+    statusCode: number;
     constructor(message = 'Bad Request' ){
         super(message);
         this.message = message
@@ -7,6 +8,7 @@ class BadRequestError extends Error {
 }
 
 class UnauthorizedError extends Error {
+    statusCode: number;
     constructor(message = 'Unauthorized' ){
         super(message);
         this.message = message
@@ -15,6 +17,7 @@ class UnauthorizedError extends Error {
 }
 
 class NotFoundError extends Error {
+    statusCode: number;
     constructor(message = 'item not found.' ){
         super(message);
         this.message = message
@@ -23,6 +26,7 @@ class NotFoundError extends Error {
 }
 
 class ConflictError extends Error {
+    statusCode: number;
     constructor(message = 'duplicate item found.' ){
         super(message);
         this.message = message

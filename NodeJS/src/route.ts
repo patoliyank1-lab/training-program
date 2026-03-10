@@ -1,17 +1,17 @@
 import express from 'express'
-const router = express.Router()
+import { blockingCode, nonBlockingCode } from './utils/Worker/workerTask.js'
+import { callbackRouteForApi, callbackRouteForCallbackHell, callbackRouteForFAkeApi } from './utils/AsyncPatterns/callback.js'
+import { promiseRouteForApi, promiseRouteForFAkeApi } from './utils/AsyncPatterns/promise.js'
+import { asyncRouteForApi, asyncRouteForFAkeApi } from './utils/AsyncPatterns/async.js'
 import APIrouter from './router/index.route.js'
 
-import { callbackRouteForApi, callbackRouteForCallbackHell, callbackRouteForFAkeApi } from './utils/AsyncPatterns/callback.js';
-import { promiseRouteForApi, promiseRouteForFAkeApi } from './utils/AsyncPatterns/promise.js';
-import { asyncRouteForApi, asyncRouteForFAkeApi } from './utils/AsyncPatterns/async.js';
-import { blockingCode, nonBlockingCode } from './utils/Worker/workerTask.js';
+const router = express.Router()
 
 
 router.use('/api', APIrouter)
 
 
-//testing routes for  callback vs Promise vs async/await api calling.
+// testing routes for  callback vs Promise vs async/await api calling.
 router.use('/callback/fake-api', callbackRouteForFAkeApi )
 router.use('/callback/real-api', callbackRouteForApi )
 router.use('/callback/callback-hell', callbackRouteForCallbackHell )
