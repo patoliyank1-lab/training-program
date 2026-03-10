@@ -20,6 +20,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
     success: true,
     status: 200,
     data: 'User Successfully register.',
+    token:response.token
   })
 
 })
@@ -38,7 +39,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     status: 200,
-    data: response,
+    data: response.user,
+    token:response.token
   })
 
   throw new UnauthorizedError('password or email is incorrect.')
