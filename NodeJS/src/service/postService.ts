@@ -102,6 +102,10 @@ export const PostService = {
     let deletePost;
     try {
        deletePost = await Post.deleteOne({_id:id});
+       if(deletePost.deletedCount == 0){
+      throw new NotFoundError('Post not found.')
+       }
+       
     } catch (error) {
       throw new NotFoundError('Post not found.')
     } 
