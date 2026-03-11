@@ -27,37 +27,36 @@ export const AuthService = {
     }
 
     const newUser = new User(user)
-    const resUser = await newUser.save();
+    const resUser = (await newUser.save()).toObject();
 
 
-const token = createToken(String(resUser._id), resUser.email, resUser.role)
 
-const {password, ...otherValue} = resUser
+    const { password, ...otherValue } = resUser
 
     const response = {
-      user: otherValue,
-      token
+      user: otherValue
     }
     return response
   },
 
-  login: async ({email, pass}: {email:string, pass:string}) => {
+  login: async ({ email, pass }: { email: string, pass: string }) => {
 
     //Email check
-    const user = await User.findOne({ email });
+    const mongoUser = await User.findOne({ email });
+    const user = mongoUser?.toObject()
     if (!user) {
       throw new ConflictError("Email is not register.");
     }
-    /**@Error (when password and email is correct then this Error also throw with result but sussefully get result in unexpected format ) */
-    if(user.password !== pass){
+
+    if (user.password !== pass) {
       throw new BadRequestError('email or password incorrect.')
     }
-const {password, ...otherValue} = user
+    const { password, ...otherValue } = user
 
-const token = createToken(String(user._id), user.email, user.role)
+    const token = createToken(String(user._id), user.email, user.role)
 
-     const response = {
-      user:otherValue,
+    const response = {
+      user: otherValue,
       token
     }
     return response

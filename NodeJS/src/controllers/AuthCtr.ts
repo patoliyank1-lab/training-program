@@ -19,8 +19,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
   if (response) res.status(201).json({
     success: true,
     status: 200,
-    data: 'User Successfully register.',
-    token:response.token
+    data: 'User Successfully register.'
   })
 
 })

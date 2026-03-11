@@ -14,7 +14,6 @@ const getAllPost = asyncHandler(
         let post;  
 
         if(userId){
-            console.log(userId);
             post =  await PostService.getAllPostByUserId(userId);
         }else{
             post =  await PostService.getAllPost()
@@ -57,11 +56,10 @@ const getPostById = asyncHandler(
  * @access Login user
  */
 const createNewPost = asyncHandler(async (req, res, next) => {
-    const { title, description, image, userId } = req.body;
-    console.log(userId);
+    const { title, description, image } = req.body;
     
 
-    const response = await PostService.Save({ title, description, image, userId });
+    const response = await PostService.Save({ title, description, image, userId:(req.user?.userId as string) });
 
     if (response) return res.status(200).json({
         success: true,

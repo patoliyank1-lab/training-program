@@ -7,14 +7,15 @@ import {
     createNewPost 
 } from '../controllers/postCtr.js';
 import { postValidator, updatePostValidator } from '../middlewares/PostValidator.js';
+import { AuthMiddlewares } from '../middlewares/AuthMiddleware.js';
 
 const router = express.Router()
 
 //post routes
 router.get('/', getAllPost);   // for get particular user post '/api/post?userId='
-router.post('/',postValidator, createNewPost);
+router.post('/', AuthMiddlewares ,postValidator, createNewPost);
 router.get('/:id', getPostById);
-router.put('/:id',updatePostValidator , updatePostById);
-router.delete('/:id', deletePostById);
+router.put('/:id',AuthMiddlewares ,updatePostValidator , updatePostById);
+router.delete('/:id',AuthMiddlewares , deletePostById);
 
 export default router; 
