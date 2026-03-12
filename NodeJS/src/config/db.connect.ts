@@ -1,5 +1,6 @@
 import { connect } from 'mongoose'
 import User from '../models/User.js';
+import { hashPassword } from '../utils/password.js';
 const uri = process.env.MONGO_URL ?? ''
 export const connectDB = async () => {
   try {
@@ -24,7 +25,7 @@ const createAdmin = async () => {
       name:'Admin',
       email:'admin@post.com',
       username:'admin_123',
-      password:'Admin@123',
+      password:await hashPassword('Admin123'),
       role:'admin',  
     })
 

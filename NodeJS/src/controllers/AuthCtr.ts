@@ -35,14 +35,12 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
   const response = await AuthService.login({email, pass:password})
 
-  res.status(201).json({
+  res.status(200).json({
     success: true,
     status: 200,
     data: response.user,
     token:response.token
   })
-
-  throw new UnauthorizedError('password or email is incorrect.')
 })
 
 // /**

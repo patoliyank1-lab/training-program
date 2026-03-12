@@ -4,7 +4,9 @@ import {
     getPostById, 
     updatePostById, 
     deletePostById,
-    createNewPost 
+    createNewPost, 
+    likePost,
+    removeLikePost
 } from '../controllers/postCtr.js';
 import { postValidator, updatePostValidator } from '../middlewares/PostValidator.js';
 import { AuthMiddlewares } from '../middlewares/AuthMiddleware.js';
@@ -18,5 +20,9 @@ router.post('/', AuthMiddlewares ,postValidator, createNewPost);
 router.get('/:id', getPostById);
 router.put('/:id',AuthMiddlewares ,updatePostValidator , updatePostById);
 router.delete('/:id',AuthMiddlewares, isAdmin , deletePostById);
+
+
+router.get('/like/:id',AuthMiddlewares, likePost)
+router.get('/dislike/:id',AuthMiddlewares, removeLikePost)
 
 export default router; 

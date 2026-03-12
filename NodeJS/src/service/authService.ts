@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import { BadRequestError, ConflictError } from "../utils/error.js";
 import { createToken } from "../utils/JWT.js";
 import { sendTokenMail } from "../utils/mail.js";
+import { comparePassword, hashPassword } from "../utils/password.js";
 
 interface newUser {
   name: string;
@@ -27,6 +28,8 @@ export const AuthService = {
       throw new ConflictError("This username is already resister");
     }
 
+    user.password = await hashPassword(user.password)
+
     const newUser = new User(user)
     const resUser = (await newUser.save()).toObject();
     
@@ -42,13 +45,13 @@ export const AuthService = {
   login: async ({ email, pass }: { email: string, pass: string }) => {
 
     //Email check
-    const mongoUser = await User.findOne({ email });
-    const user = mongoUser?.toObject()
+    const user = await User.findOne({ email }).lean();
     if (!user) {
       throw new ConflictError("Email is not register.");
     }
 
-    if (user.password !== pass) {
+    const isSame = await comparePassword(pass, user.password)
+    if (!isSame) {
       throw new BadRequestError('email or password incorrect.')
     }
     const { password, ...otherValue } = user

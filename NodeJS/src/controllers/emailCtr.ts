@@ -4,6 +4,7 @@ import { BadRequestError, NotFoundError, UnauthorizedError } from "../utils/erro
 import { verifyToken, type Payload } from "../utils/JWT.js";
 import User from "../models/User.js";
 import { sendWelcomeMail } from "../utils/mail.js";
+import { sendSMS } from "../utils/SMS.js";
 
 export const verifyOTP = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -36,6 +37,7 @@ export const verifyTokenEmail = async (req: Request, res: Response, next: NextFu
 
         sendWelcomeMail(user.email)
         res.send('user verify successfully')
+        await sendSMS(user.email, user.username)
 
     }catch(error){
         throw new NotFoundError('user not found.')
