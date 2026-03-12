@@ -15,7 +15,9 @@ export const registerValidator = [
   body('email')
     .notEmpty().withMessage('email must have more than 5 characters')
     .isEmail().withMessage('email is not Valid formate.'),
-
+  body('phone')
+    .matches(/^\+?[1-9]\d{1,14}$/)
+    .withMessage('Invalid phone number format'),
   body('password')
     .notEmpty().withMessage('email must have more than 8 characters')
     .isLength({ min: 8, max: 20 }).withMessage('email must hav min 8 or max 20 characters')

@@ -8,7 +8,7 @@ export interface Payload {
 }
 
 const secret = process.env.JWT_SECRET ?? 'Secret@123';
-export const createToken = (id: string, email: string, role: string) => {
+export const createToken = (id: string, email: string, role: string, ex?:number ) => {
 
     const payload:Payload = {
         userId: id,
@@ -16,7 +16,7 @@ export const createToken = (id: string, email: string, role: string) => {
         role: role
     };
     const token = jwt.sign(payload, secret, {
-        expiresIn: '1h' // Token expires in 1 hour
+        expiresIn: ex ?? '1h' // Token expires in 1 hour
     });
 
     return token;

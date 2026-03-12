@@ -18,6 +18,10 @@ const userSchema = new Schema({
     trim: true,
     lowercase: true,
   },
+  phone:{
+    type:String,
+    default:''
+  },
   password: {
     type:String,
     required: true,
@@ -28,6 +32,10 @@ const userSchema = new Schema({
     enum: ['admin', 'user'],
     default: 'user',
     required: true,
+  },
+  isVerify:{
+    type:Boolean,
+    default:false,
   },
   avatar: {
     type:String,

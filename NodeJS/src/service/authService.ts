@@ -1,11 +1,13 @@
 import User from "../models/User.js";
 import { BadRequestError, ConflictError } from "../utils/error.js";
 import { createToken } from "../utils/JWT.js";
+import { sendTokenMail } from "../utils/mail.js";
 
 interface newUser {
   name: string;
   email: string;
   username: string;
+  phone?:string;
   password: string;
 }
 
@@ -13,7 +15,6 @@ export const AuthService = {
 
 
   register: async (user: newUser) => {
-
     //Email check
     const emailUser = await User.findOne({ email: user.email });
     if (emailUser) {
@@ -28,11 +29,10 @@ export const AuthService = {
 
     const newUser = new User(user)
     const resUser = (await newUser.save()).toObject();
-
-
-
+    
+    await sendTokenMail(newUser.email, String(newUser._id), newUser.role); // return true or false
     const { password, ...otherValue } = resUser
-
+    
     const response = {
       user: otherValue
     }
