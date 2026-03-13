@@ -13,16 +13,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendOTPMail = async (to: string, OTP: string) => {
-  const info = await transporter.sendMail({
-    from: '"Post-app" <post@test-opt.com>',
-    to: to,
-    subject: "OTP for register on Post-App",
-    text: "Hello world?", // Plain-text version of the message
-    html: `<b>${OTP && OTP}</b>`, // HTML version of the message
-  });
-
-};
 
 export const sendMail = async (to: string, Token: string) => {
   const __dirname = path.resolve();

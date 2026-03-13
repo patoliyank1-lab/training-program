@@ -1,8 +1,8 @@
 import User from "../models/User.js";
 import { BadRequestError, ConflictError } from "../utils/error.js";
 import { createToken } from "../utils/JWT.js";
-import { sendTokenMail } from "../utils/mail.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
+import { RegisterEmailQ } from "../utils/QueueJobs/Queue/Queue.js";
 
 interface newUser {
   name: string;
@@ -32,8 +32,8 @@ export const AuthService = {
 
     const newUser = new User(user)
     const resUser = (await newUser.save()).toObject();
-    
-    await sendTokenMail(newUser.email, String(newUser._id), newUser.role); // return true or false
+    await RegisterEmailQ(newUser.email, String(newUser._id), newUser.role)
+     // return true or false
     const { password, ...otherValue } = resUser
     
     const response = {

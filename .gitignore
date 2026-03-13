@@ -167,3 +167,4 @@ dist-ssr
 *.sw?
 NodeJS/package-lock.json
 NodeJS/data/db.json
+NodeJS/uploads/*-resized.jpeg
