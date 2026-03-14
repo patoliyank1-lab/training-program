@@ -2,13 +2,19 @@ import type { Request, Response, NextFunction } from "express";
 import pino from "pino";
 import { pinoHttp } from "pino-http";
 import winston from "winston";
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from "uuid";
+import path from "node:path";
 
 const transport = pino.transport({
   targets: [
     {
       target: "pino-roll",
-      options: { file: "./logs/app.log", frequency: "daily", mkdir: true },
+      options: {
+        file: path.join("logs", "app.log"),
+        frequency: "daily", 
+        mkdir: true, 
+        dateFormat: "yyyy-MM-dd", 
+      },
     },
   ],
 });
@@ -21,9 +27,7 @@ export const logger = pino(
 
 export const pinoLog = pinoHttp({
   logger: logger,
-})
-
-
+});
 
 const levels = {
   error: 0,
@@ -66,8 +70,7 @@ export const Logger = winston.createLogger({
   transports,
 });
 
-
-export const winLogger  = (req:Request ,res:Response, next:NextFunction) => {
+export const winLogger = (req: Request, res: Response, next: NextFunction) => {
   const requestId = req.headers["x-request-id"] || uuidv4();
   const { method, url, ip, headers } = req;
   const userAgent = headers["user-agent"];
@@ -76,6 +79,8 @@ export const winLogger  = (req:Request ,res:Response, next:NextFunction) => {
     request_id: requestId,
   });
 
-  req.winLog.info(`requestId:${requestId} method:${method}, url:${url}, ip:${ip} userAgent:${userAgent}`);
-next();
-}
+  req.winLog.info(
+    `requestId:${requestId} method:${method}, url:${url}, ip:${ip} userAgent:${userAgent}`,
+  );
+  next();
+};

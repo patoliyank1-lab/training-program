@@ -3,10 +3,11 @@ import { connectDB } from "./config/db.connect.js";
 import { pinoLog, winLogger } from "./middlewares/logger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import router from "./route.js";
+import helmet from "helmet";
 const app = express();
 
 const port = process.env.PORT ?? 4000;
-
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

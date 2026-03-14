@@ -1,12 +1,29 @@
-import express from 'express'
-import { loginUser, registerUser } from '../controllers/AuthCtr.js'
-import { AuthValidator, loginValidator, registerValidator } from '../middlewares/AuthValidator.js'
+import express from "express";
+import { loginUser, registerUser } from "../controllers/AuthCtr.js";
+import {
+  AuthValidator,
+  loginValidator,
+  registerValidator,
+} from "../middlewares/AuthValidator.js";
+import apiLimiter from "../middlewares/rateLimiter.js";
 
-const router = express.Router()
+const router = express.Router();
 
 // Auth routes
-router.post('/login', loginValidator, AuthValidator, loginUser)
-router.post('/register',registerValidator, AuthValidator  , registerUser)
+router.post(
+  "/login",
+  apiLimiter(50, 30, "login"),
+  loginValidator,
+  AuthValidator,
+  loginUser,
+);
+router.post(
+  "/register",
+  apiLimiter(50, 30, "register"),
+  registerValidator,
+  AuthValidator,
+  registerUser,
+);
 // router.get('/profile', getProfile)
 
 export default router;
