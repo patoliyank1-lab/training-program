@@ -1,6 +1,6 @@
 import express from "express";
 import { connectDB } from "./config/db.connect.js";
-import { pinoLog, winLogger } from "./middlewares/logger.js";
+import { Logger, pinoLog, winLogger } from "./middlewares/logger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import router from "./route.js";
 import helmet from "helmet";
@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 // Server setup
 connectDB().then(() => {
   app.listen(port, function (err) {
-    if (err) console.log(err);
-    console.log("Server listening on PORT", port);
+    if (err) Logger.error(err);
+    Logger.info(`Server is ruining on : http://localhost:${port}/`);
   });
 });

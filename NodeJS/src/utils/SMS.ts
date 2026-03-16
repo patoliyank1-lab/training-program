@@ -1,4 +1,5 @@
 import  twilio  from 'twilio';
+import { Logger } from '../middlewares/logger.js';
 const accountSid = process.env.PHONE_SID;
 const authToken = process.env.PHONE_TOKEN;
 
@@ -12,7 +13,7 @@ export const sendSMS = async (email:string, username:string) => {
             from: '+15748215721',
             to: '+916355639005'
         })
-        .then((message:any) => console.log(message.sid));
+        .then((message:any) => Logger.info(message.sid));
     } catch (error:any) {
         throw new Error(error.massage)
     }

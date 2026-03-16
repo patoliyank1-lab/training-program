@@ -5,8 +5,6 @@ export const isAdmin = (req:Request, res:Response, next:NextFunction) => {
     const user = req.user;
 
     if(!user) throw new UnauthorizedError('Unauthorized Parson.')
-
-        console.log(user.role);
         
         
         if(String(user.role) !== 'admin'){

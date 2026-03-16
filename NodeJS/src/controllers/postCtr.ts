@@ -3,6 +3,8 @@ import { PostService } from "../service/postService.js";
 import { BadRequestError, UnauthorizedError } from "../utils/error.js";
 import Post from "../models/Post.js";
 import { likeFunction } from "../utils/like.js";
+import type { reqQueryType } from "../types/Types.js";
+import { Logger } from "../middlewares/logger.js";
 
 /**
  * @description get all post.
@@ -12,14 +14,20 @@ import { likeFunction } from "../utils/like.js";
  */
 const getAllPost = asyncHandler(async (req, res, next) => {
   // for get one particular user's posts
-  const userId = req.query.userId as string;
-  let post;
+  let {sortBy, page, limit, userId, likes} = req.query;
 
-  if (userId) {
-    post = await PostService.getAllPostByUserId(userId);
-  } else {
-    post = await PostService.getAllPost();
-  }
+  if(limit === '') limit = undefined;
+  if(page === '') page = undefined;
+
+  const reqQuery: reqQueryType = {
+    sortBy: sortBy as (string | undefined),
+    page: page as (string | undefined),
+    limit: limit as (string | undefined),
+    userId: userId as (string | undefined),
+    likes:likes as (string | undefined),
+  };
+
+  const post = await PostService.getAllPost(reqQuery);
 
   return res
     .status(200)
@@ -136,7 +144,7 @@ const likePost = asyncHandler(async (req, res, next) => {
   );
 
   const post = await Post.findByIdAndUpdate(id, {
-    $set: { likes: likeArray },
+    $set: { likes: likeArray.likeArray, likesCount:likeArray.length },
   }).lean();
 
   if (!post) throw new BadRequestError("incorrect post id.");
@@ -168,7 +176,7 @@ const removeLikePost = asyncHandler(async (req, res, next) => {
   );
 
   const post = await Post.findByIdAndUpdate(id, {
-    $set: { likes: likeArray },
+     $set: { likes: likeArray.likeArray, likesCount:likeArray.length },
   }).lean();
 
   if (!post) throw new BadRequestError("incorrect post id.");

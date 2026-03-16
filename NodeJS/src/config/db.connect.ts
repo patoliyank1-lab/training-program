@@ -1,14 +1,19 @@
 import { connect } from 'mongoose'
 import User from '../models/User.js';
 import { hashPassword } from '../utils/password.js';
-const uri = process.env.MONGO_URL ?? ''
+import { Logger } from '../middlewares/logger.js';
+const uri = process.env.MONGO_URL!;
+const AdminName = process.env.ADMIN_NAME!; 
+const AdminEmail = process.env.ADMIN_EMAIL!; 
+const AdminUsername = process.env.ADMIN_USERNAME!; 
+const AdminPassword = process.env.ADMIN_PASSWORD!; 
 export const connectDB = async () => {
   try {
     await connect(uri)
     createAdmin();
-    console.log('MongoDB Connected successfully!'); 
+    Logger.info('MongoDB Connected successfully!'); 
   } catch (error: any) {
-    console.error(`Error connecting to MongoDB: ${error.message}`);
+    Logger.error(`Error connecting to MongoDB: ${error.message}`);
     process.exit(1);
   }
 };
@@ -22,16 +27,16 @@ const createAdmin = async () => {
 
   if(!Admin){
     const newAdmin = new User({
-      name:'Admin',
-      email:'admin@post.com',
-      username:'admin_123',
-      password:await hashPassword('Admin123'),
+      name:AdminName,
+      email:AdminEmail,
+      username:AdminUsername,
+      password:await hashPassword(AdminPassword),
       role:'admin',  
     })
 
     await newAdmin.save();
   }
 } catch (error) {
-   console.log(error) 
+   Logger.error(error) 
   }
 }

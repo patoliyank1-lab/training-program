@@ -19,7 +19,7 @@ import apiLimiter from "../middlewares/rateLimiter.js";
 const router = express.Router();
 
 //post routes
-router.get("/", apiLimiter(5, 30, "getPost"), getAllPost); // for get particular user post '/api/post?userId='
+router.get("/", apiLimiter(500, 30, "getPost"), getAllPost); // for get particular user post '/api/post?userId='
 router.post(
   "/",
   apiLimiter(100, 30, "createPost"),

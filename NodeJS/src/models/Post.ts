@@ -12,12 +12,15 @@ const postSchema = new Schema({
     },
     image: {
         type: String,
-        required: true,
     },
     CreatedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
+    },
+    likesCount:{
+        type:Number,
+        default:0,
     },
     likes:[{
         type:Schema.Types.ObjectId,

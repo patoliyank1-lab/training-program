@@ -12,8 +12,6 @@ export const postValidator = [
         .notEmpty().withMessage('description must have more than 10 characters')
         .isLength({ min: 10 }).withMessage('description must have min 10 characters')
         .isLength({ max: 1000 }).withMessage('description must have max 1000 characters'),
-    body('image')
-        .notEmpty().withMessage('image url is required'),
     (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
 
@@ -40,8 +38,6 @@ export const updatePostValidator = [
         .notEmpty().withMessage('description must have more than 10 characters')
         .isLength({ min: 10 }).withMessage('description must have min 10 characters')
         .isLength({ max: 1000 }).withMessage('description must have max 1000 characters'),
-    body('image')
-        .notEmpty().withMessage('image url is required'),
     (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
 
