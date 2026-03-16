@@ -87,21 +87,18 @@ export const PostService = {
     id,
     title,
     description,
-    image,
   }: {
     id: string;
     title?: string;
     description?: string;
-    image?: string;
   }) => {
     if (!id) throw new BadRequestError("post id is not defined.");
-
     let updatedPost;
 
     try {
       updatedPost = await Post.findByIdAndUpdate(
         id, // Filter
-        { $set: { title, description, image } }, // Update operation using $set
+        { $set: { title, description } }, // Update operation using $set
       );
     } catch (error) {
       throw new NotFoundError("post not found.");

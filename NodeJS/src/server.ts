@@ -24,7 +24,8 @@ app.get("/", (req, res) => {
 });
 
 // Server setup
-connectDB().then(() => {
+connectDB()
+.then(() => {
   app.listen(port, function (err) {
     if (err) Logger.error(err);
     Logger.info(`Server is ruining on : http://localhost:${port}/`);

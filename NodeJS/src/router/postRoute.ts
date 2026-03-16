@@ -15,11 +15,12 @@ import {
 import { AuthMiddlewares } from "../middlewares/AuthMiddleware.js";
 import { isAdmin } from "../utils/isAdmin.js";
 import apiLimiter from "../middlewares/rateLimiter.js";
+import { readCash } from "../middlewares/redisCache.js";
 
 const router = express.Router();
 
 //post routes
-router.get("/", apiLimiter(500, 30, "getPost"), getAllPost); // for get particular user post '/api/post?userId='
+router.get("/", apiLimiter(500, 30, "getPost"), readCash , getAllPost); // for get particular user post '/api/post?userId='
 router.post(
   "/",
   apiLimiter(100, 30, "createPost"),

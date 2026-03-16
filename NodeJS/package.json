@@ -10,7 +10,8 @@
     "build": "tsc",
     "start": "nodemon --watch 'dist/**/*'  src/server.js",
     "dev": "bun run --watch src/server.ts",
-    "worker": "bun --watch src/utils/QueueJobs/Worker/Worker.ts"
+    "worker": "bun --watch src/utils/QueueJobs/Worker/Worker.ts",
+    "redis": "bun --watch src/config/redis.connect.ts"
   },
   "keywords": [],
   "author": "",

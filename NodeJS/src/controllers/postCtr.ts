@@ -4,7 +4,7 @@ import { BadRequestError, UnauthorizedError } from "../utils/error.js";
 import Post from "../models/Post.js";
 import { likeFunction } from "../utils/like.js";
 import type { reqQueryType } from "../types/Types.js";
-import { Logger } from "../middlewares/logger.js";
+import { deleteKeysByPattern, setCache } from "../config/redis.connect.js";
 
 /**
  * @description get all post.
@@ -14,20 +14,26 @@ import { Logger } from "../middlewares/logger.js";
  */
 const getAllPost = asyncHandler(async (req, res, next) => {
   // for get one particular user's posts
-  let {sortBy, page, limit, userId, likes} = req.query;
+  let { sortBy, page, limit, userId, likes } = req.query;
 
-  if(limit === '') limit = undefined;
-  if(page === '') page = undefined;
+  if (limit === "") limit = undefined;
+  if (page === "") page = undefined;
 
   const reqQuery: reqQueryType = {
-    sortBy: sortBy as (string | undefined),
-    page: page as (string | undefined),
-    limit: limit as (string | undefined),
-    userId: userId as (string | undefined),
-    likes:likes as (string | undefined),
+    sortBy: sortBy as string | undefined,
+    page: page as string | undefined,
+    limit: limit as string | undefined,
+    userId: userId as string | undefined,
+    likes: likes as string | undefined,
   };
 
   const post = await PostService.getAllPost(reqQuery);
+
+  setCache(req.originalUrl, {
+    success: true,
+    status: 200,
+    data: post,
+  });
 
   return res
     .status(200)
@@ -78,7 +84,7 @@ const createNewPost = asyncHandler(async (req, res, next) => {
     image,
     userId: req.user?.userId as string,
   });
-
+  deleteKeysByPattern(req.baseUrl);
   if (response)
     return res.status(200).json({
       success: true,
@@ -93,12 +99,12 @@ const createNewPost = asyncHandler(async (req, res, next) => {
  * @access Login user
  */
 const updatePostById = asyncHandler(async (req, res, next) => {
-  const { title, description, image } = req.body;
+  const { title, description } = req.body;
   const id: string = req.params.id as string;
 
   // get post by id using json server
-  const post = await PostService.update({ id, title, description, image });
-
+  const post = await PostService.update({ id, title, description });
+  deleteKeysByPattern(req.baseUrl);
   if (post)
     return res.status(200).json({
       success: true,
@@ -116,6 +122,7 @@ const deletePostById = asyncHandler(async (req, res, next) => {
   const id = req.params.id as string;
 
   const response = await PostService.delete(id);
+  deleteKeysByPattern(req.baseUrl);
 
   if (response)
     return res.status(200).json({
@@ -135,7 +142,6 @@ const likePost = asyncHandler(async (req, res, next) => {
     throw new UnauthorizedError("Unauthorized Parson.");
 
   const posts = await Post.findById(id).lean();
-
   if (!posts) throw new BadRequestError("incorrect post id.");
 
   const likeArray = likeFunction(
@@ -144,11 +150,12 @@ const likePost = asyncHandler(async (req, res, next) => {
   );
 
   const post = await Post.findByIdAndUpdate(id, {
-    $set: { likes: likeArray.likeArray, likesCount:likeArray.length },
+    $set: { likes: likeArray.likeArray, likesCount: likeArray.length },
   }).lean();
 
   if (!post) throw new BadRequestError("incorrect post id.");
 
+  deleteKeysByPattern("/api/post");
   res.json({
     success: true,
     status: 200,
@@ -176,11 +183,11 @@ const removeLikePost = asyncHandler(async (req, res, next) => {
   );
 
   const post = await Post.findByIdAndUpdate(id, {
-     $set: { likes: likeArray.likeArray, likesCount:likeArray.length },
+    $set: { likes: likeArray.likeArray, likesCount: likeArray.length },
   }).lean();
 
   if (!post) throw new BadRequestError("incorrect post id.");
-
+  deleteKeysByPattern("/api/post");
   res.json({
     success: true,
     status: 200,
