@@ -36,24 +36,6 @@ export const PostService = {
     return await newPost.save();
   },
 
-  getAllPostByUserId: async (userId: string) => {
-    if (!userId) throw new BadRequestError("User id not given.");
-    let user;
-    try {
-      const mongoUser = await User.findOne({ _id: userId });
-      user = mongoUser?.toObject();
-    } catch (err) {
-      throw new NotFoundError("user not found");
-    }
-
-    if (!user) throw new UnauthorizedError("this user is not define");
-
-    const post = await Post.find({ CreatedBy: userId });
-
-    if (!Number(post.length)) throw new NotFoundError("no post found");
-
-    return post;
-  },
 
   getAllPost: async (reqQuery: reqQueryType) => {
     const { sortBy, page = 1, limit = 10, userId, likes } = reqQuery;
