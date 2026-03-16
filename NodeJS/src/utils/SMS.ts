@@ -15,6 +15,6 @@ export const sendSMS = async (email:string, username:string) => {
         })
         .then((message:any) => Logger.info(message.sid));
     } catch (error:any) {
-        throw new Error(error.massage)
+        throw new Error(error.massage, { cause: error })
     }
 }

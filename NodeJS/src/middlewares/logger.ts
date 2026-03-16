@@ -56,7 +56,7 @@ const format = winston.format.combine(
   winston.format.colorize({ all: true }),
   winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
   winston.format.printf(
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+     
     (info) => `${info.timestamp} ${info.level}: ${info.message}`,
   ),
 );

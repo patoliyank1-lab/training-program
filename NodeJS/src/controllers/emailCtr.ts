@@ -1,11 +1,11 @@
-import type { Request, Response, NextFunction } from "express";
+import type { Request, Response } from "express";
 import { BadRequestError, NotFoundError, UnauthorizedError } from "../utils/error.js";
 import { verifyToken, type Payload } from "../utils/JWT.js";
 import User from "../models/User.js";
 import { RegisterSMSQ, VerificationEmailQ } from "../utils/QueueJobs/Queue/Queue.js";
 
 
-export const verifyTokenEmail = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyTokenEmail = async (req: Request, res: Response) => {
 
     const token = req.query.token
 
@@ -28,6 +28,7 @@ export const verifyTokenEmail = async (req: Request, res: Response, next: NextFu
         await VerificationEmailQ(user.email)
         res.send('user verify successfully')
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     }catch(error){
         throw new NotFoundError('user not found.')
     }

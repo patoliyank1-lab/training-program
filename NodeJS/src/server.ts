@@ -4,6 +4,7 @@ import { Logger, pinoLog, winLogger } from "./middlewares/logger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import router from "./route.js";
 import helmet from "helmet";
+import { imageRemoveCronJob } from "./utils/cron.js";
 const app = express();
 
 const port = process.env.PORT ?? 4000;
@@ -23,6 +24,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to typescript backend!");
 });
 
+
+imageRemoveCronJob('0 0 * * *');
 // Server setup
 connectDB()
 .then(() => {

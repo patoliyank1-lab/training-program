@@ -1,8 +1,6 @@
-import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from '../utils/error.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { AuthService } from '../service/authService.js'
 
-const json_url = process.env.JSON_URL ?? 'http://localhost:4000'  // if can't get JSON_URL from .env then give default value. 
 
 
 /**
@@ -10,7 +8,7 @@ const json_url = process.env.JSON_URL ?? 'http://localhost:4000'  // if can't ge
  * @route POST /api/auth/register
  * @access Public
  */
-const registerUser = asyncHandler(async (req, res, next) => {
+const registerUser = asyncHandler(async (req, res) => {
   
   const { name, username, email, password } = req.body
 
@@ -29,7 +27,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
  * @route POST /api/auth/login
  * @access Public
  */
-const loginUser = asyncHandler(async (req, res, next) => {
+const loginUser = asyncHandler(async (req, res) => {
   const { email, password }: {email:string, password:string}  = req.body
 
 

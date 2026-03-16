@@ -34,7 +34,7 @@ export const AuthService = {
     const resUser = (await newUser.save()).toObject();
     await RegisterEmailQ(newUser.email, String(newUser._id), newUser.role)
      // return true or false
-    const { password, ...otherValue } = resUser
+    const { password:_password, ...otherValue } = resUser
     
     const response = {
       user: otherValue
@@ -54,7 +54,7 @@ export const AuthService = {
     if (!isSame) {
       throw new BadRequestError('email or password incorrect.')
     }
-    const { password, ...otherValue } = user
+    const { password:_password, ...otherValue } = user
 
     const token = createToken(String(user._id), user.email, user.role)
 

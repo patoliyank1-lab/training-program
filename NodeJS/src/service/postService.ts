@@ -7,7 +7,6 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "../utils/error.js";
-import { Logger } from "../middlewares/logger.js";
 
 interface newPost {
   title: string;
@@ -100,6 +99,7 @@ export const PostService = {
         id, // Filter
         { $set: { title, description } }, // Update operation using $set
       );
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new NotFoundError("post not found.");
     }
@@ -117,6 +117,7 @@ export const PostService = {
       if (deletePost.deletedCount == 0) {
         throw new NotFoundError("Post not found.");
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new NotFoundError("Post not found.");
     }

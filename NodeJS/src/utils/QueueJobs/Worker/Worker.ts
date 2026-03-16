@@ -30,7 +30,7 @@ const VerificationEmailWorker = new Worker('VerificationEmailQueue', async job =
 
 RegisterEmailWorker.on('completed', (job) => {Logger.info(`Register Email successfully send on ${job.data.email}`)} )
 VerificationEmailWorker.on('completed', (job) => {Logger.info(`Welcome Email successfully send on ${job.data.email}`)})
-VerificationEmailWorker.on('completed', (job) => {Logger.info(`Register information successfully send on SMS. {${job.data.email}`) })
+RegisterSMSWorker.on('completed', (job) => {Logger.info(`Register information successfully send on SMS. {${job.data.email}`) })
 
 RegisterEmailWorker.on('failed', (job: any, error) => {
   Logger.warn(`Register Email failed to send on ${job.data.email}`);
@@ -40,7 +40,7 @@ VerificationEmailWorker.on('failed', (job: any, error) => {
   Logger.warn(`Welcome Email failed to send on ${job.data.email}`)
   Logger.error(`JobId: ${job.id}, Error: ${error}`);
 })
-VerificationEmailWorker.on('failed', (job: any, error) => {
+RegisterSMSWorker.on('failed', (job: any, error) => {
   Logger.warn(`Register information failed to send on SMS. {${job.data.email}}`) 
   Logger.error(`JobId: ${job.id}, Error: ${error}`);
 })

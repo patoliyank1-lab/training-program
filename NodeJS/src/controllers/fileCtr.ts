@@ -6,7 +6,7 @@ import sharp from "sharp";
 import path from "node:path";
 import cloudinary from "../utils/cloudinaryConfig.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-const uploadDir = path.join(__dirname, "../../uploads");
+const uploadDir = path.join("./uploads");
 
 export const avatarUpload = asyncHandler(
   async (req: Request, res: Response) => {
@@ -34,7 +34,7 @@ export const avatarUpload = asyncHandler(
     );
     const Obj = user?.toObject();
     if (!Obj) throw new UnauthorizedError("this user not found.");
-    const { password, ...OtherValues } = Obj;
+    const { password:_password, ...OtherValues } = Obj;
     res.send(OtherValues);
   },
 );

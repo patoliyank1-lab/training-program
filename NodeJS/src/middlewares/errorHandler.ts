@@ -1,6 +1,6 @@
 import type { ErrorRequestHandler } from "express";
 
-export const errorHandler: ErrorRequestHandler = (err, req, res, next): void => {
+export const errorHandler: ErrorRequestHandler = (err, req, res): void => {
   const statusCode = err.statusCode ?? 500;
   const message = err.message ?? 'Something went wrong!';
   if( statusCode >= 500 ){
