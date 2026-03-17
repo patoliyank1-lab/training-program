@@ -77,12 +77,11 @@ const getPostById = asyncHandler(async (req, res) => {
  * @access Login user
  */
 const createNewPost = asyncHandler(async (req, res) => {
-  const { title, description, image } = req.body;
+  const { title, description } = req.body;
 
   const response = await PostService.Save({
     title,
     description,
-    image,
     userId: req.user?.userId as string,
   });
   deleteKeysByPattern(req.baseUrl);

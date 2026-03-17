@@ -11,7 +11,6 @@ import {
 interface newPost {
   title: string;
   description: string;
-  image: string;
   userId: string;
 }
 
@@ -72,12 +71,17 @@ export const PostService = {
   },
 
   getPostById: async (id: string) => {
-    if (!id) throw new BadRequestError("post id is not given.");
+    try {
+      if (!id) throw new BadRequestError("post id is not given.");
 
-    const post = await Post.findById(id);
+      const post = await Post.findById(id);
 
-    if (!post) throw new NotFoundError("post not found.");
-    return post;
+      if (!post) throw new NotFoundError("post not found.");
+      return post;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      throw new NotFoundError("this post id is invalid");
+    }
   },
 
   update: async ({

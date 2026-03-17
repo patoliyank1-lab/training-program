@@ -59,18 +59,18 @@ export const postImageUpload = asyncHandler(
       })
       .toFormat("jpeg", { quality: 80 })
       .toFile(outputPath);
-
     const result = await cloudinary.uploader.upload(outputPath);
 
     const userId = req.user?.userId;
     if (!userId) throw new UnauthorizedError("UserId not found.");
     const post = await Post.findOneAndUpdate(
       { _id: id, CreatedBy: userId }, // Filter
-      { $set: { avatar: result.url } }, // Update operation using $set
+      { $set: { image: result.url } }, // Update operation using $set
     );
 
     const Obj = post?.toObject();
 
+    req.winLog.debug(result.url);
     if (!Obj) throw new UnauthorizedError("this user not found.");
 
     res.send(Obj);
