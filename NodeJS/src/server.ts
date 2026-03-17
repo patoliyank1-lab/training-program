@@ -24,11 +24,9 @@ app.get("/", (req, res) => {
   res.send("Welcome to typescript backend!");
 });
 
-
-imageRemoveCronJob('0 0 * * *');
+imageRemoveCronJob("0 0 * * *");
 // Server setup
-connectDB()
-.then(() => {
+connectDB().then(() => {
   app.listen(port, function (err) {
     if (err) Logger.error(err);
     Logger.info(`Server is ruining on : http://localhost:${port}/`);

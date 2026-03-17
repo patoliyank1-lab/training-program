@@ -34,7 +34,7 @@ export const avatarUpload = asyncHandler(
     );
     const Obj = user?.toObject();
     if (!Obj) throw new UnauthorizedError("this user not found.");
-    const { password:_password, ...OtherValues } = Obj;
+    const { password: _password, ...OtherValues } = Obj;
     res.send(OtherValues);
   },
 );

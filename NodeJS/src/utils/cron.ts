@@ -4,8 +4,8 @@ import fsExtra from "fs-extra";
 const directoryPath = "./uploads";
 
 export const imageRemoveCronJob = async (cronExpression: string) => {
-    console.log('start');
-    
+  console.log("start");
+
   const task = cron.schedule(cronExpression, () => {
     console.log(`[Cron Job] Starting task: ${new Date().toLocaleString()}`);
     try {

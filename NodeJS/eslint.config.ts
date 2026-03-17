@@ -6,16 +6,16 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-     rules: {
+    rules: {
       "@typescript-eslint/no-explicit-any": "off", // Disable the rule
       "@typescript-eslint/no-unused-vars": [
-      "error",
-      { 
-        "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_",
-        "caughtErrorsIgnorePattern": "^_"
-      }
-    ]
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
     languageOptions: {
       globals: {

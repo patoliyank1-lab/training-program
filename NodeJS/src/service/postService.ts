@@ -1,7 +1,7 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
 import type { reqQueryType } from "../types/Types.js";
-import { Document } from 'mongoose';
+import { Document } from "mongoose";
 import {
   BadRequestError,
   NotFoundError,
@@ -15,12 +15,12 @@ interface newPost {
   userId: string;
 }
 
-  interface PaginatedPost {
-    posts: Document[];
-    total: number;
-    limit: number;
-    page: number;
-    pages: number;
+interface PaginatedPost {
+  posts: Document[];
+  total: number;
+  limit: number;
+  page: number;
+  pages: number;
 }
 
 export const PostService = {
@@ -35,7 +35,6 @@ export const PostService = {
     return await newPost.save();
   },
 
-
   getAllPost: async (reqQuery: reqQueryType) => {
     const { sortBy, page = 1, limit = 10, userId, likes } = reqQuery;
 
@@ -45,9 +44,9 @@ export const PostService = {
       query.CreatedBy = userId;
     }
 
-    if(likes){
-       const [minLike, maxLike] = String(likes).split('-').map(Number);
-       query.likesCount = { $gte: minLike, $lte: maxLike };
+    if (likes) {
+      const [minLike, maxLike] = String(likes).split("-").map(Number);
+      query.likesCount = { $gte: minLike, $lte: maxLike };
     }
 
     const options = {
@@ -56,24 +55,23 @@ export const PostService = {
       sort: sortBy === "asc" ? { title: 1 } : { title: -1 },
     };
 
-    const posts = await Post.find(query, null , options);
+    const posts = await Post.find(query, null, options);
     if (!posts) throw new Error("this is error");
 
     const total = await Post.countDocuments(query);
     const totalPages = Math.ceil(total / parseInt(limit as string, 10));
     const paginatedPost: PaginatedPost = {
-            posts,
-            total,
-            limit: parseInt(limit as string, 10),
-            page: parseInt(page as string, 10),
-            pages: totalPages,
-        };
+      posts,
+      total,
+      limit: parseInt(limit as string, 10),
+      page: parseInt(page as string, 10),
+      pages: totalPages,
+    };
 
     return paginatedPost;
   },
 
   getPostById: async (id: string) => {
-
     if (!id) throw new BadRequestError("post id is not given.");
 
     const post = await Post.findById(id);
@@ -99,7 +97,7 @@ export const PostService = {
         id, // Filter
         { $set: { title, description } }, // Update operation using $set
       );
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new NotFoundError("post not found.");
     }
@@ -117,7 +115,7 @@ export const PostService = {
       if (deletePost.deletedCount == 0) {
         throw new NotFoundError("Post not found.");
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new NotFoundError("Post not found.");
     }

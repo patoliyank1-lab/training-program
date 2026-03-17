@@ -18,8 +18,11 @@ const VerificationEmailQueue = new Queue("VerificationEmailQueue", {
   connection: connection as any,
 });
 
-
-export const RegisterEmailQ = async (email:string, userId:string, role:string) => {
+export const RegisterEmailQ = async (
+  email: string,
+  userId: string,
+  role: string,
+) => {
   await RegisterEmailQueue.add(
     "sendRegisterEmail",
     { email, userId, role },
@@ -35,8 +38,7 @@ export const RegisterEmailQ = async (email:string, userId:string, role:string) =
   );
 };
 
-
-export const RegisterSMSQ = async (email:string, username:string) => {
+export const RegisterSMSQ = async (email: string, username: string) => {
   await RegisterSMSQueue.add(
     "sendRegisterSMS",
     { email, username },
@@ -52,8 +54,7 @@ export const RegisterSMSQ = async (email:string, username:string) => {
   );
 };
 
-
-export const VerificationEmailQ = async (email:string) => {
+export const VerificationEmailQ = async (email: string) => {
   await VerificationEmailQueue.add(
     "sendVerificationEmail",
     { email },
@@ -68,4 +69,3 @@ export const VerificationEmailQ = async (email:string) => {
     },
   );
 };
-
