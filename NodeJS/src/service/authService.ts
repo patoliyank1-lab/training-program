@@ -1,3 +1,4 @@
+import Follow from "../models/followers.js";
 import User from "../models/User.js";
 import { BadRequestError, ConflictError } from "../utils/error.js";
 import { createToken } from "../utils/JWT.js";
@@ -31,6 +32,10 @@ export const AuthService = {
     const newUser = new User(user);
     const resUser = (await newUser.save()).toObject();
     await RegisterEmailQ(newUser.email, String(newUser._id), newUser.role);
+
+    const follow = new Follow({ userId: newUser._id });
+    await follow.save();
+
     // return true or false
     const { password: _password, ...otherValue } = resUser;
 
