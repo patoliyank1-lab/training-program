@@ -35,3 +35,5 @@ connectDB().then(() => {
     Logger.info(`Server is ruining on : http://localhost:${port}/`);
   });
 });
+
+    export { app }
