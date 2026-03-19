@@ -35,7 +35,11 @@ export const avatarUpload = asyncHandler(
     const Obj = user?.toObject();
     if (!Obj) throw new UnauthorizedError("this user not found.");
     const { password: _password, ...OtherValues } = Obj;
-    res.send(OtherValues);
+    res.status(200).json({
+      success: true,
+      status: 200,
+      data: OtherValues,
+    });
   },
 );
 
@@ -66,13 +70,15 @@ export const postImageUpload = asyncHandler(
     const post = await Post.findOneAndUpdate(
       { _id: id, CreatedBy: userId }, // Filter
       { $set: { image: result.url } }, // Update operation using $set
-    );
+    ).lean();
 
-    const Obj = post?.toObject();
+    // const Obj = post?.toObject();
+    if (!post) throw new UnauthorizedError("image is not given.");
 
-    req.winLog.debug(result.url);
-    if (!Obj) throw new UnauthorizedError("this user not found.");
-
-    res.send(Obj);
+    res.status(200).json({
+      success: true,
+      status: 200,
+      data: post,
+    });
   },
 );
