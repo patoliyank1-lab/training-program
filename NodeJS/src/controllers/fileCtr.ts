@@ -1,64 +1,84 @@
 import type { Request, Response } from "express";
-import { BadRequestError, NotFoundError, UnauthorizedError } from "../utils/error.js";
+import { BadRequestError, UnauthorizedError } from "../utils/error.js";
 import User from "../models/User.js";
 import Post from "../models/Post.js";
+import sharp from "sharp";
+import path from "node:path";
+import cloudinary from "../utils/cloudinaryConfig.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+const uploadDir = path.join("./uploads");
 
-export const avatarUpload = async (req: Request, res: Response) => {
-    try {
-        const image = req.file;
-        if (!image) throw new BadRequestError("Image not Given.");
-        if (image.size >= 5 * 1024 * 1024) throw new BadRequestError('image less then 5 MB')
-        const mongoUser = await User.findByIdAndUpdate(
-            req.user?.userId, // Filter
-            { $set: { avatar: image.path } }, // Update operation using $set
-        )
-        const user = mongoUser?.toObject()
-        if (!user) throw new UnauthorizedError('this user not found.')
-        const { password, ...OtherValues } = user
-        res.send(OtherValues);
-    } catch (error) {
-        throw new BadRequestError('user not found')
-    }
-};
-
-export const postImageUpload = async(req: Request, res: Response) => {
-  
-    const id  = req.query.id;
-
-    if (!id) throw new BadRequestError('post id not found')
+export const avatarUpload = asyncHandler(
+  async (req: Request, res: Response) => {
     const image = req.file;
     if (!image) throw new BadRequestError("Image not Given.");
+    if (image.size >= 5 * 1024 * 1024)
+      throw new BadRequestError("image less then 5 MB");
 
-    try{
+    const filename = `${Date.now()}-resized.jpeg`;
+    const outputPath = path.join(uploadDir, filename);
 
-        const MongoPost = await Post.findById(id);
-        const MPost = MongoPost?.toObject();
-        
-        if(MPost?.CreatedBy != req.user?.userId ){
-            throw new UnauthorizedError("this post can not delete by You. d")
-        }
-        }catch(error:any){
-            throw new UnauthorizedError(error.message)
-        }
+    await sharp(image.buffer)
+      .resize(500, 200, {
+        fit: sharp.fit.inside,
+        withoutEnlargement: true,
+      })
+      .toFormat("jpeg", { quality: 80 })
+      .toFile(outputPath);
 
+    const result = await cloudinary.uploader.upload(outputPath);
 
-      let mongoUser:unknown = {};
-      try {
-        mongoUser = await Post.findByIdAndUpdate(
-            id, // Filter
-            { $set: { avatar: image.path } }, // Update operation using $set
-        )
-      } catch (error) {
-        throw new NotFoundError('post not found.')
-      }
-      
-        const post = mongoUser
-        if (!post) throw new UnauthorizedError('this user not found.')
+    const user = await User.findByIdAndUpdate(
+      req.user?.userId, // Filter
+      { $set: { avatar: result.url } }, // Update operation using $set
+    );
+    const Obj = user?.toObject();
+    if (!Obj) throw new UnauthorizedError("this user not found.");
+    const { password: _password, ...OtherValues } = Obj;
+    res.status(200).json({
+      success: true,
+      status: 200,
+      data: OtherValues,
+    });
+  },
+);
 
+export const postImageUpload = asyncHandler(
+  async (req: Request, res: Response) => {
+    const id = req.query.id;
 
-    if (image.size >= 5 * 1024 * 1024) throw new BadRequestError('image less then 5 MB')
+    if (!id) throw new BadRequestError("post id not found");
+    const image = req.file;
+    if (!image) throw new BadRequestError("Image not Given.");
+    if (image.size >= 5 * 1024 * 1024)
+      throw new BadRequestError("image less then 5 MB");
 
-    res.send(req.file);
+    const filename = `${Date.now()}-resized.jpeg`;
+    const outputPath = path.join(uploadDir, filename);
 
- 
-};
+    await sharp(image.buffer)
+      .resize(500, 200, {
+        fit: sharp.fit.inside,
+        withoutEnlargement: true,
+      })
+      .toFormat("jpeg", { quality: 80 })
+      .toFile(outputPath);
+    const result = await cloudinary.uploader.upload(outputPath);
+
+    const userId = req.user?.userId;
+    if (!userId) throw new UnauthorizedError("UserId not found.");
+    const post = await Post.findOneAndUpdate(
+      { _id: id, CreatedBy: userId }, // Filter
+      { $set: { image: result.url } }, // Update operation using $set
+    ).lean();
+
+    // const Obj = post?.toObject();
+    if (!post) throw new UnauthorizedError("image is not given.");
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+      data: post,
+    });
+  },
+);
