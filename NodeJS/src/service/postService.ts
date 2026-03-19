@@ -1,5 +1,7 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
+import type { reqQueryType } from "../types/Types.js";
+import { Document } from "mongoose";
 import {
   BadRequestError,
   NotFoundError,
@@ -9,8 +11,15 @@ import {
 interface newPost {
   title: string;
   description: string;
-  image: string;
   userId: string;
+}
+
+interface PaginatedPost {
+  posts: Document[];
+  total: number;
+  limit: number;
+  page: number;
+  pages: number;
 }
 
 export const PostService = {
@@ -25,69 +34,74 @@ export const PostService = {
     return await newPost.save();
   },
 
-  getAllPostByUserId: async (userId: string) => {
-    if (!userId) throw new BadRequestError("User id not given.");
-    let user;
-    try {
-      const mongoUser = await User.findOne({ _id: userId });
-      user = mongoUser?.toObject();
-    } catch (err) {
-      throw new NotFoundError("user not found");
+  getAllPost: async (reqQuery: reqQueryType) => {
+    const { sortBy, page = 1, limit = 10, userId, likes } = reqQuery;
+
+    const query: Record<string, any> = {};
+
+    if (userId) {
+      query.CreatedBy = userId;
     }
 
-    if (!user) throw new UnauthorizedError("this user is not define");
-
-    const post = await Post.find({ CreatedBy: userId });
-
-    if (!Number(post.length)) throw new NotFoundError("no post found");
-
-    return post;
-  },
-
-  getAllPost: async () => {
-    let posts;
-    try {
-      posts = await Post.find({});
-    } catch (err) {
-      throw new NotFoundError("post not found");
+    if (likes) {
+      const [minLike, maxLike] = String(likes).split("-").map(Number);
+      query.likesCount = { $gte: minLike, $lte: maxLike };
     }
 
+    const options = {
+      skip: (parseInt(page as string, 10) - 1) * parseInt(limit as string, 10),
+      limit: parseInt(limit as string, 10),
+      sort: sortBy === "asc" ? { title: 1 } : { title: -1 },
+    };
+
+    const posts = await Post.find(query, null, options);
     if (!posts) throw new Error("this is error");
 
-    return Array.from(posts);
+    const total = await Post.countDocuments(query);
+    const totalPages = Math.ceil(total / parseInt(limit as string, 10));
+    const paginatedPost: PaginatedPost = {
+      posts,
+      total,
+      limit: parseInt(limit as string, 10),
+      page: parseInt(page as string, 10),
+      pages: totalPages,
+    };
+
+    return paginatedPost;
   },
 
   getPostById: async (id: string) => {
-    console.log(id);
+    try {
+      if (!id) throw new BadRequestError("post id is not given.");
 
-    if (!id) throw new BadRequestError("post id is not given.");
+      const post = await Post.findById(id);
 
-    const post = await Post.findById(id);
-
-    if (!post) throw new NotFoundError("post not found.");
-    return post;
+      if (!post) throw new NotFoundError("post not found.");
+      return post;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      throw new NotFoundError("this post id is invalid");
+    }
   },
 
   update: async ({
     id,
     title,
     description,
-    image,
   }: {
     id: string;
     title?: string;
     description?: string;
-    image?: string;
   }) => {
     if (!id) throw new BadRequestError("post id is not defined.");
-
     let updatedPost;
 
     try {
       updatedPost = await Post.findByIdAndUpdate(
         id, // Filter
-        { $set: { title, description, image } }, // Update operation using $set
+        { $set: { title, description } }, // Update operation using $set
       );
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new NotFoundError("post not found.");
     }
@@ -101,11 +115,15 @@ export const PostService = {
     if (!id) throw new BadRequestError("post id is not defined.");
     let deletePost;
     try {
-       deletePost = await Post.deleteOne({_id:id});
+      deletePost = await Post.deleteOne({ _id: id });
+      if (deletePost.deletedCount == 0) {
+        throw new NotFoundError("Post not found.");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      throw new NotFoundError('Post not found.')
-    } 
+      throw new NotFoundError("Post not found.");
+    }
 
-    return deletePost; 
+    return deletePost;
   },
 };
