@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import { hashPassword } from "../utils/password.js";
 import { Logger } from "../middlewares/logger.js";
 import { config } from "dotenv";
+import Follow from "../models/followers.js";
 
 config();
 
@@ -35,7 +36,9 @@ const createAdmin = async () => {
         role: "admin",
       });
 
-      await newAdmin.save();
+      const resAdmin = (await newAdmin.save()).toObject();
+      const follow = new Follow({ userId: resAdmin._id });
+      await follow.save();
     }
   } catch (error) {
     Logger.error(error);

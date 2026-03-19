@@ -1,6 +1,12 @@
 import type { ErrorRequestHandler } from "express";
 
-export const errorHandler: ErrorRequestHandler = (err, req, res): void => {
+export const errorHandler: ErrorRequestHandler = (
+  err,
+  req,
+  res,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next,
+): void => {
   const statusCode = err.statusCode ?? 500;
   const message = err.message ?? "Something went wrong!";
   if (statusCode >= 500) {
