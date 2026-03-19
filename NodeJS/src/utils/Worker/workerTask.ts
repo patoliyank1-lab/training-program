@@ -1,11 +1,11 @@
 import { Worker } from "worker_threads";
-import type { NextFunction, Request, Response } from "express"
+import type { Request, Response } from "express";
 
-export function nonBlockingCode(req:Request, res:Response, next:NextFunction) {
+export function nonBlockingCode(req: Request, res: Response) {
   // Task 1
   const startTime = performance.now();
   console.log("start");
-  for (let i = 0; i <= 9999999999; i++) {} //  heavy task
+  for (let i = 0; i <= 9999999999; i++); //  heavy task
   console.log("end");
   const endTime = performance.now();
   const duration = endTime - startTime;
@@ -13,8 +13,7 @@ export function nonBlockingCode(req:Request, res:Response, next:NextFunction) {
   res.send(`response send in time: ${duration} milliseconds`);
 }
 
-
-export function blockingCode(req:Request, res:Response, next:NextFunction) {
+export function blockingCode(req: Request, res: Response) {
   const worker = new Worker("./src/Worker/worker.js");
   // Task 1
   const startTime = performance.now();

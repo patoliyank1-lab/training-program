@@ -12,9 +12,10 @@ import { deleteKeysByPattern, setCache } from "../config/redis.connect.js";
  * @route GET /api/post?userId=    // for get posts of particular user
  * @access Public
  */
-const getAllPost = asyncHandler(async (req, res, next) => {
+const getAllPost = asyncHandler(async (req, res) => {
   // for get one particular user's posts
-  let { sortBy, page, limit, userId, likes } = req.query;
+  let { page, limit } = req.query;
+  const { sortBy, userId, likes } = req.query;
 
   if (limit === "") limit = undefined;
   if (page === "") page = undefined;
@@ -58,7 +59,7 @@ const getAllPost = asyncHandler(async (req, res, next) => {
  * @route GET /api/post/:id
  * @access Public
  */
-const getPostById = asyncHandler(async (req, res, next) => {
+const getPostById = asyncHandler(async (req, res) => {
   const id = req.params.id as string;
 
   const post = await PostService.getPostById(id);
@@ -75,13 +76,12 @@ const getPostById = asyncHandler(async (req, res, next) => {
  * @route POST /api/post/
  * @access Login user
  */
-const createNewPost = asyncHandler(async (req, res, next) => {
-  const { title, description, image } = req.body;
+const createNewPost = asyncHandler(async (req, res) => {
+  const { title, description } = req.body;
 
   const response = await PostService.Save({
     title,
     description,
-    image,
     userId: req.user?.userId as string,
   });
   deleteKeysByPattern(req.baseUrl);
@@ -98,7 +98,7 @@ const createNewPost = asyncHandler(async (req, res, next) => {
  * @route PUT /api/post/:id
  * @access Login user
  */
-const updatePostById = asyncHandler(async (req, res, next) => {
+const updatePostById = asyncHandler(async (req, res) => {
   const { title, description } = req.body;
   const id: string = req.params.id as string;
 
@@ -118,7 +118,7 @@ const updatePostById = asyncHandler(async (req, res, next) => {
  * @route DELETE /api/post/:id
  * @access Login user
  */
-const deletePostById = asyncHandler(async (req, res, next) => {
+const deletePostById = asyncHandler(async (req, res) => {
   const id = req.params.id as string;
 
   const response = await PostService.delete(id);
@@ -132,7 +132,7 @@ const deletePostById = asyncHandler(async (req, res, next) => {
     });
 });
 
-const likePost = asyncHandler(async (req, res, next) => {
+const likePost = asyncHandler(async (req, res) => {
   const user = req.user;
   if (!user) throw new UnauthorizedError("Unauthorized Parson.");
   //Post id
@@ -163,7 +163,7 @@ const likePost = asyncHandler(async (req, res, next) => {
   });
 });
 
-const removeLikePost = asyncHandler(async (req, res, next) => {
+const removeLikePost = asyncHandler(async (req, res) => {
   const user = req.user;
   if (!user) throw new UnauthorizedError("Unauthorized Parson.");
   //Post id
