@@ -168,3 +168,4 @@ dist-ssr
 NodeJS/package-lock.json
 NodeJS/data/db.json
 NodeJS/uploads/*-resized.jpeg
+NodeJS/app.log.*
