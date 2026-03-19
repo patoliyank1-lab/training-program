@@ -10,7 +10,7 @@ export const errorHandler: ErrorRequestHandler = (
   const statusCode = err.statusCode ?? 500;
   const message = err.message ?? "Something went wrong!";
   if (statusCode >= 500) {
-    // req.winLog.error(err);
+    req.winLog.error(err);
   } else {
     req.winLog.warn(`${statusCode} - ${message}`); // highlight error by bold red color
   }
