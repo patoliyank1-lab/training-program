@@ -24,6 +24,7 @@ export const registerValidator = [
     .isEmail()
     .withMessage("email is not Valid formate."),
   body("phone")
+    .optional()
     .matches(/^\+?[1-9][0-9]{7,14}$/)
     .withMessage("Invalid phone number format"),
   body("password")

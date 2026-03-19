@@ -1,0 +1,541 @@
+{
+  "info": {
+    "_postman_id": "1412af69-2f8b-49b9-8ba1-a721822966d9",
+    "name": "Post-App",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52926071",
+    "_collection_link": "https://patoliya-nk1-8376656.postman.co/workspace/95837287-b518-4741-81ef-444f0e3e3dee/collection/52926071-1412af69-2f8b-49b9-8ba1-a721822966d9?action=share&source=collection_link&creator=52926071"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "register user",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "auth", "register"]
+            },
+            "description": "## Register User\n\nThis endpoint registers a new user in the system. On successful registration, it returns a confirmation message with a `201 Created` status.\n\n---\n\n### Endpoint\n\n**POST** `http://localhost:3000/api/auth/register`\n\n---\n\n### Request Body\n\nSend the request body as **JSON** (`application/json`) with the following fields:\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| `name` | String | Yes | The full name of the user. |\n| `username` | String | Yes | A unique username for the user's account. |\n| `email` | String | Yes | A valid and unique email address for the user. |\n| `password` | String | Yes | The account password (e.g., minimum 8 characters, include uppercase, number, and special character). |\n| `confirmpassword` | String | Yes | Must match the `password` field exactly. |\n\n**Example Request Body:**\n\n``` json\n{\n  \"name\": \"John Doe\",\n  \"username\": \"johndoe\",\n  \"email\": \"johndoe@example.com\",\n  \"password\": \"Test@123\",\n  \"confirmpassword\": \"Test@123\"\n}\n\n ```\n\n---\n\n### Response\n\nOn success, the endpoint returns an HTTP `201 Created` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n  \"success\": true,\n  \"status\": 201,\n  \"data\": \"User Successfully register.\"\n}\n\n ```\n### Response\n\nOn Error, the endpoint returns an HTTP `400 Bad Request` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 400,\n    \"message\": \"Name must have more than 5 characters\"\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "login user",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"patoliya.nk1@gmail.com\",\n  \"password\": \"Passwordsad123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "auth", "login"]
+            },
+            "description": "## Login User\n\nAuthenticates an existing user and returns a JWT token that can be used for subsequent authenticated requests.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `http://localhost:3000/api/auth/login`\n\n#### Request Body\n\nThe request body must be sent as **JSON** (`application/json`).\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| `email` | `string` | Yes | The registered email of the user |\n| `password` | `string` | Yes | The user's account password |\n\n**Example:**\n\n``` json\n{\n  \"email\": \"patoliya.nk1@gmail.com\",\n  \"password\": \"Password123\"\n}\n\n ```\n\n---\n\n### Response\n\nOn success, the endpoint returns an HTTP `200 OK` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n  \"success\": true,\n  \"status\": 200,\n  \"data\": {\n    \"_id\": \"69b8e2b8b5f3c5cb13a869ef\",\n    \"name\": \"testUser\",\n    \"username\": \"test12356\",\n    \"email\": \"testuser@gmail.com\",\n    \"phone\": \"\",\n    \"role\": \"user\",\n    \"isVerify\": false,\n    \"avatar\": \"\",\n    \"createdAt\": \"2026-03-17T05:12:24.492Z\",\n    \"updatedAt\": \"2026-03-17T05:12:24.492Z\",\n    \"__v\": 0\n  },\n  \"token\": \"<JWT token>\"\n}\n\n ```\n\n### Response\n\nOn Error, the endpoint returns an HTTP `400 Bad Request` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 400,\n    \"message\": \"email or password incorrect.\"\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "avtar upload",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "avatar",
+                  "type": "file",
+                  "src": "/home/picpu-11/Downloads/download.jpeg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/upload/avatar",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "upload", "avatar"]
+            },
+            "description": "## Upload / Update User Avatar\n\nUploads or updates the authenticated user's profile avatar image. The image is stored on **Cloudinary** and the returned user object will contain the new Cloudinary URL in the `avatar` field.\n\n---\n\n### Endpoint\n\n**POST** `http://localhost:3000/api/upload/avatar`\n\n---\n\n### Authentication\n\nThis endpoint requires a valid Bearer token passed via the `Authorization` header.\n\n| Header | Value |\n| --- | --- |\n| `Authorization` | `AuthToken` |\n\n> Set the `AuthToken` variable in your active environment before sending this request. \n  \n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `http://localhost:3000/api/upload/avatar`\n\n#### Request Body\n\nThe request body must be sent as **JSON** (`application/form-data`).\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| `avatar` | `file/image` | Yes | this is image of user |\n\n---\n\n### Response\n\n**Status:** `200 OK`\n\nReturns the updated user object with the new avatar URL.\n\n``` json\n{\n  \"_id\": \"69b8e2b8b5f3c5cb13a869ef\",\n  \"name\": \"testUser\",\n  \"username\": \"test12356\",\n  \"email\": \"testuser@gmail.com\",\n  \"phone\": \"\",\n  \"role\": \"user\",\n  \"isVerify\": false,\n  \"avatar\": \"http://res.cloudinary.com/dvqs1k61h/image/...\",\n  \"createdAt\": \"2026-03-17T05:12:24.492Z\",\n  \"updatedAt\": \"2026-03-17T05:23:38.118Z\",\n  \"__v\": 0\n}\n\n ```\n\n### Response\n\nOn Error, the endpoint returns an HTTP `400 Bad Request` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 400,\n    \"message\": \"Image not Given.\"\n}\n\n ```\n\n### Response\n\nOn Error, the endpoint returns an HTTP `401 Unauthorized` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 401,\n    \"message\": \"Authorization header missing\"\n}\n\n ```"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "post",
+      "item": [
+        {
+          "name": "create new post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "asdd",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\":\"{{$randomJobTitle}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/post/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "post", ""]
+            },
+            "description": "## Create New Post\n\nCreates a new post with a title and description. The post is saved to the database and returned in the response with metadata such as creation timestamps, like count, and publish status.\n\n---\n\n### Endpoint\n\n**POST** `http://localhost:3000/api/post/`\n\n---\n\n### Authentication\n\nThis endpoint requires a **Bearer Token** passed via the `Authorization` header.\n\n| Header | Value |\n| --- | --- |\n| `Authorization` | `AuthToken` |\n\n> Make sure the `AuthToken` variable is set in your active environment before sending the request. \n  \n\n---\n\n### Request Body\n\nThe request body must be sent as **raw JSON**.\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `title` | `string` | The title of the post. Uses `{{$randomJobTitle}}` to generate a random job title dynamically. |\n| `description` | `string` | A short description of the post. |\n\n**Example:**\n\n``` json\n{\n  \"title\": \"{{$randomJobTitle}}\",\n  \"description\": \"test description\"\n}\n\n ```\n\n---\n\n### Response\n\n**Status:** `201 Created`\n\nA successful response returns the created post object wrapped in a standard response envelope.\n\n**Example Response:**\n\n``` json\n{\n  \"success\": true,\n  \"status\": 200,\n  \"data\": {\n    \"title\": \"Legacy Interactions Administrator\",\n    \"description\": \"test description\",\n    \"image\": \"\",\n    \"CreatedBy\": \"69b8e2b8b5f3c5cb13a869ef\",\n    \"likesCount\": 0,\n    \"likes\": [],\n    \"isPublished\": false,\n    \"_id\": \"69b8e8992cdf646d3433ead1\",\n    \"createdAt\": \"2026-03-17T05:37:29.410Z\",\n    \"updatedAt\": \"2026-03-17T05:37:29.410Z\",\n    \"__v\": 0\n  }\n}\n\n ```\n\n### Response\n\nOn Error, the endpoint returns an HTTP `400 Bad Request` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 400,\n    \"message\": \"description must have more than 10 characters\"\n}\n\n ```\n\n### Response\n\nOn Error, the endpoint returns an HTTP `401 Unauthorized` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 401,\n    \"message\": \"Invalid or expired token\"\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "get all posts",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/post?page=&limit=&userId=69b7efa711ecc1f486b05514&likes=&sortBy=",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "post"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": ""
+                },
+                {
+                  "key": "limit",
+                  "value": ""
+                },
+                {
+                  "key": "userId",
+                  "value": "69b7efa711ecc1f486b05514"
+                },
+                {
+                  "key": "likes",
+                  "value": ""
+                },
+                {
+                  "key": "sortBy",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Get All post\n\nget all post with pagination and filter option in this api have total 5 Params . and this api open for anyone.\n\n---\n\n### Endpoint\n\n**GET** `http://localhost:3000/api/post`\n\n---\n\n### Request Body\n\nThe request have 5 Params Options.\n\n| Key | Value | Description |\n| --- | --- | --- |\n| `userId` | `69b4f9005e7fa1a1f1109635` | this is use for get all post of this user. |\n| `page` | `2` | this is give 2ed page of all post page. |\n| `limit` | `15` | this params use for limits how many post on one page. |\n| `likes` | `5-10` | this params use for get post which likes between 5 to 10. and it formet must be in min-max. |\n| `sortBy` | `asc` | use for this Params to get post short by title. asc for A-Z and defalt Z-A |\n\n### Response\n\n**Status:** `200 OK`\n\nA successful response returns the created post object wrapped in a standard response envelope.\n\n**Example Response:**\n\n``` json\n{\n  \"success\": true,\n  \"status\": 200,\n  \"data\": {\n    \"posts\": [\"Array of post\"],\n    \"total\": 40,\n    \"limit\": 12,\n    \"page\": 2,\n    \"pages\": 4\n  }\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "get post by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/post/69b7a5594b3",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "post", "69b7a5594b3"]
+            },
+            "description": "## Get post by id\n\nget post by using post Id. this is dynemic API post id given like Example.\n\n---\n\n### Endpoint\n\n**GET** `http://localhost:3000/api/post/:id`\n\n---\n\n### Response\n\n**Status:** `200 OK`\n\nA successful response returns the created post object wrapped in a standard response envelope.\n\n**Example Response:**\n\n``` json\n{\n    \"success\": true,\n    \"statusCode\": 200,\n    \"data\": {\n        \"image\": \"\",\n        \"_id\": \"69b7a5594b32fa68e1f09ea5\",\n        \"title\": \"Forward Creative Executive\",\n        \"description\": \"test description\",\n        \"CreatedBy\": \"69b4f9005e7fa1a1f1109635\",\n        \"likesCount\": 1,\n        \"likes\": [\n            \"69b4f9005e7fa1a1f1109635\"\n        ],\n        \"isPublished\": false,\n        \"createdAt\": \"2026-03-16T06:38:17.391Z\",\n        \"updatedAt\": \"2026-03-16T11:37:04.528Z\",\n        \"__v\": 0\n    }\n}\n\n ```    \n\n\n ### Response\n\nOn Error, the endpoint returns an HTTP `404 Not Found` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 404,\n    \"message\": \"this post id is invalid\"\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "update post",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"District Security Producer - 2\",\n    \"description\": \"This is a test description for the District Security Producer - 2. It should be more than 10 characters long.\" // This description is too short and will cause an\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/post/69b7a",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "post", "69b7a"]
+            },
+            "description": "## Get All post\n\nUpdate post by using post Id. this is dynemic API post id given like Example.\n\n---\n\n### Endpoint\n\n**PUT** `http://localhost:3000/api/post/:id`\n\n---\n\n### Authentication\n\nThis endpoint requires a **Bearer Token** passed via the `Authorization` header.\n\n| Header | Value |\n| --- | --- |\n| `Authorization` | `AuthToken` |\n\n> Make sure the `AuthToken` variable is set in your active environment before sending the request. \n  \n\n---\n\n### Request Body\n\nThe request body must be sent as **raw JSON**.\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `title` | `string` | The title of the post. Uses `{{$randomJobTitle}}` to generate a random job title dynamically. |\n| `description` | `string` | A short description of the post. |\n\n**Example:**\n\n``` json\n{\n  \"title\": \"{{$randomJobTitle}}\",\n  \"description\": \"test description\"\n}\n\n ```\n\n---\n\n### Response\n\n**Status:** `200 OK`\n\nA successful response returns the created post object wrapped in a standard response envelope.\n\n**Example Response:**\n\n``` json\n{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": {\n        \"image\": \"\",\n        \"_id\": \"69b7a4db4b32fa68e1f09e41\",\n        \"title\": \"District Security Producer - 2\",\n        \"description\": \"This is a test description for the District Security Producer - 2. It should be more than 10 characters long.\",\n        \"CreatedBy\": \"69b4e21497e497f72464f312\",\n        \"likesCount\": 0,\n        \"likes\": [],\n        \"isPublished\": false,\n        \"createdAt\": \"2026-03-16T06:36:11.196Z\",\n        \"updatedAt\": \"2026-03-16T10:28:48.319Z\",\n        \"__v\": 0\n    }\n}\n\n ```\n\n## Error Responce\n\n**Status:** `401 Unauthorized`\n\nwhen the AuthToken is wrone then give me this Error in reponce.\n\n``` json\n{\n    \"success\": false,\n    \"status\": 401,\n    \"message\": \"Authorization header missing\"\n}\n\n ```\n\n**Status:** `404 Not Found`\n\nwhen the post id is wrone then give me this Error in reponce.\n\n``` json\n{\n    \"success\": false,\n    \"status\": 404,\n    \"message\": \"post not found.\"\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "delete post",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AuthToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/post/69b7a5514b32fa68e1f09e8d",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "post", "69b7a5514b32fa68e1f09e8d"]
+            },
+            "description": "## Delete Post\n\nDeletes a specific post by its unique ID. Only authorized users (typically admins or the post owner) can perform this action.\n\n---\n\n### Endpoint\n\n**DELETE** `http://localhost:3000/api/post/:id`\n\n---\n\n---\n\n### Authentication\n\nThis endpoint requires a **Bearer Token** passed via the `Authorization` header.\n\n| Header | Value |\n| --- | --- |\n| `Authorization` | `AuthToken` |\n\n> Make sure the `AuthToken` variable is set in your active environment before sending the request. \n  \n\n---\n\n### Path Parameter\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `id` | string | Yes | The unique MongoDB ObjectID of the post to delete (e.g., `69b0f5150e522a3c613509c3`) |\n\n---\n\n### Response\n\n**Status:** `200 OK`\n\nA successful response returns the created post object wrapped in a standard response envelope.\n\n**Example Response:**\n\n``` json\n{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": \"post successfully delete.\"\n}\n\n ```    \n\n\n ### Response\n\nOn Error, the endpoint returns an HTTP `401 Unauthorized` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 401,\n    \"message\": \"Invalid or expired token\"\n}\n\n ```\n\n\n ### Response\n\nOn Error, the endpoint returns an HTTP `404 Not Found` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 404,\n    \"message\": \"Post not found.\"\n}\n ```\n\n \n"
+          },
+          "response": []
+        },
+        {
+          "name": "post image uploade",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AuthToken}}",
+                "type": "text"
+              },
+              {
+                "key": "image",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/home/picpu-11/Downloads/download.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/upload/post?id=69b9282da3b48489372ff790",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "upload", "post"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "69b9282da3b48489372ff790"
+                }
+              ]
+            },
+            "description": "## Upload / Post image\n\nUploads or updates the authenticated user's created post image. The image is stored on **Cloudinary** and the returned user object will contain the new Cloudinary URL in the `image` field.\n\n---\n\n### Endpoint\n\n**POST** `http://localhost:3000/api/upload/post`\n\n---\n\n### Authentication\n\nThis endpoint requires a valid Bearer token passed via the `Authorization` header.\n\n| Header | Value |\n| --- | --- |\n| `Authorization` | `AuthToken` |\n\n> Set the `AuthToken` variable in your active environment before sending this request. \n  \n\n---\n\n### Request\n\n#### Request Body\n\nThe request body must be sent as **JSON** (`application/form-data`).\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| `avatar` | `file/image` | Yes | this is image of user |\n\n---\n\n### Response\n\n**Status:** `200 OK`\n\nReturns the updated user object with the new avatar URL.\n\n``` json\n{\n    \"_id\": \"69b9282da3b48489372ff790\",\n    \"title\": \"Senior Branding Planner\",\n    \"description\": \"test description\",\n    \"image\": \"http://res.cloudinary.com/dvqs1k61h/image/upload/v1773742317/apb5dlg0h5m49vekh4a6.jpg\",\n    \"CreatedBy\": \"69b4e21497e497f72464f312\",\n    \"likesCount\": 0,\n    \"likes\": [],\n    \"isPublished\": false,\n    \"createdAt\": \"2026-03-17T10:08:45.626Z\",\n    \"updatedAt\": \"2026-03-17T10:11:58.387Z\",\n    \"__v\": 0\n}\n\n ```\n\n### Response\n\nOn Error, the endpoint returns an HTTP `400 Bad Request` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 400,\n    \"message\": \"Image not Given.\"\n}\n\n ```\n\n### Response\n\nOn Error, the endpoint returns an HTTP `401 Unauthorized` with the following structure:\n\n**Example Response:**\n\n``` json\n{\n    \"success\": false,\n    \"status\": 401,\n    \"message\": \"Authorization header missing\"\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "like post",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AuthToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/post/like/69b7a5594b32fa68e1f09ea5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "post", "like", "69b7a5594b32fa68e1f09ea5"]
+            },
+            "description": "## API Endpoint: Like a Post\n\nThis endpoint allows users to like a specific post identified by its unique ID. By sending a GET request to this endpoint, users can indicate their approval or support for the post.\n\n---\n\n### Endpoint\n\n**GET** `http://localhost:3000/api/post/like/{postId}`\n\n---\n\n### Authentication\n\nThis endpoint requires a valid Bearer token passed via the `Authorization` header.\n\n| Header | Value |\n| --- | --- |\n| `Authorization` | `AuthToken` |\n\n> Set the `AuthToken` variable in your active environment before sending this request. \n  \n---\n\n### Response\n\n**Status:** `200 OK`\n\nA successful response returns the created post object wrapped in a standard response envelope.\n\n``` json\n{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": \"69b9282da3b48489372ff790 likes by you !!\"\n}\n\n ```\n\n## Error Responce\n\n**Status:** `401 Unauthorized`\n\nwhen the AuthToken is wrone then give me this Error in reponce.\n\n``` json\n{\n    \"success\": false,\n    \"status\": 401,\n    \"message\": \"Authorization header missing\"\n}\n\n ```\n\n**Status:** `404 Not Found`\n\nwhen the post id is wrone then give me this Error in reponce.\n\n``` json\n{\n    \"success\": false,\n    \"status\": 404,\n    \"message\": \"post not found.\"\n}\n"
+          },
+          "response": []
+        },
+        {
+          "name": "dislike post",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AuthToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/post/dislike/69b0f5160e522a3c613509c6",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "post", "dislike", "69b0f5160e522a3c613509c6"]
+            },
+            "description": "## API Endpoint: Like a Post\n\nThis endpoint allows users to dislike a specific post identified by its unique ID. By sending a GET request to this endpoint, users can indicate their approval or support for the post.\n\n---\n\n### Endpoint\n\n**GET** `http://localhost:3000/api/post/dislike/{postId}`\n\n---\n\n### Authentication\n\nThis endpoint requires a valid Bearer token passed via the `Authorization` header.\n\n| Header | Value |\n| --- | --- |\n| `Authorization` | `AuthToken` |\n\n> Set the `AuthToken` variable in your active environment before sending this request. \n  \n---\n\n### Response\n\n**Status:** `200 OK`\n\nA successful response returns the created post object wrapped in a standard response envelope.\n\n``` json\n{\n    \"success\": true,\n    \"status\": 200,\n    \"data\": \"remove likes by from  Senior Branding Planner !!\"\n}\n\n ```\n\n## Error Responce\n\n**Status:** `401 Unauthorized`\n\nwhen the AuthToken is wrone then give me this Error in reponce.\n\n``` json\n{\n    \"success\": false,\n    \"status\": 401,\n    \"message\": \"Authorization header missing\"\n}\n\n ```\n\n**Status:** `404 Not Found`\n\nwhen the post id is wrone then give me this Error in reponce.\n\n``` json\n{\n    \"success\": false,\n    \"status\": 404,\n    \"message\": \"post not found.\"\n}\n"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "item": [
+        {
+          "name": "callback/fake-api",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/callback/fake-api",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["callback", "fake-api"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "callback/real-api",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/callback/real-api",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["callback", "real-api"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "callback/callback-hell",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/callback/callback-hell",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["callback", "callback-hell"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "promise/fake-api",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/promise/fake-api",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["promise", "fake-api"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "promise/real-api",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/promise/real-api",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["promise", "real-api"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "async/real-api",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/async/real-api",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["async", "real-api"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "async/fake-api",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/async/fake-api",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["async", "fake-api"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "non-blocking",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/non-blocking",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["non-blocking"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "blocking",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/blocking",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["blocking"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "AuthToken",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}
