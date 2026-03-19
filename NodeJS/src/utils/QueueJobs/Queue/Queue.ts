@@ -7,7 +7,7 @@ const connection = new Redis({
   maxRetriesPerRequest: null,
 });
 
-// Reuse the ioredis instance in 2 different producers
+// define Queue for Verification Email and Welcome Email and Send SMS 
 const RegisterEmailQueue = new Queue("RegisterEmailQueue", {
   connection: connection as any,
 });
@@ -18,6 +18,12 @@ const VerificationEmailQueue = new Queue("VerificationEmailQueue", {
   connection: connection as any,
 });
 
+/**
+ * Add Welcome mail on Queue.
+ * @param email new register users email
+ * @param userId new register users id
+ * @param role new register users role
+ */
 export const RegisterEmailQ = async (
   email: string,
   userId: string,
@@ -38,6 +44,11 @@ export const RegisterEmailQ = async (
   );
 };
 
+/**
+ * Add SMS in SMS Queue.
+ * @param email verified user's email
+ * @param username verified user's username
+ */
 export const RegisterSMSQ = async (email: string, username: string) => {
   await RegisterSMSQueue.add(
     "sendRegisterSMS",
@@ -54,6 +65,10 @@ export const RegisterSMSQ = async (email: string, username: string) => {
   );
 };
 
+/**
+ * Add Welcome mail on Queue.
+ * @param email new verified user's email  
+ */
 export const VerificationEmailQ = async (email: string) => {
   await VerificationEmailQueue.add(
     "sendVerificationEmail",
