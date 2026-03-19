@@ -12,6 +12,7 @@ const postSchema = new Schema(
     },
     image: {
       type: String,
+      default: "",
     },
     CreatedBy: {
       type: Schema.Types.ObjectId,

@@ -22,7 +22,7 @@ export const postValidator = [
 
     if (!errors.isEmpty()) {
       const Errors = errors.array().map((err) => err.msg);
-      return res.status(400).json({ errors: Errors[0] });
+      throw new BadRequestError(Errors[0] as string);
     }
     next();
   },
@@ -33,12 +33,14 @@ export const postValidator = [
 export const updatePostValidator = [
   body("title")
     .notEmpty()
+    .optional()
     .withMessage("Title must have more than 5 characters")
     .isLength({ min: 5, max: 50 })
     .withMessage("Title must have max 50 and min 5 characters"),
 
   body("description")
     .notEmpty()
+    .optional()
     .withMessage("description must have more than 10 characters")
     .isLength({ min: 10 })
     .withMessage("description must have min 10 characters")
