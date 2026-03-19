@@ -1,24 +1,24 @@
 
-import { User, type IUser } from "../models/UserConnection.js";
+import { massUser, type IUser } from "../models/UserConnection.js";
 
 const UserService = {
   createOrUpdateUser : async (
-  name: string,
+  userId: string,
   socketId: string,
 ): Promise<IUser> => {
-  const existingUser = await User.findOne({ name });
+  const existingUser = await massUser.findOne({ userId });
 
   if (existingUser) {
     existingUser.socketId = socketId;
     return await existingUser.save();
   }
 
-  const newUser = new User({ name, socketId });
+  const newUser = new massUser({ userId , socketId });
   return await newUser.save();
 },
 
 deleteUserBySocketId : async (socketId: string): Promise<void> => {
-  await User.deleteOne({ socketId });
+  await massUser.deleteOne({ socketId });
 }
 };
 

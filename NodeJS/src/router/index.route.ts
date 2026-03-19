@@ -7,6 +7,7 @@ import { avatarUpload, postImageUpload } from "../controllers/fileCtr.js";
 import { AuthMiddlewares } from "../middlewares/AuthMiddleware.js";
 import { upload } from "../utils/multer.js";
 import emailRoute from "./emailRoute.js";
+import chatRoute from "./chatRoute.js";
 
 router.use("/auth", AuthRoute);
 router.use("/post", postRoute);
@@ -113,5 +114,6 @@ router.post(
 );
 
 router.use("/email", emailRoute);
+router.use("/chat", AuthMiddlewares, chatRoute);
 
 export default router;
