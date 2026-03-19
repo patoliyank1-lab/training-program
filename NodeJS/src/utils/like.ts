@@ -1,8 +1,16 @@
-export const likeFunction = (Array: string[], id: string, add: boolean = true): string[] => {
-    const LikeSet = new Set(Array);
-    add ? LikeSet.add(id) : LikeSet.delete(id);
+export const likeFunction = (
+  Array: string[],
+  id: string,
+  add: boolean = true,
+) => {
+  const LikeSet = new Set(Array);
+  if (add) {
+    LikeSet.add(id);
+  } else {
+    LikeSet.delete(id);
+  }
 
-    const likeArray = [...LikeSet]
+  const likeArray = [...LikeSet];
 
-    return likeArray;
-};  
+  return { likeArray, length: likeArray.length };
+};

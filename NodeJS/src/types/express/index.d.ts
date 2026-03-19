@@ -12,8 +12,8 @@ declare namespace Express {
       email: string;
       role: string;
     };
-    log:pino.Logger ;
-    winLog:winston.Logger;
+    log: pino.Logger;
+    winLog: winston.Logger;
     /**
      * A request-specific context variable.
      */
