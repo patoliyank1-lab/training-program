@@ -1,10 +1,9 @@
-import express from 'express'
-import { verifyTokenEmail, verifyOTP } from '../controllers/emailCtr.js';
+import express from "express";
+import { verifyTokenEmail } from "../controllers/emailCtr.js";
 
-const router = express.Router()
+const router = express.Router();
 
 // Auth routes
-router.get('/otp-verify', verifyOTP)
-router.get('/verify', verifyTokenEmail)
+router.get("/verify", verifyTokenEmail);
 
 export default router;
