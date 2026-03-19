@@ -272,6 +272,12 @@ router.put(
   updatePostValidator,
   updatePostById,
 );
+
+/** 
+ * @description delete post by using post id..
+ * @route DELETE /api/post/:id
+ * @access only for admin user. 
+ */
 router.delete(
   "/:id",
   apiLimiter(100, 30, "deletePostById"),
@@ -280,12 +286,23 @@ router.delete(
   deletePostById,
 );
 
+/**
+ * @description like post using post id
+ * @route GET /api/post/like/:id
+ * @access only for login user. 
+ */
 router.get(
   "/like/:id",
   apiLimiter(500, 30, "LikePost"),
   AuthMiddlewares,
   likePost,
 );
+
+/**
+ * @description dislike post using post id
+ * @route GET /api/post/dislike/:id
+ * @access only for login user. 
+ */
 router.get(
   "/dislike/:id",
   apiLimiter(500, 30, "LikePost"),
