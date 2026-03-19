@@ -13,7 +13,7 @@ import {
   updatePostValidator,
 } from "../middlewares/PostValidator.js";
 import { AuthMiddlewares } from "../middlewares/AuthMiddleware.js";
-import { isAdmin } from "../utils/isAdmin.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
 import apiLimiter from "../middlewares/rateLimiter.js";
 import { readCash } from "../middlewares/redisCache.js";
 

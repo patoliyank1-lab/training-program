@@ -2,6 +2,11 @@ import Follow from "../models/followers.js";
 import { BadRequestError } from "../utils/error.js";
 
 export const followService = {
+  /**
+   * update both user's follower and following list.
+   * @param followerId login user Id.
+   * @param FollowingId user id which user want to follow.
+   */
   Follow: async (followerId: string, FollowingId: string) => {
     try {
       await Follow.findOneAndUpdate(
@@ -18,6 +23,11 @@ export const followService = {
     }
   },
 
+  /**
+   * update both user's follower and following list.
+   * @param followerId login user Id.
+   * @param FollowingId user id which user want to unfollow.
+   */
   unFollow: async (followerId: string, FollowingId: string) => {
     try {
       await Follow.findOneAndUpdate(
@@ -33,6 +43,12 @@ export const followService = {
       throw new BadRequestError(error as string);
     }
   },
+
+  /**
+   * use to get user's follower number and list.
+   * @param userId userId which user's follower list want
+   * @returns follower user count and following user list.
+   */
   getFollowers: async (userId: string) => {
     console.log(userId);
 
@@ -48,6 +64,12 @@ export const followService = {
       followersList: userData?.followersList,
     };
   },
+
+  /**
+   * use to get user's following number and list.
+   * @param userId userId which user's following list want
+   * @returns following user count and following user list.
+   */
   getFollowing: async (userId: string) => {
     const userData = await Follow.findOne({ userId })
       .populate(
@@ -57,7 +79,7 @@ export const followService = {
       .lean();
 
     return {
-      followers: userData?.followers,
+      following: userData?.following,
       followingList: userData?.followingList,
     };
   },
