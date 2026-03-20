@@ -10,7 +10,7 @@ const connection = new Redis({
   maxRetriesPerRequest: null,
 });
 
-// Reuse the ioredis instance in 2 different consumers
+// define Worker for Verification Email and Welcome Email and Send SMS 
 const RegisterEmailWorker = new Worker(
   "RegisterEmailQueue",
   async (job) => {
@@ -40,6 +40,7 @@ const VerificationEmailWorker = new Worker(
   },
 );
 
+// show logs on success.
 RegisterEmailWorker.on("completed", (job) => {
   Logger.info(`Register Email successfully send on ${job.data.email}`);
 });
@@ -52,6 +53,7 @@ RegisterSMSWorker.on("completed", (job) => {
   );
 });
 
+// show logs on fail.
 RegisterEmailWorker.on("failed", (job: any, error) => {
   Logger.warn(`Register Email failed to send on ${job.data.email}`);
   Logger.error(`JobId: ${job.id}, Error: ${error}`);

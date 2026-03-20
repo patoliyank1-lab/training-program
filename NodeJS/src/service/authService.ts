@@ -13,7 +13,16 @@ interface newUser {
   password: string;
 }
 
+/**
+ * contain login and register service for users.
+ */
 export const AuthService = {
+  /**
+   * this service is store new user in database and send verification email.
+   * @param user new user to store in database.
+   * @returns new created user.
+   * @throws if email or username is already exist in database then throw Error
+   */
   register: async (user: newUser) => {
     //Email check
     const emailUser = await User.findOne({ email: user.email });
@@ -45,6 +54,11 @@ export const AuthService = {
     return response;
   },
 
+  /**
+   * login user by using email and password.
+   * @param param0 - {email, password} - user email and password
+   * @returns return user details after remove password and other metadata.
+   */
   login: async ({ email, pass }: { email: string; pass: string }) => {
     //Email check
     const user = await User.findOne({ email }).lean();
