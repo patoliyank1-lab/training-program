@@ -22,7 +22,15 @@ interface PaginatedPost {
   pages: number;
 }
 
+/**
+ * contain Save, getAllPost, getPostById, update, delete services for posts.
+ */
 export const PostService = {
+  /**
+   * save new given post
+   * @param post new post which is want to save.
+   * @returns new created post.
+   */
   Save: async (post: newPost) => {
     if (!post.userId) throw new UnauthorizedError("this user is not define");
 
@@ -34,6 +42,11 @@ export const PostService = {
     return await newPost.save();
   },
 
+  /**
+   * get all post by filter, userId, like in pagination format. 
+   * @param reqQuery Request Query Object {sortBy, page = 1, limit = 10, userId, likes }
+   * @returns return post in pagination format
+   */
   getAllPost: async (reqQuery: reqQueryType) => {
     const { sortBy, page = 1, limit = 10, userId, likes } = reqQuery;
 
@@ -70,6 +83,12 @@ export const PostService = {
     return paginatedPost;
   },
 
+/**
+ * find post by using post id.
+ * @param id which post details want that post id
+ * @returns return post 
+ * @throws if post id is undefined or post not found then throw error.
+ */
   getPostById: async (id: string) => {
     try {
       if (!id) throw new BadRequestError("post id is not given.");
@@ -84,6 +103,11 @@ export const PostService = {
     }
   },
 
+  /**
+   * update post using post id
+   * @param  object -  {postId, title, description} details od post.
+   * @returns 
+   */
   update: async ({
     id,
     title,
@@ -111,6 +135,12 @@ export const PostService = {
     return updatedPost;
   },
 
+  /**
+   * delete post by using post id.
+   * @param id post id which post want to delete.
+   * @returns return object which is show post id delete or not
+   * @throws if Id is undefine then throw Error and When post not found then throw.
+   */
   delete: async (id: string) => {
     if (!id) throw new BadRequestError("post id is not defined.");
     let deletePost;

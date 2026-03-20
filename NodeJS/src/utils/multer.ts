@@ -1,7 +1,12 @@
 import multer from "multer";
 
 const storage = multer.memoryStorage();
-
+/**
+ * this is fileFilter for filter image.
+ * @param req Api express Request. 
+ * @param file file given with Request.
+ * @param cb callback function which is use by multer for fileFilter.
+ */
 const fileFilter = (req: any, file: any, cb: any) => {
   // Accept only image files
   if (file.mimetype.startsWith("image/")) {
@@ -11,6 +16,9 @@ const fileFilter = (req: any, file: any, cb: any) => {
   }
 };
 
+/**
+ * configuration for multer with file size 5MB
+ */
 export const upload = multer({
   storage: storage,
   fileFilter: fileFilter,

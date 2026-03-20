@@ -3,6 +3,12 @@ import { UnauthorizedError } from "../utils/error.js";
 import { verifyToken, type Payload } from "../utils/JWT.js";
 import User from "../models/User.js";
 
+/**
+ * this Middlewares is verify token user register in database.
+ * @param req express Request
+ * @param res express Response
+ * @param next NextFunction for pass process to next Middlewares
+ */
 export const AuthMiddlewares = async (
   req: Request,
   res: Response,
@@ -16,6 +22,7 @@ export const AuthMiddlewares = async (
     throw new UnauthorizedError("Authorization header missing");
   }
 
+  // check JWT token and verify
   const token = authHeader;
 
   if (!token) {
@@ -26,6 +33,7 @@ export const AuthMiddlewares = async (
 
   if (!verifyToke) throw new UnauthorizedError("This User is Authorization");
 
+  // check user is register or not.
   const mongoUser = await User.findOne({ _id: (verifyToke as Payload).userId });
   const user = mongoUser?.toObject();
   if (!user)
