@@ -8,7 +8,7 @@ import { BadRequestError } from "../utils/error.js";
  * @param error zod Error
  * @returns return Error in format.
  */
-function formatZodErrors(error: z.ZodError) {
+export function formatZodErrors(error: z.ZodError) {
   return error.issues.map((err) => ({
     field: err.path.join("."),
     message: err.message,
@@ -19,12 +19,23 @@ function formatZodErrors(error: z.ZodError) {
 const UserSchema = z
   .object({
     name: z
-      .string()
+      .string({
+        error: (iss) =>
+          iss.input === undefined ? "Field is required." : "Invalid input.",
+      })
       .min(3, "name must have min 3 character.")
       .max(32, "name must contain less then 32 character"),
-    email: z.string().email(),
+    email: z
+      .string({
+        error: (iss) =>
+          iss.input === undefined ? "Field is required." : "Invalid input.",
+      })
+      .email(),
     password: z
-      .string()
+      .string({
+        error: (iss) =>
+          iss.input === undefined ? "Field is required." : "Invalid input.",
+      })
       .min(8, { message: "Password must be at least 8 characters long" })
       .max(32, { message: "Password cannot exceed 32 characters" })
       .regex(/[A-Z]/, {
@@ -40,7 +51,7 @@ const UserSchema = z
   })
   .strict();
 
-// Auth middleware for validate request body for register user . 
+// Auth middleware for validate request body for register user .
 export const UserValidate = async (
   req: Request,
   res: Response,
@@ -65,9 +76,17 @@ export const UserValidate = async (
 // zod validation schema for login user.
 const LoginUserSchema = z
   .object({
-    email: z.string().email(),
+    email: z
+      .string({
+        error: (iss) =>
+          iss.input === undefined ? "Field is required." : "Invalid input.",
+      })
+      .email(),
     password: z
-      .string()
+      .string({
+        error: (iss) =>
+          iss.input === undefined ? "Field is required." : "Invalid input.",
+      })
       .min(8, { message: "Password must be at least 8 characters long" })
       .max(32, { message: "Password cannot exceed 32 characters" })
       .regex(/[A-Z]/, {
@@ -83,7 +102,7 @@ const LoginUserSchema = z
   })
   .strict();
 
-// Auth middleware for validate request body for login user . 
+// Auth middleware for validate request body for login user .
 export const LoginUserValidate = async (
   req: Request,
   res: Response,

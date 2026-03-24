@@ -28,7 +28,6 @@ export interface ProductType {
     | "Industrial";
   price: number;
   quantity: number;
-  createdBy: string;
 }
 
 export interface OrderItemType {
