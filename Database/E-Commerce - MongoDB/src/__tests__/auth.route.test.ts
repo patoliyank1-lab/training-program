@@ -1,7 +1,7 @@
 import request from "supertest";
 import { jest } from "@jest/globals"; 
 import { app } from "../server.js"; // your express app
-import { AuthService } from "../service/authService.js";
+import { AuthService } from "../service/auth-service.js";
 
 // Mock the service
 jest.mock("../service/authService");

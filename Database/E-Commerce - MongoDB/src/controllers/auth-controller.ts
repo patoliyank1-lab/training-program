@@ -1,5 +1,5 @@
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { AuthService } from "../service/authService.js";
+import { asyncHandler } from "../utils/async-handler.js";
+import { AuthService } from "../service/auth-service.js";
 
 /**
  * @description Registers a new user in the system.
@@ -7,13 +7,13 @@ import { AuthService } from "../service/authService.js";
  * @access Public
  */
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, username, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   const response = await AuthService.register({
     name,
-    username,
     email,
     password,
+    role
   });
 
   if (response)

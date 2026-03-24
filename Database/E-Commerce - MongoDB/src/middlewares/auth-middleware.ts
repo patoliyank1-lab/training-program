@@ -1,8 +1,13 @@
 import type { NextFunction, Request, Response } from "express";
 import { UnauthorizedError } from "../utils/error.js";
 import { verifyToken, type Payload } from "../utils/JWT.js";
-import User from "../models/User.js";
-
+import User from "../models/user-model.js";
+/**
+ * authenticate access token
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export const AuthMiddlewares = async (
   req: Request,
   res: Response,

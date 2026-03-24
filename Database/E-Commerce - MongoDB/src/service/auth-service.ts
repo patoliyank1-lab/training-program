@@ -1,28 +1,16 @@
-import User from "../models/User.js";
+import User from "../models/user-model.js";
+import type { UserType } from "../types/Types.js";
 import { BadRequestError, ConflictError } from "../utils/error.js";
 import { createToken } from "../utils/JWT.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
 
-interface newUser {
-  name: string;
-  email: string;
-  username: string;
-  phone?: string;
-  password: string;
-}
 
 export const AuthService = {
-  register: async (user: newUser) => {
+  register: async (user: UserType) => {
     //Email check
     const emailUser = await User.findOne({ email: user.email });
     if (emailUser) {
       throw new ConflictError("This email is already resister");
-    }
-
-    //username check
-    const alreadyUsername = await User.findOne({ username: user.username });
-    if (alreadyUsername) {
-      throw new ConflictError("This username is already resister");
     }
 
     user.password = await hashPassword(user.password);

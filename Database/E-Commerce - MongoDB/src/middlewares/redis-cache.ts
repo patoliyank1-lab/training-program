@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { getCache } from "../config/redis.connect.js";
+import { getCache } from "../config/redis-connect.js";
 
 export const readCash = async (
   req: Request,
