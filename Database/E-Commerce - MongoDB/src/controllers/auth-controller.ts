@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/async-handler.js";
-import { AuthService } from "../service/auth-service.js";
+import { authService } from "../service/auth-service.js";
 
 /**
  * @description Registers a new user in the system.
@@ -9,7 +9,7 @@ import { AuthService } from "../service/auth-service.js";
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
 
-  const response = await AuthService.register({
+  const response = await authService.register({
     name,
     email,
     password,
@@ -32,7 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password }: { email: string; password: string } = req.body;
 
-  const response = await AuthService.login({ email, pass: password });
+  const response = await authService.login({ email, pass: password });
 
   res.status(200).json({
     success: true,

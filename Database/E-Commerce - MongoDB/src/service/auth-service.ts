@@ -5,7 +5,7 @@ import { createToken } from "../utils/JWT.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
 
 
-export const AuthService = {
+export const authService = {
   register: async (user: UserType) => {
     //Email check
     const emailUser = await User.findOne({ email: user.email });
