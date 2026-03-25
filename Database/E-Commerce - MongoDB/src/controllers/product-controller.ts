@@ -3,9 +3,10 @@ import * as productService from "../service/product-service.js";
 import type { ProductType } from "../types/Types.js";
 import { formattedResponse } from "../utils/response.js";
 import { BadRequestError } from "../utils/error.js";
+import { setCache } from "../config/redis-connect.js";
 
 /**
- * controller for create product. 
+ * controller for create product.
  */
 export const createProduct = asyncHandler(async (req, res) => {
   const product: ProductType = req.body;
@@ -17,7 +18,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 });
 
 /**
- * controller for get all product by pagination and price filter. 
+ * controller for get all product by pagination and price filter.
  */
 export const getProduct = asyncHandler(async (req, res) => {
   const page = Number(req.query.page) || 1;
@@ -35,5 +36,6 @@ export const getProduct = asyncHandler(async (req, res) => {
     category,
     price,
   );
+  setCache(req.originalUrl, response);
   if (response) formattedResponse(res, response);
 });
