@@ -20,14 +20,14 @@ export const createToken = (
     role: role,
   };
   const token = jwt.sign(payload, secret, {
-    expiresIn: ex ?? "1h", // Token expires in 1 hour
+    expiresIn: ex ?? "24h", // Token expires in 1 hour
   });
 
   return token;
 };
 
 export const verifyToken = (token: string) => {
-  let payload: Payload | undefined = undefined;
+  let payload: Payload | undefined;
 
   jwt.verify(token, secret, (err, user) => {
     if (err) {
