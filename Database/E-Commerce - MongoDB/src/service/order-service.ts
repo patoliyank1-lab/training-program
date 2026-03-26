@@ -253,3 +253,40 @@ export const mostSoldProduct = async (limit: number = 3) => {
   ]);
   return product;
 };
+
+
+/**
+ * Daily sales report  {total-revenue, total-order, Date, customer-count}
+ */
+export const DailySalesReport = async () => {
+  const product = Order.aggregate([
+  { $match: { isComplete: true } },
+  {
+    $group: {
+      _id: {
+        $dateToString: {
+          format: "%Y-%m-%d",
+          date: "$createdAt"
+        }
+      },
+      dailyRevenue: { $sum: "$totalPrice" },
+      totalOrders: { $sum: 1 },
+      uniqueCustomers: { $addToSet: "$userId" } // collect unique userIds
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      date: "$_id",
+      dailyRevenue: 1,
+      totalOrders: 1,
+      uniqueCustomerCount: {
+        $size: "$uniqueCustomers"
+      }
+    }
+  },
+  { $sort: { date: 1 } }
+])
+return product;
+};
+

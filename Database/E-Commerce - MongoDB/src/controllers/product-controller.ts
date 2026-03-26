@@ -25,6 +25,7 @@ export const getProduct = asyncHandler(async (req, res) => {
   const limit = Number(req.query.limit) || 10;
   const price = req.query.price as string | undefined;
   const category = req.query.category as string | undefined;
+  const search = req.query.category as string | undefined;
 
   if (!/\d+-\d+/.test(price as string) && !(price === undefined)) {
     throw new BadRequestError("price must be in min-max format");
@@ -35,6 +36,7 @@ export const getProduct = asyncHandler(async (req, res) => {
     Math.min(100, Math.max(1, limit || 1)),
     category,
     price,
+    search,
   );
   setCache(req.originalUrl, response);
   if (response) formattedResponse(res, response);

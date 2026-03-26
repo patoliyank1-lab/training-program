@@ -51,3 +51,12 @@ export const mostSoldProduct = asyncHandler(async (req, res) => {
   const response = await orderService.mostSoldProduct(Math.max(1, limit));
   if (response) formattedResponse(res, response);
 });
+
+
+/**
+ * Daily sales report  {total-revenue, total-order, Date, customer-count}
+ */
+export const DailySalesReport = asyncHandler(async (req, res) => {
+  const response = await orderService.DailySalesReport();
+  if (response) formattedResponse(res, response);
+});
