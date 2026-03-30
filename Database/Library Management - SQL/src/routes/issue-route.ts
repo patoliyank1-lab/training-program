@@ -10,9 +10,9 @@ import {
 const router = express.Router();
 
 router.post("/", AuthMiddlewares, isLibrarian, issueBook); // issue new Book
-router.get("/books", AuthMiddlewares, isLibrarian, userWithBorrowed); // ? Users with more than 2 borrowed books.
+router.get("/books", AuthMiddlewares, isLibrarian, userWithBorrowed); // Users with more than 2 borrowed books.
 router.get("/:id", AuthMiddlewares, isLibrarian, returnBook); // return Book
 
-router.get("/books/:userId", AuthMiddlewares, isLibrarian, borrowedByUser); // ? Books borrowed by a user
+router.get("/books/:userId", AuthMiddlewares, isLibrarian, borrowedByUser); // Books borrowed by a user
 
 export default router;
