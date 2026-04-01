@@ -1,18 +1,18 @@
 import express from "express";
-import router from "./app.js";
 import { connectDB } from "./config/db-connect.js";
 import { errorHandler } from "./middlewares/error-handler.js";
-import { Logger } from "./middlewares/logger.js";
+import { Logger, winLogger } from "./middlewares/logger.js";
+import router from "./routes/index-route.js";
 
 const port = process.env.PORT ?? 4000;
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(winLogger);
 
 // root route
-app.use("/", router);
+app.use("/api", router);
 app.use(errorHandler);
 
 app.get("/", (req, res) => {
