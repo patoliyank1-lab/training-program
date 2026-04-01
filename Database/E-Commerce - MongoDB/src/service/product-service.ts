@@ -51,15 +51,61 @@ export const updateQuantity = async (quantity: number, productId: string) => {
  * get all product with pagination
  * @param page number of page for product.
  * @param limit limits how many product in one page.
+ * @optional - { category, price, search }
  */
-export const getProduct = async (page: number, limit: number) => {
+export const getProduct = async (
+  page: number,
+  limit: number,
+  category?: string,
+  price?: string,
+  search?: string,
+) => {
+  const query: Record<string, any> = { quantity: { $gt: 0 } };
+  if (category) {
+    query.category = category;
+  }
+  if (price) {
+    const [minStr, maxStr] = price.split("-");
+    const minPrice = Number(minStr);
+    const maxPrice = Number(maxStr);
+
+    if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+      query.price = { $gte: minPrice, $lte: maxPrice };
+    }
+  }
+  if (search) {
+    query.$text.$search = search;
+  }
   const products = await Product.aggregate([
-    { $match: { quantity: { $gt: 0 } } },
+    { $match: query },
     {
       $facet: {
-        products: [{ $skip: page * limit }, { $limit: limit }],
+        products: [{ $skip: (page - 1) * limit }, { $limit: limit }],
+        totalProduct: [{ $count: "count" }],
+      },
+    },
+    {
+      $addFields: {
+        totalProduct: {
+          $ifNull: [{ $arrayElemAt: ["$totalProduct.count", 0] }, 0],
+        },
+      },
+    },
+    {
+      $project: {
+        products: 1,
+        totalProduct: 1,
+        totalPage: {
+          $ceil: {
+            $divide: ["$totalProduct", limit],
+          },
+        },
+        currentPage: { $literal: page },
+        limit: { $literal: limit },
+        hasNextPage: { $gt: ["$totalProduct", page * limit] },
       },
     },
   ]);
-  return products;
+
+  return products[0];
 };
