@@ -19,6 +19,6 @@ export const errorHandler: ErrorRequestHandler = (
   res.status(statusCode).json({
     success: false,
     status: statusCode,
-    message: message,
+    message: String(message),
   });
 };
