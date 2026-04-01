@@ -5,7 +5,6 @@ import {
   PrimaryKey,
   Default,
   IsUUID,
-  AllowNull,
   CreatedAt,
   UpdatedAt,
   DataType,
@@ -29,7 +28,7 @@ export class Order extends Model {
   @Column(DataType.BOOLEAN)
   declare isComplete: boolean;
 
-  @AllowNull(false)
+  @Default(0)
   @Column(DataType.FLOAT)
   declare totalPrice: number;
 
@@ -38,7 +37,7 @@ export class Order extends Model {
   declare UserId: string;
 
   @BelongsTo(() => User)
-  declare student: User;
+  declare user: User;
 
   @HasMany(() => OrderItem)
   declare orderItem :OrderItem[]

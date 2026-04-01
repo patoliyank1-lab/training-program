@@ -1,12 +1,13 @@
 import type { NextFunction, Request, Response } from "express";
 import { UnauthorizedError } from "../utils/error.js";
 import { verifyToken, type Payload } from "../utils/JWT.js";
+import { User } from "../models/user-model.js";
 // import User from "../models/user-model.js";
 /**
  * authenticate access token
- * @param req 
- * @param res 
- * @param next 
+ * @param req
+ * @param res
+ * @param next
  */
 export const AuthMiddlewares = async (
   req: Request,
@@ -23,8 +24,7 @@ export const AuthMiddlewares = async (
 
   if (!verifyToke) throw new UnauthorizedError("This User is Authorization");
 
-  const mongoUser = await User.findOne({ _id: (verifyToke as Payload).userId });
-  const user = mongoUser?.toObject();
+  const user = await User.findByPk((verifyToke as Payload).userId);
   if (!user)
     throw new UnauthorizedError("This user is no exist or token expire.");
 
