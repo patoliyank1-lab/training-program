@@ -33,3 +33,30 @@ export const completeOrder = asyncHandler(async (req, res) => {
   const response = await orderService.completeOrder(orderId);
   if (response) formattedResponse(res, response);
 });
+
+/**
+ * get total Revenue by category
+ */
+export const totalRevenue = asyncHandler(async (req, res) => {
+  const response = await orderService.totalRevenue();
+  if (response) formattedResponse(res, response);
+});
+
+
+/**
+ * get total Revenue by category
+ */
+export const mostSoldProduct = asyncHandler(async (req, res) => {
+  const limit = Number(req.query.limit) || 3;
+  const response = await orderService.mostSoldProduct(Math.max(1, limit));
+  if (response) formattedResponse(res, response);
+});
+
+
+/**
+ * Daily sales report  {total-revenue, total-order, Date, customer-count}
+ */
+export const DailySalesReport = asyncHandler(async (req, res) => {
+  const response = await orderService.DailySalesReport();
+  if (response) formattedResponse(res, response);
+});

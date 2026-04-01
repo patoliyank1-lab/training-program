@@ -51,12 +51,14 @@ export const updateQuantity = async (quantity: number, productId: string) => {
  * get all product with pagination
  * @param page number of page for product.
  * @param limit limits how many product in one page.
+ * @optional - { category, price, search }
  */
 export const getProduct = async (
   page: number,
   limit: number,
   category?: string,
   price?: string,
+  search?: string,
 ) => {
   const query: Record<string, any> = { quantity: { $gt: 0 } };
   if (category) {
@@ -70,6 +72,9 @@ export const getProduct = async (
     if (!isNaN(minPrice) && !isNaN(maxPrice)) {
       query.price = { $gte: minPrice, $lte: maxPrice };
     }
+  }
+  if (search) {
+    query.$text.$search = search;
   }
   const products = await Product.aggregate([
     { $match: query },
