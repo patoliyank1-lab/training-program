@@ -13,18 +13,10 @@ export const AuthMiddlewares = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const authHeader =
-    req.headers["authorization"] || req.headers["Authorization"];
-
-  // Check if the header exists
-  if (!authHeader) {
-    throw new UnauthorizedError("Authorization header missing");
-  }
-
-  const token = authHeader;
+  const token = req.cookies["access-token"];
 
   if (!token) {
-    throw new UnauthorizedError("Authorization header missing");
+    throw new UnauthorizedError("accessToken not found.");
   }
 
   const verifyToke: Payload | undefined = verifyToken(token as string);

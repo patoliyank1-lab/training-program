@@ -17,6 +17,7 @@ const orderItemSchema = new Schema(
       min: 0,
       require: true,
     },
+    isComplete: { type: Boolean, default: false },
   },
   {
     timestamps: true,

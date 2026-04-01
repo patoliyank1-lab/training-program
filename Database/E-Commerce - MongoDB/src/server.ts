@@ -4,12 +4,14 @@ import { Logger, pinoLog, winLogger } from "./middlewares/logger.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import APIrouter from "./router/index-route.js";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 const app = express();
 
 const port = process.env.PORT ?? 4000;
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(pinoLog);
 app.use(winLogger);

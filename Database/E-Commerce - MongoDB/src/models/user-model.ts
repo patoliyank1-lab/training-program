@@ -28,6 +28,14 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    refreshToken:{
+      type:String,
+      default:"",
+    },
+    loginStatus:{
+      type:Boolean,
+      default:false
+    }
   },
   {
     timestamps: true,
