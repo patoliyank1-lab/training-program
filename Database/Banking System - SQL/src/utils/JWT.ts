@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { UnauthorizedError } from "./error.js";
 
 export interface Payload {
   userId: string;
@@ -27,13 +26,6 @@ export const createToken = (
 };
 
 export const verifyToken = (token: string) => {
-  let payload: Payload | undefined;
-
-  jwt.verify(token, secret, (err, user) => {
-    if (err) {
-      throw new UnauthorizedError("Invalid or expired token");
-    }
-    payload = user as Payload; // Attach user payload to the request object
-  });
+  const payload = jwt.verify(token, secret) as Payload;
   return payload;
 };
