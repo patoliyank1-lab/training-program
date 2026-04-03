@@ -10,9 +10,9 @@ const port = process.env.PORT ?? 4000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.set("trust proxy", true);
 
 app.use(winLogger);
-
 
 app.use("/api", Router);
 
