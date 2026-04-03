@@ -309,6 +309,7 @@ model UserSession {
   user User @relation(fields: [userId], references: [id])
 
   @@index([userId])
+  @@unique([userId,ipAddress, deviceType])
   @@map("user_sessions")
 }
 

@@ -5,6 +5,11 @@
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@prisma/*": ["prisma/*"]
+    },
     // File Layout
     // "rootDir": "./src",
     "outDir": "./dist",
@@ -21,7 +26,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "ignoreDeprecations":"5.0",
+    "ignoreDeprecations": "5.0",
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
