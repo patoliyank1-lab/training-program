@@ -1,0 +1,746 @@
+// ============================================================
+// Prisma Schema — Social Media Platform
+// Generated from: db_users_auth, db_social_posts,
+//                 db_media_interactions, db_messaging_moderation
+// ============================================================
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum AccountStatus {
+  active
+  suspended
+  deactivated
+}
+
+enum AccountType {
+  personal
+  creator
+  business
+}
+
+enum Theme {
+  light
+  dark
+  system
+}
+
+enum WhoCanMessage {
+  everyone
+  followers
+  nobody
+}
+
+enum WhoCanSeePosts {
+  public
+  followers
+  only_me
+}
+
+enum DeviceType {
+  ios
+  android
+  web
+  desktop
+}
+
+enum MediaType {
+  image
+  video
+  audio
+  gif
+}
+
+enum ProcessingStatus {
+  uploading
+  processing
+  ready
+  failed
+}
+
+enum PostType {
+  post
+  repost
+  quote
+  reply
+}
+
+enum PostVisibility {
+  public
+  followers
+  close_friends
+  only_me
+}
+
+enum PostStatus {
+  published
+  draft
+  scheduled
+  deleted
+}
+
+enum FollowStatus {
+  active
+  pending
+  blocked
+}
+
+enum LikeTargetType {
+  post
+  comment
+  message
+}
+
+enum ReactionType {
+  like
+  love
+  laugh
+  wow
+  sad
+  angry
+}
+
+enum CommentStatus {
+  visible
+  hidden
+  deleted
+}
+
+enum StoryType {
+  image
+  video
+  text
+  boomerang
+}
+
+enum StoryAudience {
+  public
+  followers
+  close_friends
+}
+
+enum ConversationType {
+  direct
+  group
+}
+
+enum ParticipantRole {
+  member
+  admin
+}
+
+enum MessageType {
+  text
+  image
+  video
+  audio
+  post_share
+  system
+}
+
+enum MessageStatus {
+  sent
+  delivered
+  read
+  deleted
+}
+
+enum NotificationType {
+  like
+  comment
+  follow
+  mention
+  repost
+  message
+}
+
+enum NotificationTargetType {
+  post
+  comment
+  story
+  user
+}
+
+enum ReportTargetType {
+  post
+  comment
+  user
+  story
+}
+
+enum ReportReason {
+  spam
+  harassment
+  hate_speech
+  nudity
+  violence
+}
+
+enum ReportStatus {
+  pending
+  under_review
+  actioned
+  dismissed
+}
+
+enum ModerationTargetType {
+  post
+  comment
+  user
+  story
+}
+
+enum ModerationActionType {
+  remove
+  warn
+  suspend
+  ban
+  restore
+}
+
+enum FeedSourceType {
+  following
+  suggested
+  sponsored
+}
+
+// ─────────────────────────────────────────────
+// IDENTITY
+// ─────────────────────────────────────────────
+
+model User {
+  id            String        @id @default(uuid()) @db.Uuid
+  username      String        @unique @db.VarChar(30)
+  email         String        @unique @db.VarChar(255)
+  phoneNumber   String?       @unique @db.VarChar(20)
+  passwordHash  String        @db.VarChar(255)
+  accountStatus AccountStatus @default(active)
+  accountType   AccountType   @default(personal)
+  createdAt     DateTime      @default(now())
+  deletedAt     DateTime?
+
+  // Relations
+  profile                UserProfile?
+  settings               UserSettings?
+  sessions               UserSession[]
+  stats                  UserStats?
+  posts                  Post[]
+  media                  Media[]
+  likes                  Like[]
+  comments               Comment[]
+  stories                Story[]
+  storyViews             StoryView[]
+  followersRelation      Follow[]              @relation("Followees")
+  followingRelation      Follow[]              @relation("Followers")
+  blocksGiven            Block[]               @relation("Blockers")
+  blocksReceived         Block[]               @relation("Blocked")
+  mutesGiven             Mute[]                @relation("Muters")
+  mutesReceived          Mute[]                @relation("Muted")
+  savedPosts             SavedPost[]
+  conversationsCreated   Conversation[]        @relation("ConversationCreator")
+  conversationMemberships ConversationParticipant[]
+  messagesSent           Message[]
+  messageReads           MessageRead[]
+  notificationsReceived  Notification[]        @relation("NotificationRecipient")
+  notificationsActed     Notification[]        @relation("NotificationActor")
+  reportsGiven           Report[]
+  moderationActions      ModerationAction[]
+  feedItems              FeedItem[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  userId        String    @id @db.Uuid
+  displayName   String    @db.VarChar(60)
+  bio           String?
+  avatarMediaId String?   @db.Uuid
+  coverMediaId  String?   @db.Uuid
+  websiteUrl    String?   @db.VarChar(255)
+  location      String?   @db.VarChar(100)
+  dateOfBirth   DateTime? @db.Date
+  isVerified    Boolean   @default(false)
+  isPrivate     Boolean   @default(false)
+  updatedAt     DateTime  @updatedAt
+
+  user        User   @relation(fields: [userId], references: [id])
+  avatarMedia Media? @relation("AvatarMedia", fields: [avatarMediaId], references: [id])
+  coverMedia  Media? @relation("CoverMedia", fields: [coverMediaId], references: [id])
+
+  @@map("user_profiles")
+}
+
+model UserSettings {
+  userId        String         @id @db.Uuid
+  language      String         @default("en") @db.VarChar(10)
+  timezone      String         @default("UTC") @db.VarChar(60)
+  theme         Theme          @default(system)
+  whoCanMessage WhoCanMessage  @default(everyone)
+  whoCanSeePosts WhoCanSeePosts @default(public)
+  notifEmail    Boolean        @default(true)
+  notifPush     Boolean        @default(true)
+  updatedAt     DateTime       @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_settings")
+}
+
+model UserSession {
+  id               String     @id @default(uuid()) @db.Uuid
+  userId           String     @db.Uuid
+  deviceType       DeviceType
+  ipAddress        String
+  refreshTokenHash String     @db.VarChar(255)
+  expiresAt        DateTime
+  lastActiveAt     DateTime
+  createdAt        DateTime   @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("user_sessions")
+}
+
+model UserStats {
+  userId         String   @id @db.Uuid
+  postCount      Int      @default(0)
+  followerCount  Int      @default(0)
+  followingCount Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_stats")
+}
+
+// ─────────────────────────────────────────────
+// MEDIA
+// ─────────────────────────────────────────────
+
+model Media {
+  id               String          @id @default(uuid()) @db.Uuid
+  uploaderUserId   String          @db.Uuid
+  mediaType        MediaType
+  mimeType         String          @db.VarChar(50)
+  fileSizeBytes    BigInt
+  widthPx          Int?
+  heightPx         Int?
+  durationSeconds  Int?
+  cdnUrl           String
+  thumbnailUrl     String?
+  blurHash         String?         @db.VarChar(100)
+  processingStatus ProcessingStatus @default(uploading)
+  isNsfw           Boolean         @default(false)
+  createdAt        DateTime        @default(now())
+
+  uploader     User          @relation(fields: [uploaderUserId], references: [id])
+  avatarFor    UserProfile[] @relation("AvatarMedia")
+  coverFor     UserProfile[] @relation("CoverMedia")
+  stories      Story[]
+  messages     Message[]
+
+  @@map("media")
+}
+
+// ─────────────────────────────────────────────
+// SOCIAL GRAPH
+// ─────────────────────────────────────────────
+
+model Follow {
+  id         String       @id @default(uuid()) @db.Uuid
+  followerId String       @db.Uuid
+  followeeId String       @db.Uuid
+  status     FollowStatus @default(active)
+  createdAt  DateTime     @default(now())
+
+  follower User @relation("Followers", fields: [followerId], references: [id])
+  followee User @relation("Followees", fields: [followeeId], references: [id])
+
+  @@unique([followerId, followeeId])
+  @@index([followerId])
+  @@index([followeeId])
+  @@map("follows")
+}
+
+model Block {
+  id        String   @id @default(uuid()) @db.Uuid
+  blockerId String   @db.Uuid
+  blockedId String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  blocker User @relation("Blockers", fields: [blockerId], references: [id])
+  blocked User @relation("Blocked", fields: [blockedId], references: [id])
+
+  @@unique([blockerId, blockedId])
+  @@map("blocks")
+}
+
+model Mute {
+  id          String   @id @default(uuid()) @db.Uuid
+  muterId     String   @db.Uuid
+  mutedId     String   @db.Uuid
+  mutePosts   Boolean  @default(true)
+  muteStories Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  muter User @relation("Muters", fields: [muterId], references: [id])
+  muted User @relation("Muted", fields: [mutedId], references: [id])
+
+  @@map("mutes")
+}
+
+// ─────────────────────────────────────────────
+// CONTENT — POSTS
+// ─────────────────────────────────────────────
+
+model Post {
+  id           String        @id @default(uuid()) @db.Uuid
+  userId       String        @db.Uuid
+  postType     PostType      @default(post)
+  contentText  String?
+  parentPostId String?       @db.Uuid
+  visibility   PostVisibility @default(public)
+  isPinned     Boolean       @default(false)
+  status       PostStatus    @default(published)
+  scheduledAt  DateTime?
+  locationName String?       @db.VarChar(100)
+  createdAt    DateTime      @default(now())
+  deletedAt    DateTime?
+
+  user       User          @relation(fields: [userId], references: [id])
+  parentPost Post?         @relation("PostReplies", fields: [parentPostId], references: [id])
+  replies    Post[]        @relation("PostReplies")
+  stats      PostStats?
+  hashtags   PostHashtag[]
+  savedBy    SavedPost[]
+  comments   Comment[]
+  likes      Like[]
+  feedItems  FeedItem[]
+  polls      Poll?
+
+  @@index([userId])
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("posts")
+}
+
+model PostStats {
+  postId       String   @id @db.Uuid
+  likeCount    Int      @default(0)
+  commentCount Int      @default(0)
+  repostCount  Int      @default(0)
+  viewCount    BigInt   @default(0)
+  saveCount    Int      @default(0)
+  updatedAt    DateTime @updatedAt
+
+  post Post @relation(fields: [postId], references: [id])
+
+  @@map("post_stats")
+}
+
+model Hashtag {
+  id            String        @id @default(uuid()) @db.Uuid
+  tagText       String        @unique @db.VarChar(100)
+  postCount     Int           @default(0)
+  trendingScore Float         @default(0)
+  createdAt     DateTime      @default(now())
+
+  posts PostHashtag[]
+
+  @@map("hashtags")
+}
+
+model PostHashtag {
+  postId    String   @db.Uuid
+  hashtagId String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  post    Post    @relation(fields: [postId], references: [id])
+  hashtag Hashtag @relation(fields: [hashtagId], references: [id])
+
+  @@id([postId, hashtagId])
+  @@map("post_hashtags")
+}
+
+model SavedPost {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @db.Uuid
+  postId       String   @db.Uuid
+  collectionId String?  @db.Uuid
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+
+  @@unique([userId, postId])
+  @@map("saved_posts")
+}
+
+// ─────────────────────────────────────────────
+// INTERACTIONS
+// ─────────────────────────────────────────────
+
+model Like {
+  id           String         @id @default(uuid()) @db.Uuid
+  userId       String         @db.Uuid
+  targetType   LikeTargetType
+  targetId     String         @db.Uuid
+  reactionType ReactionType   @default(like)
+  createdAt    DateTime       @default(now())
+
+  user User  @relation(fields: [userId], references: [id])
+  post Post? @relation(fields: [targetId], references: [id], map: "likes_post_fk")
+
+  @@unique([userId, targetType, targetId])
+  @@index([userId])
+  @@index([targetId])
+  @@map("likes")
+}
+
+model Comment {
+  id              String        @id @default(uuid()) @db.Uuid
+  postId          String        @db.Uuid
+  userId          String        @db.Uuid
+  parentCommentId String?       @db.Uuid
+  contentText     String
+  likeCount       Int           @default(0)
+  replyCount      Int           @default(0)
+  status          CommentStatus @default(visible)
+  createdAt       DateTime      @default(now())
+  deletedAt       DateTime?
+
+  post          Post      @relation(fields: [postId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+  parentComment Comment?  @relation("CommentReplies", fields: [parentCommentId], references: [id])
+  replies       Comment[] @relation("CommentReplies")
+
+  @@index([postId])
+  @@map("comments")
+}
+
+model Poll {
+  id        String   @id @default(uuid()) @db.Uuid
+  postId    String   @unique @db.Uuid
+  question  String   @db.VarChar(255)
+  endsAt    DateTime
+  createdAt DateTime @default(now())
+
+  post    Post         @relation(fields: [postId], references: [id])
+  options PollOption[]
+
+  @@map("polls")
+}
+
+model PollOption {
+  id           String @id @default(uuid()) @db.Uuid
+  pollId       String @db.Uuid
+  optionText   String @db.VarChar(100)
+  voteCount    Int    @default(0)
+  displayOrder Int
+
+  poll Poll @relation(fields: [pollId], references: [id])
+
+  @@map("poll_options")
+}
+
+// ─────────────────────────────────────────────
+// STORIES
+// ─────────────────────────────────────────────
+
+model Story {
+  id          String        @id @default(uuid()) @db.Uuid
+  userId      String        @db.Uuid
+  mediaId     String        @db.Uuid
+  storyType   StoryType
+  textOverlay String?       @db.VarChar(200)
+  linkUrl     String?
+  audience    StoryAudience @default(public)
+  viewCount   Int           @default(0)
+  expiresAt   DateTime
+  createdAt   DateTime      @default(now())
+  deletedAt   DateTime?
+
+  user  User        @relation(fields: [userId], references: [id])
+  media Media       @relation(fields: [mediaId], references: [id])
+  views StoryView[]
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("stories")
+}
+
+model StoryView {
+  storyId  String   @db.Uuid
+  viewerId String   @db.Uuid
+  viewedAt DateTime @default(now())
+
+  story  Story @relation(fields: [storyId], references: [id])
+  viewer User  @relation(fields: [viewerId], references: [id])
+
+  @@id([storyId, viewerId])
+  @@map("story_views")
+}
+
+// ─────────────────────────────────────────────
+// MESSAGING
+// ─────────────────────────────────────────────
+
+model Conversation {
+  id               String           @id @default(uuid()) @db.Uuid
+  conversationType ConversationType
+  groupName        String?          @db.VarChar(100)
+  createdBy        String           @db.Uuid
+  lastMessageId    String?          @db.Uuid
+  lastActivityAt   DateTime         @default(now())
+  createdAt        DateTime         @default(now())
+
+  creator      User                     @relation("ConversationCreator", fields: [createdBy], references: [id])
+  participants ConversationParticipant[]
+  messages     Message[]
+
+  @@index([lastActivityAt])
+  @@map("conversations")
+}
+
+model ConversationParticipant {
+  id             String          @id @default(uuid()) @db.Uuid
+  conversationId String          @db.Uuid
+  userId         String          @db.Uuid
+  role           ParticipantRole @default(member)
+  isMuted        Boolean         @default(false)
+  joinedAt       DateTime        @default(now())
+  leftAt         DateTime?
+
+  conversation Conversation @relation(fields: [conversationId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+
+  @@map("conversation_participants")
+}
+
+model Message {
+  id                String        @id @default(uuid()) @db.Uuid
+  conversationId    String        @db.Uuid
+  senderId          String        @db.Uuid
+  messageType       MessageType   @default(text)
+  contentText       String?
+  mediaId           String?       @db.Uuid
+  replyToMessageId  String?       @db.Uuid
+  status            MessageStatus @default(sent)
+  createdAt         DateTime      @default(now())
+  deletedAt         DateTime?
+
+  conversation   Conversation  @relation(fields: [conversationId], references: [id])
+  sender         User          @relation(fields: [senderId], references: [id])
+  media          Media?        @relation(fields: [mediaId], references: [id])
+  replyTo        Message?      @relation("MessageReplies", fields: [replyToMessageId], references: [id])
+  replies        Message[]     @relation("MessageReplies")
+  reads          MessageRead[]
+
+  @@index([conversationId])
+  @@index([conversationId, createdAt(sort: Desc)])
+  @@map("messages")
+}
+
+model MessageRead {
+  messageId String   @db.Uuid
+  userId    String   @db.Uuid
+  readAt    DateTime @default(now())
+
+  message Message @relation(fields: [messageId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@id([messageId, userId])
+  @@map("message_reads")
+}
+
+// ─────────────────────────────────────────────
+// NOTIFICATIONS
+// ─────────────────────────────────────────────
+
+model Notification {
+  id               String                 @id @default(uuid()) @db.Uuid
+  recipientUserId  String                 @db.Uuid
+  actorUserId      String?                @db.Uuid
+  notificationType NotificationType
+  targetType       NotificationTargetType
+  targetId         String                 @db.Uuid
+  isRead           Boolean                @default(false)
+  isSeen           Boolean                @default(false)
+  groupedCount     Int                    @default(1)
+  createdAt        DateTime               @default(now())
+
+  recipient User  @relation("NotificationRecipient", fields: [recipientUserId], references: [id])
+  actor     User? @relation("NotificationActor", fields: [actorUserId], references: [id])
+
+  @@index([recipientUserId])
+  @@index([recipientUserId, isRead, createdAt(sort: Desc)])
+  @@map("notifications")
+}
+
+// ─────────────────────────────────────────────
+// MODERATION
+// ─────────────────────────────────────────────
+
+model Report {
+  id             String           @id @default(uuid()) @db.Uuid
+  reporterUserId String           @db.Uuid
+  targetType     ReportTargetType
+  targetId       String           @db.Uuid
+  reason         ReportReason
+  description    String?
+  status         ReportStatus     @default(pending)
+  createdAt      DateTime         @default(now())
+  resolvedAt     DateTime?
+
+  reporter           User               @relation(fields: [reporterUserId], references: [id])
+  moderationActions  ModerationAction[]
+
+  @@map("reports")
+}
+
+model ModerationAction {
+  id          String               @id @default(uuid()) @db.Uuid
+  reportId    String?              @db.Uuid
+  targetType  ModerationTargetType
+  targetId    String               @db.Uuid
+  actionType  ModerationActionType
+  performedBy String               @db.Uuid
+  automated   Boolean              @default(false)
+  expiresAt   DateTime?
+  createdAt   DateTime             @default(now())
+
+  report    Report? @relation(fields: [reportId], references: [id])
+  moderator User    @relation(fields: [performedBy], references: [id])
+
+  @@map("moderation_actions")
+}
+
+// ─────────────────────────────────────────────
+// FEED
+// ─────────────────────────────────────────────
+
+model FeedItem {
+  id          String         @id @default(uuid()) @db.Uuid
+  ownerUserId String         @db.Uuid
+  postId      String         @db.Uuid
+  score       Float          @default(0)
+  sourceType  FeedSourceType @default(following)
+  insertedAt  DateTime       @default(now())
+  expiresAt   DateTime
+
+  owner User @relation(fields: [ownerUserId], references: [id])
+  post  Post @relation(fields: [postId], references: [id])
+
+  @@index([ownerUserId])
+  @@map("feed_items")
+}
