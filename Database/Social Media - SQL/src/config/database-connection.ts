@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../../generated/prisma/client.js";
 import { lodVariable } from "./dotenv.js";
+import { PrismaClient } from "../../prisma/generated/prisma/client.js";
 
 const connectionString = lodVariable("DATABASE_URL")
 
