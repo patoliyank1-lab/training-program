@@ -49,3 +49,20 @@ export interface SearchResult {
   commentCount: number;
   relevanceScore: number;
 }
+
+export interface RankUserType {
+  userId: string;
+  postCount: number;
+  ranking: number;
+}
+
+export interface TopPostByLikes {
+  userId: string;
+  postId: number;
+  likeCount: number;
+}
+
+export interface UsernameAndPostName {
+  username: string;
+  previousPost: string;
+}
