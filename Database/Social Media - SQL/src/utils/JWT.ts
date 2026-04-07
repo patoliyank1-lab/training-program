@@ -1,31 +1,26 @@
 import jwt from "jsonwebtoken";
+import type { JWTPayload } from "../types/Types.js";
 
-export interface Payload {
-  userId: string;
-  email: string;
-  role: string;
-}
+
 
 const secret = process.env.JWT_SECRET ?? "Secret@123";
 export const createToken = (
   id: string,
   email: string,
-  role: string,
   ex?: number,
 ) => {
-  const payload: Payload = {
+  const payload: JWTPayload = {
     userId: id,
     email: email,
-    role: role,
   };
   const token = jwt.sign(payload, secret, {
-    expiresIn: ex ?? "24h", // Token expires in 1 hour
+    expiresIn: ex ?? "1w", // Token expires in 1 week hour
   });
 
   return token;
 };
 
 export const verifyToken = (token: string) => {
-  const payload: Payload = jwt.verify(token, secret) as Payload;
+  const payload = jwt.verify(token, secret) ;
   return payload;
 };

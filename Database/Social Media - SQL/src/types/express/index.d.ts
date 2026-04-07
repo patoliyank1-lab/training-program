@@ -10,7 +10,6 @@ declare namespace Express {
     user?: {
       userId: string;
       email: string;
-      role: string;
     };
     log: winston.Logger;
     /**
