@@ -1,4 +1,8 @@
-import type { Theme, WhoCanMessage, WhoCanSeePosts } from "@prisma/generated/prisma/enums.js";
+import type {
+  Theme,
+  WhoCanMessage,
+  WhoCanSeePosts,
+} from "@prisma/generated/prisma/enums.js";
 
 export interface JWTPayload {
   userId: string;
@@ -33,4 +37,32 @@ export interface SettingType {
   whoCanSeePosts?: WhoCanSeePosts;
   notifEmail?: boolean;
   notifPush?: boolean;
+}
+
+export interface SearchResult {
+  id: string;
+  contentText: string | null;
+  createdAt: Date;
+  username: string;
+  displayName: string;
+  likeCount: number;
+  commentCount: number;
+  relevanceScore: number;
+}
+
+export interface RankUserType {
+  userId: string;
+  postCount: number;
+  ranking: number;
+}
+
+export interface TopPostByLikes {
+  userId: string;
+  postId: number;
+  likeCount: number;
+}
+
+export interface UsernameAndPostName {
+  username: string;
+  previousPost: string;
 }
