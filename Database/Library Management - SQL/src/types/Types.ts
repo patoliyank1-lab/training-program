@@ -22,6 +22,7 @@ export interface BookType {
 }
 
 export interface IssueType {
+  userId:string;
   bookId: string;
   returnDate: string;
   charge: string;
