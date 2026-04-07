@@ -30,7 +30,7 @@ export async function connectDB() {
     }
 
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    // await sequelize.sync({ force: true });
     Logger.info("Database connected successfully.");
 
     return sequelize;
